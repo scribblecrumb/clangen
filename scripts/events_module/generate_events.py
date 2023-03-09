@@ -226,6 +226,16 @@ class GenerateEvents:
             if game.clan.game_mode in ["expanded", "cruel season"] and "classic" in event.tags:
                 continue
 
+            if "disaster" in event.tags:
+                # filter out the event if it's disaster specific but no disasters are happening
+                if not game.clan.primary_disaster and not game.clan.secondary_disaster:
+                    continue
+                # if we do have a disaster, check that the event is for the current disaster
+                primary = game.clan.primary_disaster
+                secondary = game.clan.secondary_disaster
+                if primary.collateral_damage["event_tag"] not in event.tags:
+                    continue
+
             if "other_cat" in event.tags and not other_cat:
                 continue
 
@@ -413,10 +423,13 @@ class GenerateEvents:
                 event_list.extend(
                     self.generate_ongoing_events(event_type, biome)
                 )
-                """event_list.extend(
-                    self.generate_ongoing_events(event_type, "general", specific_event)
-                )"""
-                return event_list
+                try:
+                    event_list.extend(
+                        self.generate_ongoing_events(event_type, "general", specific_event)
+                    )
+                    return event_list
+                except:
+                    return event_list
             else:
                 print(specific_event)
                 event = (

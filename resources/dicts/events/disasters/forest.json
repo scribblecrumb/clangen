@@ -2,7 +2,7 @@
   {
     "event": "Great Blizzard",
     "camp": ["any"],
-    "season": ["Leaf-bare"],
+    "season": ["Leaf-fall", "Leaf-bare"],
     "tags": [],
     "priority": "primary",
     "duration": 2,
@@ -45,7 +45,7 @@
       }
     ],
     "collateral_damage": {
-
+      "event_tag": "blizzard"
     }
   },
   {
@@ -112,7 +112,7 @@
       }
     ],
     "collateral_damage": {
-
+      "event_tag": "drought"
     }
   },
   {
@@ -188,7 +188,7 @@
       }
     ],
     "collateral_damage": {
-
+      "event_tag": "fire"
     }
   },
   {
@@ -223,6 +223,7 @@
     ],
     "secondary_disasters": [],
     "collateral_damage": {
+      "event_tag": "terrible_cold"
     }
   },
   {
@@ -273,6 +274,7 @@
       }
     ],
     "collateral_damage": {
+      "event_tag": "floods"
     }
   },
   {
@@ -318,6 +320,7 @@
       }
     ],
     "collateral_damage": {
+      "event_tag": "twoleg_invasion"
     }
   },
   {
@@ -350,6 +353,7 @@
     ],
     "secondary_disasters": [],
     "collateral_damage": {
+      "event_tag": "prey_sickness"
     }
   },
   {
@@ -404,6 +408,7 @@
       }
     ],
     "collateral_damage": {
+      "event_tag": "horrible_storm"
     }
   },
   {
@@ -441,6 +446,7 @@
     ],
     "secondary_disasters": [],
     "collateral_damage": {
+      "event_tag": "famine"
     }
   },
   {
@@ -471,7 +477,7 @@
     ],
     "secondary_disasters": [],
     "collateral_damage": {
-
+      "event_tag": "barren_land"
     }
   },
   {
@@ -515,6 +521,7 @@
     ],
     "secondary_disasters": [],
     "collateral_damage": {
+      "event_tag": "camp_destruction"
     }
   }
 ]

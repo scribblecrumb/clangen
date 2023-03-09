@@ -156,9 +156,10 @@
     ],
     "fail_text": [
         "The connection wavers, and as quickly as the feeling of company appears, it vanishes.",
-        "r_c turns to the ghost with a smile, but the StarClan cat meets their eyes with fire in their gaze. StarClan is unhappy with c_n, and things must change."
+        "s_c turns to the ghost with a smile, but the StarClan cat meets their eyes with fire in their gaze. StarClan is unhappy with c_n, and things must change."
     ],
     "win_skills": ["strong connection to starclan", "clairvoyant"],
+    "fail_trait": ["bloodthirsty"],
     "min_cats": 1,
     "max_cats": 1,
     "antagonize_text": "r_c feels hounded, never given a moment's peace, and they hiss at the StarClan cat. The ghost vanishes like a puff of fog in the morning sun, hopefully not to return.",
@@ -180,9 +181,10 @@
     ],
     "fail_text": [
         "The connection wavers, and as quickly as the feeling of company appears, it vanishes.",
-        "p_l turns to the ghost with a smile, but the StarClan cat meets their eyes with fire in their gaze. StarClan is unhappy with c_n, and things must change."
+        "s_c turns to the ghost with a smile, but the StarClan cat meets their eyes with fire in their gaze. StarClan is unhappy with c_n, and things must change."
     ],
     "win_skills": ["strong connection to starclan", "clairvoyant"],
+    "fail_trait": ["bloodthirsty"],
     "min_cats": 2,
     "max_cats": 6,
     "antagonize_text": "p_l feels hounded, never given a moment's peace, and they hiss at the StarClan cat. The ghost vanishes like a puff of fog in the morning sun, hopefully not to return.",
@@ -203,8 +205,9 @@
     ],
     "fail_text": [
         "The connection wavers, and as quickly as the feeling of company appears, it vanishes. app1 pads uncertainly back to camp, wondering if it was even real in the first place.",
-        "app1 turns to the ghost with a smile, but the StarClan cat meets their eyes with fire in their gaze. StarClan is unhappy with c_n, and things must change. app1 cowers in front of them, wishing they were anywhere else."
+        "s_c turns to the ghost with a smile, but the StarClan cat meets their eyes with fire in their gaze. StarClan is unhappy with c_n, and things must change. app1 cowers in front of them, wishing they were anywhere else."
     ],
+    "fail_trait": ["bloodthirsty"],
     "min_cats": 1,
     "max_cats": 1,
     "antagonize_text": "app1 feels hounded, never given a moment's peace, and they hiss at the StarClan cat. The ghost vanishes like a puff of fog in the morning sun, hopefully not to return.",
@@ -226,9 +229,10 @@
     ],
     "fail_text": [
         "The connection wavers, and as quickly as the feeling of company appears, it vanishes.",
-        "app1 turns to the ghost with a smile, but the StarClan cat meets their eyes with fire in their gaze. StarClan is unhappy with c_n, and things must change."
+        "s_c turns to the ghost with a smile, but the StarClan cat meets their eyes with fire in their gaze. StarClan is unhappy with c_n, and things must change."
     ],
     "win_skills": ["strong connection to starclan", "clairvoyant"],
+    "win_trait": ["bloodthirsty"],
     "min_cats": 2,
     "max_cats": 6,
     "antagonize_text": "app1 feels hounded, never given a moment's peace, and they hiss at the StarClan cat. The ghost vanishes like a puff of fog in the morning sun, hopefully not to return.",

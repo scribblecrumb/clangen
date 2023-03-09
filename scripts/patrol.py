@@ -326,6 +326,16 @@ class Patrol():
             if patrol_size > patrol.max_cats:
                 continue
 
+            if "disaster" in patrol.tags:
+                # filter out the event if it's disaster specific but no disasters are happening
+                if not game.clan.primary_disaster and not game.clan.secondary_disaster:
+                    continue
+                # if we do have a disaster, check that the event is for the current disaster
+                primary = game.clan.primary_disaster
+                secondary = game.clan.secondary_disaster
+                if primary.collateral_damage["event_tag"] not in patrol.tags:
+                    continue
+
             # makes sure that an apprentice is present if the apprentice tag is
             if "apprentice" in patrol.tags:
                 if patrol_type != 'med':
