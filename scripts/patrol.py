@@ -326,7 +326,7 @@ class Patrol():
             if patrol_size > patrol.max_cats:
                 continue
 
-            if "disaster" in patrol.tags:
+            if "ongoing_disaster" in patrol.tags:
                 # filter out the event if it's disaster specific but no disasters are happening
                 if not game.clan.primary_disaster and not game.clan.secondary_disaster:
                     continue

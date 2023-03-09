@@ -32,7 +32,7 @@
     },
     {
         "camp": "any",
-        "tags": ["Newleaf", "Greenleaf"],
+        "tags": ["ongoing_disaster"", "floods", "Newleaf", "Greenleaf"],
         "death_text": "m_c lost a life after being swept away by a flood.",
         "history_text": [null, "were swept away by a flood"],
         "cat_trait": null,

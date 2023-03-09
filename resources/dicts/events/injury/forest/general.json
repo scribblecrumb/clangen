@@ -164,7 +164,7 @@
         "injury": "burn",
         "camp": "any",
         "tags": [
-            "disaster",
+            "ongoing_disaster",
             "fire",
             "Greenleaf",
             "scar",
@@ -185,7 +185,7 @@
         "injury": "severe burn",
         "camp": "any",
         "tags": [
-            "disaster",
+            "ongoing_disaster",
             "fire",
             "Greenleaf",
             "scar",
@@ -206,7 +206,7 @@
         "injury": "burn",
         "camp": "any",
         "tags": [
-            "disaster",
+            "ongoing_disaster",
             "fire",
             "Greenleaf",
             "other_cat",
@@ -235,7 +235,7 @@
         "injury": "severe burn",
         "camp": "any",
         "tags": [
-            "disaster",
+            "ongoing_disaster",
             "fire",
             "Greenleaf",
             "other_cat",

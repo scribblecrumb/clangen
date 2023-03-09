@@ -248,3 +248,59 @@ class GameOver(UIWindow):
             elif event.ui_element == self.not_yet_button:
 
                 self.kill()
+
+class CampDestruction(UIWindow):
+    def __init__(self, last_screen):
+        super().__init__(scale(pygame.Rect((500, 400), (700, 460))),
+                         window_display_title='Camp Destruction',
+                         object_id='#camp_destruction_window',
+                         resizable=False)
+        self.clan_name = str(game.clan.name + 'Clan')
+        self.biome = game.clan.biome
+        if self.biome == 'Mountainous':
+            self.biome = 'Mountains'
+        self.last_screen = last_screen
+        self.game_over_message = UITextBoxTweaked(
+            f"A great disaster has befallen {self.clan_name} and their camp was destroyed. They must make a choice, to "
+            f"stay and rebuild or to find a new home elsewhere. <br><br> If the Clan decides to find a new home then "
+            f"they can move to a new area within the {self.biome} or they can move to a completely new biome. If they "
+            f"stay in the {self.biome} and find a new camp then they will not be able to return to "
+            f"the old camp if ever the new camp is destroyed. However, they will not have to make a long and dangerous "
+            f"journey to a new biome. If they decide to brave the harsh journey to a new biome, then they will be able "
+            f"to choose any of the camps in that biome, even if that camp had been destroyed in the past.",
+            scale(pygame.Rect((40, 40), (520, -1))),
+            line_spacing=1,
+            object_id="",
+            container=self
+        )
+
+
+
+        self.begin_anew_button = UIImageButton(
+            scale(pygame.Rect((50, 230), (222, 60))),
+            "",
+            object_id="#begin_anew_button",
+            container=self
+        )
+        self.not_yet_button = UIImageButton(
+            scale(pygame.Rect((318, 230), (222, 60))),
+            "",
+            object_id="#not_yet_button",
+            container=self
+        )
+
+        self.not_yet_button.enable()
+        self.begin_anew_button.enable()
+
+    def process_event(self, event):
+        super().process_event(event)
+
+        if event.type == pygame_gui.UI_BUTTON_START_PRESS:
+            if event.ui_element == self.begin_anew_button:
+                game.last_screen_forupdate = game.switches['cur_screen']
+                game.switches['cur_screen'] = 'start screen'
+                game.switch_screens = True
+                self.kill()
+            elif event.ui_element == self.not_yet_button:
+
+                self.kill()

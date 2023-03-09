@@ -80,6 +80,8 @@ class DisasterEvents():
         event.replace("c_n", f"{game.clan.name}Clan")
         game.cur_events_list.append(Single_Event(event, "misc"))
 
+
+
     def handle_current_primary_disaster(self):
         """
         handles the progression for a primary disaster

@@ -226,7 +226,7 @@ class GenerateEvents:
             if game.clan.game_mode in ["expanded", "cruel season"] and "classic" in event.tags:
                 continue
 
-            if "disaster" in event.tags:
+            if "ongoing_disaster" in event.tags:
                 # filter out the event if it's disaster specific but no disasters are happening
                 if not game.clan.primary_disaster and not game.clan.secondary_disaster:
                     continue
