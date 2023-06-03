@@ -1,5 +1,6 @@
 import random
 from enum import Enum, Flag, auto
+from typing import Union
 
 class SkillPath(Enum):
     TEACHER = (
@@ -168,6 +169,7 @@ class SkillTypeFlag(Flag):
     SOCIAL = auto()
     
 class Skill():
+    '''Skills handling functions mostly'''
     
     tier_ranges = ((0, 9), (10, 19), (20, 29))
     point_range = (0, 29)
@@ -185,6 +187,7 @@ class Skill():
     
     @staticmethod
     def generate_from_save_string(save_string:str):
+        '''Generates the skill from the save string in the cat data'''
         if not save_string:
             return None
         
@@ -198,7 +201,7 @@ class Skill():
     
     @staticmethod
     def get_random_skill(points:int = None, point_tier:int = None, exclude=(), interest_only=False):
-        """Generates a random skill. If wanted, you can specify a teir for the points
+        """Generates a random skill. If wanted, you can specify a tier for the points
         value to be randomized within. """
         
         if isinstance(points, int):
@@ -229,51 +232,54 @@ class Skill():
         
     @property
     def skill(self):
+        '''Skill property'''
         return self.path.value[self.tier]
         
     @skill.setter
     def skill(self):
+        '''Can't set the skill directly with this setter'''
         print("Can't set skill directly")
-        return
     
     @property
     def tier(self):
+        '''Returns the tier level of the skill'''
         if self.interest_only:
             return 0 
         for _ran, i in zip(Skill.tier_ranges, range(1, 4)):
-                if _ran[0] <= self.points <= _ran[1]:
-                    return i
+            if _ran[0] <= self.points <= _ran[1]:
+                return i
                 
         return 1
     
     @tier.setter
-    def tier(self, val):
+    def tier(self):
         print("Can't set tier directly")
-        return
     
-    def set_points_to_tier(self, teir:int):
+    def set_points_to_tier(self, tier:int):
         """This is seperate from the tier setter, since it will booonly allow you
-        to set points to teir 1, 2, or 3, and never 0. Tier 0 is retricted to interest_only
+        to set points to tier 1, 2, or 3, and never 0. Tier 0 is retricted to interest_only
         skills"""
         
         # Make sure it in the right range. If not, return. 
-        if not (1 <= teir <= 3):
+        if not (1 <= tier <= 3):
             return
         
         # Adjust to 0-indexed ranges list
         self.points = Skill.tier_ranges[teir - 1][0]
         
     def get_save_string(self):
+        '''Gets the string that is saved in the cat data'''
         return f"{self.path.name},{self.points},{self.interest_only}"
 
 class CatSkills:
     """
     Holds the cats skills, and handled changes in the skills. 
     """
-    
-    #Mentor Inflence groups. 
+
+    #Mentor Inflence groups.
+    # pylint: disable=unsupported-binary-operation
     influence_flags = {
-        SkillPath.TEACHER: SkillTypeFlag.STRONG | SkillTypeFlag.AGILE | SkillTypeFlag.SMART | SkillTypeFlag.OBSERVANT | SkillTypeFlag.SOCIAL, 
+        SkillPath.TEACHER: SkillTypeFlag.STRONG | SkillTypeFlag.AGILE | SkillTypeFlag.SMART | SkillTypeFlag.OBSERVANT | SkillTypeFlag.SOCIAL,
         SkillPath.HUNTER: SkillTypeFlag.STRONG | SkillTypeFlag.AGILE | SkillTypeFlag.OBSERVANT,
         SkillPath.FIGHTER: SkillTypeFlag.STRONG | SkillTypeFlag.AGILE,
         SkillPath.RUNNER: SkillTypeFlag.AGILE,
@@ -296,6 +302,7 @@ class CatSkills:
         SkillPath.PROPHET: SkillTypeFlag.SUPERNATURAL,
         SkillPath.GHOST: SkillTypeFlag.SUPERNATURAL
     }
+    # pylint: enable=unsupported-binary-operation
     
     def __init__(self,
                  skill_dict=None,
@@ -325,6 +332,7 @@ class CatSkills:
     
     @staticmethod
     def generate_new_catskills(status, moons, hidden_skill:HiddenSkillEnum=None):
+        '''Generates a new skill'''
         new_skill = CatSkills()
         
         new_skill.hidden = hidden_skill       
@@ -390,9 +398,9 @@ class CatSkills:
         mentor_tags = CatSkills.influence_flags[mentor.skills.primary.path] if mentor.skills.primary else None
 
         can_primary = bool(
-            CatSkills.influence_flags[self.primary.path] & mentor_tags) if self.primary and mentor_tags else False
+            CatSkills.influence_flags[self.primary.path] | mentor_tags) if self.primary and mentor_tags else False
         can_secondary = bool(
-            CatSkills.influence_flags[self.secondary.path] & mentor_tags) if self.secondary and mentor_tags else False
+            CatSkills.influence_flags[self.secondary.path] | mentor_tags) if self.secondary and mentor_tags else False
             
         # If nothing can be effected, just return as well.         
         if not (can_primary or can_secondary):
@@ -521,8 +529,7 @@ class CatSkills:
                 self.primary.interest_only = False
                 if self.secondary:
                     self.secondary.interest_only = False
-
-    def meets_skill_requirement(self, path:str|SkillPath|HiddenSkillEnum, min_teir:int=0) -> bool:
+    def meets_skill_requirement(self, path: Union[str, SkillPath, HiddenSkillEnum], min_tier:int=0) -> bool:
         """Checks both primary and seconday, to see if cat matches skill restaint"""
         
         if isinstance(path, str):
@@ -541,11 +548,11 @@ class CatSkills:
                 return True
         elif isinstance(path, SkillPath):
             if self.primary:
-                if path == self.primary.path and self.primary.tier >= min_teir:
+                if path == self.primary.path and self.primary.tier >= min_tier:
                     return True
             
             if self.secondary:
-                if path == self.secondary.path and self.secondary.tier >= min_teir:
+                if path == self.secondary.path and self.secondary.tier >= min_tier:
                     return True
         
         return False
