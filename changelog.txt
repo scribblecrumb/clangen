@@ -1,69 +1,38 @@
-<strong>v0.8.4</strong>
-- fixed a crash when there was only one cat left in the clan
-- fixed some issues with the new name code
+<strong>v0.10.6</strong>
+- Fixed the constantly dizzy condition
 
-<strong>v0.8.3</strong>
-- fixed some naming code
+<strong>v0.10.5</strong>
+- Added a small notice in the settings page outlining that some settings are now clan-specific
 
-<strong>v0.8.2</strong>
-- squashed some bugs
+<strong>v0.10.1 - v0.10.4</strong>
+- Properly fixed a bug causing the game to crash when the changelog contains text. Now you can once again bask in the glory of those super long change notes! Yay!
+- All praise Archanyhm for spending the past hour trying to fix this. Poor Arch. (I am actually the one writing this)
 
-<strong>v0.8.1</strong>
-- added changelog text
+<strong>v0.10.0</strong>
 
-<strong>v0.8.0</strong>
-<u>Cat and Sprite Changes:</u>
-- New sprites for paralyzed, sick/injured, and newborn cats. 
-- Separated vitiligo and points from white patches. It's now possible for a cat to have all three! 
-- New vitiligo patterns: PHANTOM, MOON, and POWDER
-- New white patch pattern: PETAL
-- New eye colors: SILVER and BRONZE
-- New accessories: Nylon Collars (in all colors), and INDIGO and WHITE collars of all types! 
-- New mask-based tortie system! Tortie patches can now be any color/pattern.
-- New tortie patch patterns: REDTAIL, DELILAH, MINIMALONE, MINIMALTWO, MINIMALTHREE, MINIMALFOUR, OREO, SWOOP, MOTTLED, SIDEMASK, EYEDOT, BANDANA, PACMAN, STREAMSTRIKE, ROBIN, ORIOLE, BRINDLE, and PAIGE. 
-- Rare "Wildcard Torties", which bypass the normal rules for tortie patch color/pattern to allow for wacky combinations. 
-- Smoke pelt colors have been slightly tweaked for consistency. GHOST smoke has been given lighter points. 
-- New separate tint that is applied only to the white patch and point markings.
-- You can now favorite cats! You can toggle favorite cat indicators on the list and patrol screen.
-- Pregnancy is now a condition that may prevent cats from patrolling. 
-- EXP limit has been increased, and the EXP levels have been renamed. 
-- Apprentices now graduate based on EXP, rather than age. This can be turned off in settings, if desired. 
-- Cats can now retire any time between 110 - 140 moons. 
-- New prefixes, suffixes, and loner names! 
-- Some prefixes and suffixes are now specific to your biome. 
-- You can now override special rank suffixes for particular cats. 
-- New randomize buttons on the change name screen. 
-- Moved list of possible names to a .json for easier customization in compiled versions.
-- The code handling relationship events have been rewritten, and new types of relationship events are now possible.
+<strong>Content Warning</strong>
+<u><em>This update contains Halloween imagery that may be disturbing to some users. Viewer discretion is advised.</em></u>
+Remember you can opt in and out of this feature to cater your own experience!
 
-<u>Relationship and Moon Events Changes:</u>
-- New system for accessory moon events, alongside many new accessory events and possible "congratulatory" accessories after a cat gives birth.
-- There is now more variation in relationship initialization, which allows cats to have more varied relationships with their family. 
-- Lots of new relationship events! 
-- Group relationship events have been added.
-- Affairs have generally been made more common. 
-- Lots of fun new moon events, including special events for medicine cats and elders with certain skills.
-
-<u>Thoughts Overhaul:</u>
-- Thought code has been reworked to be way more specific.
-- Cats can now have thoughts based on their status, age, backstory, and even permanent conditions!
-- This should also have fixed those pesky bugs where cats would think about dead or lost cats as if they were still around.
-- In light of this update, A TON of new thoughts were added.
-
-
-<u>Other Significant Changes:</u>
-- New auto-updater! The game will now alert you when a new version is available, and will update without the need to re-download. 
-- New re-designed family page! More family relationships are now shown, and it's easier than ever to browse through a cat's lineage.
-- Save files are now stored in an OS-specific data directory. You will no longer need to move save files when updating. 
-- Added a button in the settings menu to open the save data location in your file-explorer. 
-- New backgrounds: Shipwreck and Crystal River
-- Revamped background: Gully
-- Overlapping cat sprites on the clan page has been reduced. Once two cats are on a single spot, that position is considered "full."
-- You can now choose the starting season when creating a new clan. 
-- Most backgrounds have unique cat placements. 
-- The appearance of the allegiances page has been changed, and descriptions have been updated to flow better. 
-- On the allegiances page, kits will now be listed with their parent, if they have one. 
-- Lots of new patrol artwork! 
-- New error screen when saves fail to load, which gives more in-depth failure messages. 
-- New custom cursor (it's a little paw!)
-- Lots of bugfixes and QOL tweaks!
+- Festive Halloween patrols will now start appearing around the spooky season!
+- Expanded our ability to restrict events and patrols to certain date ranges.
+- Added a toggle to prevent a cat from retiring
+- Added a toggle to limit a cat's romantic interactions and prevent automatic mate changes.
+- Many settings are now stored on a per-clan basis.
+- New Loading Animations
+- New Murder Reveal Events!
+- Under the hood, patrols have been significantly refactored.
+- Added Masked Tabbies!
+- New White Patches: BOWTIE, MUSTACHE, REVERSEHEART, SPARROW, VEST, LOVEBUG, TRIXIE, SPARKLE, RIGHTEAR, LEFTEAR, ESTRELLA, REVERSEEYE, BACKSPOT, EYEBAGS, FADEBELLY, SAMMY, FRONT, BLOSSOMSTEP, BULLSEYE, SHOOTINGSTAR, EYESPOT, PEBBLE, TAILTWO, BUDDY. FCONE, FCTWO, MIA, DIGIT, SCAR, BUSTER, FINN, KROPKA, HAWKBLAZE, LOCKET, PRINCESS, ROSINA, CAKE
+- New Vitiligo Pattern: SMOKEY
+- New Tortie Patch Patterns: SMOKE, GRUMPYFACE, BRIE, BELOVED, SHILOH, BODY
+- New Plains Background: Wasteland.
+- New thoughts, patrols, and events!
+- New names!
+- New patrol art!
+- Adjustments to grief events. In some cases, grief events are replaced by grief thoughts.
+- Added "Change to Nonbinary" Button
+- Dead cats can now be sorted by total age (age living + age dead)
+- Cat relationships will show strong relationships first.
+- Change the way spritesheets are stored in memory. This significantly decreases memory usage.
+- Lots of bugfixes!

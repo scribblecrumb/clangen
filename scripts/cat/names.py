@@ -2,7 +2,7 @@ import random
 import os
 import ujson
 
-from scripts.datadir import get_save_dir
+from scripts.housekeeping.datadir import get_save_dir
 
 from scripts.game_structure.game_essentials import game
 
@@ -54,7 +54,6 @@ class Name():
                             _tmp = new_name.split(':')
                             names_dict["special_suffixes"][_tmp[0]] = _tmp[1]
 
-
     def __init__(self,
                  status="warrior",
                  prefix=None,
@@ -65,21 +64,21 @@ class Name():
                  tortiepattern=None,
                  biome=None,
                  specsuffix_hidden=False,
-                 load_existing_name = False):
+                 load_existing_name=False):
         self.status = status
         self.prefix = prefix
         self.suffix = suffix
         self.specsuffix_hidden = specsuffix_hidden
-        
+
         name_fixpref = False
         # Set prefix
         if prefix is None:
             self.give_prefix(eyes, colour, biome)
             # needed for random dice when we're changing the Prefix
             name_fixpref = True
-                    
+
         # Set suffix
-        if self.suffix is None and not str(self.suffix) == '':
+        if self.suffix is None:
             self.give_suffix(pelt, biome, tortiepattern)
             if name_fixpref and self.prefix is None:
                 # needed for random dice when we're changing the Prefix
@@ -100,36 +99,42 @@ class Name():
             nono_name = self.prefix + self.suffix
             # Prevent double names (ex. Iceice)
             # Prevent suffixes containing the prefix (ex. Butterflyfly)
-
+            
             i = 0
-            while nono_name in self.names_dict["inappropriate_names"] or triple_letter or double_animal or self.suffix == self.prefix.casefold() or str(self.suffix) in \
-                self.prefix.casefold() and not str(self.suffix) == '':
+            while nono_name.lower() in self.names_dict["inappropriate_names"] or triple_letter or double_animal or \
+                    (self.prefix.lower() in self.suffix.lower() and not str(self.prefix) == '') or (self.suffix.lower() in self.prefix.lower() and not str(self.suffix) == ''):
 
                 # check if random die was for prefix
                 if name_fixpref:
                     self.give_prefix(eyes, colour, biome)
                 else:
                     self.give_suffix(pelt, biome, tortiepattern)
-                
+
                 nono_name = self.prefix + self.suffix
-                possible_three_letter = (self.prefix[-2:] + self.suffix[0], self.prefix[-1] + self.suffix[:2])    
-                if not(all(i == possible_three_letter[0][0] for i in possible_three_letter[0]) or \
+                possible_three_letter = (self.prefix[-2:] + self.suffix[0], self.prefix[-1] + self.suffix[:2])
+                if not (all(i == possible_three_letter[0][0] for i in possible_three_letter[0]) or \
                         all(i == possible_three_letter[1][0] for i in possible_three_letter[1])):
                     triple_letter = False
-                if not(self.prefix in self.names_dict["animal_prefixes"] and self.suffix in self.names_dict["animal_suffixes"]):
+                if not (self.prefix in self.names_dict["animal_prefixes"] and self.suffix in self.names_dict[
+                    "animal_suffixes"]):
                     double_animal = False
                 i += 1
-    
+
     # Generate possible prefix
     def give_prefix(self, eyes, colour, biome):
-        named_after_appearance = not random.getrandbits(2)  # Chance for True is '1/4'
+        # decided in game config: cat_name_controls
+        if game.config["cat_name_controls"]["always_name_after_appearance"]:
+            named_after_appearance = True
+        else:
+            named_after_appearance = not random.getrandbits(2)  # Chance for True is '1/4'
 
-        named_after_biome_ = not random.getrandbits(3) # chance for True is 1/8
+        named_after_biome_ = not random.getrandbits(3)  # chance for True is 1/8
 
         # Add possible prefix categories to list.
         possible_prefix_categories = []
-        if eyes in self.names_dict["eye_prefixes"]:
-            possible_prefix_categories.append(self.names_dict["eye_prefixes"][eyes])
+        if game.config["cat_name_controls"]["allow_eye_names"]: # game config: cat_name_controls
+            if eyes in self.names_dict["eye_prefixes"]:
+                possible_prefix_categories.append(self.names_dict["eye_prefixes"][eyes])
         if colour in self.names_dict["colour_prefixes"]:
             possible_prefix_categories.append(self.names_dict["colour_prefixes"][colour])
         if biome is not None and biome in self.names_dict["biome_prefixes"]:
@@ -139,20 +144,18 @@ class Name():
             prefix_category = random.choice(possible_prefix_categories)
             self.prefix = random.choice(prefix_category)
         elif named_after_biome_ and possible_prefix_categories:
-
             prefix_category = random.choice(possible_prefix_categories)
             self.prefix = random.choice(prefix_category)
         else:
             self.prefix = random.choice(self.names_dict["normal_prefixes"])
 
-    
     # Generate possible suffix
     def give_suffix(self, pelt, biome, tortiepattern):
         if pelt is None or pelt == 'SingleColour':
             self.suffix = random.choice(self.names_dict["normal_suffixes"])
         else:
-            named_after_pelt = not random.getrandbits(2) # Chance for True is '1/8'.
-            named_after_biome = not random.getrandbits(3) # 1/8
+            named_after_pelt = not random.getrandbits(2)  # Chance for True is '1/8'.
+            named_after_biome = not random.getrandbits(3)  # 1/8
             # Pelt name only gets used if there's an associated suffix.
             if named_after_pelt:
                 if pelt in ["Tortie", "Calico"] and tortiepattern in self.names_dict["tortie_pelt_suffixes"]:
@@ -168,7 +171,7 @@ class Name():
                     self.suffix = random.choice(self.names_dict["normal_suffixes"])
             else:
                 self.suffix = random.choice(self.names_dict["normal_suffixes"])
-    
+
     def __repr__(self):
         if self.status in self.names_dict["special_suffixes"] and not self.specsuffix_hidden:
             return self.prefix + self.names_dict["special_suffixes"][self.status]
@@ -176,7 +179,6 @@ class Name():
             if game.config['fun']['april_fools']:
                 return self.prefix + 'egg'
             return self.prefix + self.suffix
-
 
 
 names = Name()

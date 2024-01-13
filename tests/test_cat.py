@@ -3,6 +3,8 @@ import unittest
 from unittest.mock import patch
 
 import os
+
+
 os.environ["SDL_VIDEODRIVER"] = "dummy"
 os.environ["SDL_AUDIODRIVER"] = "dummy"
 
@@ -82,8 +84,6 @@ class TestPossibleMateFunction(unittest.TestCase):
         grand_parent = Cat()
         sibling1 = Cat(parent1=grand_parent.ID)
         sibling2 = Cat(parent1=grand_parent.ID)
-        sibling1.siblings.append(sibling2.ID)
-        sibling2.siblings.append(sibling1.ID)
         kit = Cat(parent1=sibling1.ID)
         self.assertFalse(kit.is_potential_mate(grand_parent))
         self.assertFalse(kit.is_potential_mate(sibling1))
@@ -98,8 +98,6 @@ class TestPossibleMateFunction(unittest.TestCase):
         grand_parent = Cat()
         sibling1 = Cat(parent1=grand_parent.ID)
         sibling2 = Cat(parent1=grand_parent.ID)
-        sibling1.siblings.append(sibling2.ID)
-        sibling2.siblings.append(sibling1.ID)
         kit = Cat(parent1=sibling1.ID)
         self.assertFalse(kit.is_potential_mate(grand_parent,for_love_interest = True))
         self.assertFalse(kit.is_potential_mate(sibling1,for_love_interest = True))
@@ -130,6 +128,10 @@ class TestPossibleMateFunction(unittest.TestCase):
         elder_cat2 = Cat(moons=120)
 
         self.assertFalse(kitten_cat1.is_potential_mate(kitten_cat1))
+
+		# check for setting
+        self.assertFalse(senior_adult_cat1.is_potential_mate(young_adult_cat1,for_love_interest=False,age_restriction=True))
+        self.assertTrue(senior_adult_cat1.is_potential_mate(young_adult_cat1,for_love_interest=False,age_restriction=False))
 
         # check invalid constellations
         self.assertFalse(kitten_cat1.is_potential_mate(kitten_cat2))
@@ -163,7 +165,7 @@ class TestPossibleMateFunction(unittest.TestCase):
         self.assertFalse(senior_adult_cat1.is_potential_mate(kitten_cat1))
         self.assertFalse(senior_adult_cat1.is_potential_mate(adolescent_cat1))
         self.assertFalse(senior_adult_cat1.is_potential_mate(young_adult_cat1))
-
+		
         # check valid constellations
         self.assertTrue(young_adult_cat1.is_potential_mate(young_adult_cat2))
         self.assertTrue(young_adult_cat1.is_potential_mate(adult_cat_in_range1))
@@ -369,30 +371,7 @@ class TestMateFunctions(unittest.TestCase):
         self.assertGreater(old_relation2.comfortable, relation2.comfortable)
         self.assertGreater(old_relation2.trust, relation2.trust)
         self.assertGreaterEqual(old_relation2.admiration, relation2.admiration)
-        self.assertGreaterEqual(old_relation2.jealousy, relation2.jealousy)
-
-class TestStatusChange(unittest.TestCase):
-
-    def test_apprentice_to_warrior(self):
-        # given
-        apprentice = Cat()
-        mentor = Cat()
-        apprentice.status = "apprentice"
-        apprentice.skill = "???"
-        mentor.apprentice.append(apprentice.ID)
-        apprentice.mentor = mentor.ID
-
-        # when
-        self.assertNotEqual(apprentice.mentor, None)
-        apprentice.status_change("warrior")
-        apprentice.update_skill()
-        apprentice.update_traits()
-        
-        # then
-        self.assertNotEqual(apprentice.skill, "???")
-        self.assertIn(apprentice.skill, apprentice.skills)
-        self.assertEqual(apprentice.mentor, None)
-        self.assertFalse(mentor.apprentice)
+        self.assertGreaterEqual(old_relation2.jealousy, relation2.jealousy)  
 
 class TestUpdateMentor(unittest.TestCase):
     def test_exile_apprentice(self):
