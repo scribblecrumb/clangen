@@ -171,11 +171,13 @@ class PatrolOutcome():
         return outcome_list
 
     def execute_outcome(self, patrol:'Patrol') -> tuple:
-        """ Excutes the outcome. Returns a tuple with the final outcome text, the results text, and any outcome art
+        """ 
+        Excutes the outcome. Returns a tuple with the final outcome text, the results text, and any outcome art
         format: (Outcome text, results text, outcome art (might be None))
-        """
-        
+        """        
         results = []
+        # the text has to be processed before - otherwise leader might be referenced with their warrior name
+        processed_text = patrol.process_text(self.text, self.stat_cat)
         
         # This order is important. 
         results.append(self._handle_new_cats(patrol))
@@ -193,8 +195,6 @@ class PatrolOutcome():
         # Filter out empty results strings
         results = [x for x in results if x]
         
-        processed_text = patrol.process_text(self.text, self.stat_cat)
-        
         print("PATROL END -----------------------------------------------------")
         
         return (processed_text, " ".join(results), self.get_outcome_art())
@@ -208,7 +208,7 @@ class PatrolOutcome():
         
         # With allowed_specfic empty, that means the stat can can be anyone that's not patrol leader
         # or stat cat. This can
-        if not allowed_specfic or "no_pl_rc" in allowed_specfic:
+        if not allowed_specfic or "not_pl_rc" in allowed_specfic:
             if kitty in (patrol.patrol_leader, patrol.patrol_random_cat):
                 return False
             return True
@@ -832,7 +832,7 @@ class PatrolOutcome():
             print(f"PREY ADDED: {total_amount}")
             game.freshkill_event_list.append(f"{total_amount} pieces of prey were caught on a patrol.")
             game.clan.freshkill_pile.add_freshkill(total_amount)
-            results = f"A {amount_text} amount of prey is brought to camp"
+            results = f"A {amount_text} amount of prey is brought to camp."
             
         return results
 
@@ -854,7 +854,7 @@ class PatrolOutcome():
                 elif cat.outside:
                     results.append(f"The patrol met {cat.name}.")
                 else:
-                    results.append(f"{cat.name} joined the clan.")
+                    results.append(f"{cat.name} joined the Clan.")
             
         # Check to see if any young litters joined with alive parents.
         # If so, see if recovering from birth condition is needed
@@ -984,7 +984,7 @@ class PatrolOutcome():
                 break
                 
             if match.group(1) == "has_kits":
-                age = randint(14, 120)
+                age = randint(19, 120)
                 break
                 
         
@@ -1172,7 +1172,7 @@ class PatrolOutcome():
             # I'm not 100% sure which one is supposed to be which...
             history_text = history_text if "m_c" not in history_text else history_text.replace("m_c", str(cat.name))
             history_text = history_text if "r_c" not in history_text else history_text.replace("r_c", str(patrol.patrol_random_cat.name))
-            history_text = history_text if "o_c_n" not in history_text else history_text.replace("o_c_n", str(patrol.other_clan.name))
+            history_text = history_text if "o_c_n" not in history_text else history_text.replace("o_c_n", f"{str(patrol.other_clan.name)}Clan")
             
             History.add_scar(cat, history_text)
         else:
@@ -1200,10 +1200,10 @@ class PatrolOutcome():
             history_scar = None
         
         if final_death_history and isinstance(final_death_history, str):
-            final_death_history = final_death_history if "o_c_n" not in final_death_history else final_death_history.replace("o_c_n", str(patrol.other_clan.name))
+            final_death_history = final_death_history if "o_c_n" not in final_death_history else final_death_history.replace("o_c_n", f"{str(patrol.other_clan.name)}Clan")
         
         if history_scar and isinstance(history_scar, str):
-            history_scar = history_scar if "o_c_n" not in history_scar else history_scar.replace("o_c_n", str(patrol.other_clan.name))
+            history_scar = history_scar if "o_c_n" not in history_scar else history_scar.replace("o_c_n", f"{str(patrol.other_clan.name)}Clan")
         
         
         History.add_possible_history(cat, condition=condition, death_text=final_death_history, scar_text=history_scar)
@@ -1225,7 +1225,7 @@ class PatrolOutcome():
             final_death_history = "m_c died on patrol."
         
         if final_death_history and isinstance(final_death_history, str):
-            final_death_history = final_death_history.replace("o_c_n", str(patrol.other_clan.name))
+            final_death_history = final_death_history.replace("o_c_n", f"{str(patrol.other_clan.name)}Clan")
         
         History.add_death(cat, death_text=final_death_history)
         

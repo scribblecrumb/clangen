@@ -5,7 +5,7 @@
         "season": ["newleaf"],
         "types": ["training"],
         "tags": ["romantic"],
-        "patrol_art": "train_general_intro",
+        "patrol_art": "gen_flower_date",
         "min_cats": 2,
         "max_cats": 2,
         "min_max_status": {
@@ -33,7 +33,7 @@
                         "cats_to": ["p_l"],
                         "cats_from": ["r_c"],
                         "mutual": true,
-                        "values": ["dislike", "jealousy"],
+                        "values": ["dislike", "jealous"],
                         "amount": -5
                     }
                 ]
@@ -54,7 +54,7 @@
                         "cats_to": ["p_l"],
                         "cats_from": ["r_c"],
                         "mutual": true,
-                        "values": ["dislike", "jealousy"],
+                        "values": ["dislike", "jealous"],
                         "amount": -5
                     }
                 ]
@@ -76,7 +76,7 @@
                         "cats_to": ["p_l"],
                         "cats_from": ["r_c"],
                         "mutual": true,
-                        "values": ["dislike", "jealousy"],
+                        "values": ["dislike", "jealous"],
                         "amount": -5
                     }
                 ]
@@ -99,7 +99,7 @@
                         "cats_to": ["p_l"],
                         "cats_from": ["r_c"],
                         "mutual": true,
-                        "values": ["dislike", "jealousy"],
+                        "values": ["dislike", "jealous"],
                         "amount": 5
                     }
                 ]
@@ -112,7 +112,7 @@
         "season": ["newleaf"],
         "types": ["training"],
         "tags": ["romantic"],
-        "patrol_art": "train_general_intro",
+        "patrol_art": "fst_train_newleafmatesonadates_70locked1",
         "min_cats": 2,
         "max_cats": 2,
         "min_max_status": {

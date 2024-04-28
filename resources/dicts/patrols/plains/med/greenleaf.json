@@ -1357,7 +1357,7 @@
                         "cats_to": ["p_l"],
                         "cats_from": ["patrol"],
                         "mutual": false,
-                        "values": ["dislike", "jealousy"],
+                        "values": ["dislike", "jealous"],
                         "amount": -10
                     }
                 ]
@@ -1379,7 +1379,7 @@
                         "cats_to": ["p_l"],
                         "cats_from": ["patrol"],
                         "mutual": false,
-                        "values": ["dislike", "jealousy"],
+                        "values": ["dislike", "jealous"],
                         "amount": -10
                     }
                 ]
@@ -1402,7 +1402,7 @@
                         "cats_to": ["p_l"],
                         "cats_from": ["patrol"],
                         "mutual": false,
-                        "values": ["dislike", "jealousy"],
+                        "values": ["dislike", "jealous"],
                         "amount": -10
                     }
                 ]
@@ -1425,7 +1425,7 @@
                         "cats_to": ["p_l"],
                         "cats_from": ["patrol"],
                         "mutual": false,
-                        "values": ["dislike", "jealousy"],
+                        "values": ["dislike", "jealous"],
                         "amount": 10
                     }
                 ]
@@ -4033,7 +4033,7 @@
         "season": ["greenleaf"],
         "types": ["herb_gathering"],
         "tags": [],
-        "patrol_art": "med_general_intro",
+        "patrol_art": "gen_med_gatheringoakleaves_greenleaf1",
         "min_cats": 1,
         "max_cats": 1,
         "min_max_status": {
@@ -4080,7 +4080,7 @@
         "season": ["greenleaf"],
         "types": ["herb_gathering"],
         "tags": [],
-        "patrol_art": "med_general_intro",
+        "patrol_art": "gen_med_gatheringoakleaves_greenleaf2",
         "min_cats": 2,
         "max_cats": 2,
         "min_max_status": {
@@ -4193,7 +4193,7 @@
         "season": ["greenleaf"],
         "types": ["herb_gathering"],
         "tags": [],
-        "patrol_art": "med_general_intro",
+        "patrol_art": "gen_med_gatheringoakleaves_greenleaf2",
         "min_cats": 3,
         "max_cats": 6,
         "min_max_status": {
@@ -4303,7 +4303,7 @@
         "season": ["greenleaf"],
         "types": ["herb_gathering"],
         "tags": [],
-        "patrol_art": "med_general_intro",
+        "patrol_art": "gen_med_gatheringplantain_greenleaf1",
         "min_cats": 1,
         "max_cats": 1,
         "min_max_status": {
