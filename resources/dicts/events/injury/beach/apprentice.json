@@ -1,5 +1,6 @@
 [
     {
+        "event_id": "bch_injury_any",
         "injury": "broken bone",
         "camp": "any",
         "tags": [
