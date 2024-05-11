@@ -2871,15 +2871,14 @@
         "event_text": "m_c fell into the river and drowned.",
         "m_c": {
             "age": [
-                "kitten"
+                "adolescent", "young adult", "adult", "senior adult", "senior"
             ],
             "status": [
-                "kitten"
+                "any"
             ],
-            "trait": [
-                "daring",
-                "impulsive"
-            ],
+            "not_skill": [
+                "SWIMMER,2"
+                ],
             "dies": true
         },
         "history": {
@@ -3007,93 +3006,6 @@
         }
     },
     {
-        "event_id": "gen_death_whitecough_multi1",
-        "biome": ["any"],
-        "camp": [
-            "any"
-        ],
-        "season": [
-            "leaf-fall",
-            "leaf-bare"
-        ],
-        "tags": [
-            "classic"
-        ],
-        "weight": 20,
-        "event_text": "m_c was too weak to fight off whitecough and died.",
-        "m_c": {
-            "age": [
-                "kitten"
-            ],
-            "status": [
-                "kitten"
-            ],
-            "dies": true
-        },
-        "history": {
-            "cats": ["m_c"],
-            "reg_death": "m_c died of whitecough."
-        }
-    },
-    {
-        "event_id": "gen_death_greencough_multi1",
-        "biome": ["any"],
-        "camp": [
-            "any"
-        ],
-        "season": [
-            "leaf-fall",
-            "leaf-bare"
-        ],
-        "tags": [
-            "classic"
-        ],
-        "weight": 20,
-        "event_text": "m_c died of greencough.",
-        "m_c": {
-            "age": [
-                "kitten"
-            ],
-            "status": [
-                "kitten"
-            ],
-            "dies": true
-        },
-        "history": {
-            "cats": ["m_c"],
-            "reg_death": "m_c died of greencough."
-        }
-    },
-    {
-        "event_id": "gen_death_cold_multi1",
-        "biome": ["any"],
-        "camp": [
-            "any"
-        ],
-        "season": [
-            "leaf-fall",
-            "leaf-bare"
-        ],
-        "tags": [
-            "classic"
-        ],
-        "weight": 20,
-        "event_text": "m_c caught a cold, slowly fading until {PRONOUN/m_c/subject} eventually passed on.",
-        "m_c": {
-            "age": [
-                "kitten"
-            ],
-            "status": [
-                "kitten"
-            ],
-            "dies": true
-        },
-        "history": {
-            "cats": ["m_c"],
-            "reg_death": "m_c was killed by sickness."
-        }
-    },
-    {
         "event_id": "gen_death_kittencough_any1",
         "biome": ["any"],
         "camp": [
@@ -3126,41 +3038,6 @@
         "history": {
             "cats": ["m_c", "r_c"],
             "reg_death": "This cat died of kittencough."
-        }
-    },
-    {
-        "event_id": "gen_death_whitecough_any1",
-        "biome": ["any"],
-        "camp": [
-            "any"
-        ],
-        "season": [
-            "any"
-        ],
-        "tags": [
-            "classic"
-        ],
-        "weight": 20,
-        "event_text": "r_c and m_c catch whitecough and fade away quickly.",
-        "m_c": {
-            "age": [
-                "kitten"
-            ],
-            "status": [
-                "kitten"
-            ],
-            "dies": true
-        },
-        "r_c": {
-            "age": [
-                "kitten"
-            ],
-            "status": [ "kitten" ],
-            "dies": true
-        },
-        "history": {
-            "cats": ["m_c", "r_c"],
-            "reg_death": "This cat died of whitecough."
         }
     },
     {
@@ -3668,13 +3545,7 @@
         "weight": 20,
         "event_text": "m_c, already feeling weak, couldn't make it through a case of whitecough.",
         "m_c": {
-            "age": [
-                "senior",
-                "adolescent",
-                "young adult",
-                "adult",
-                "senior adult"
-            ],
+            "age": [  "any"  ],
             "status": [ "any" ],
             "dies": true
         },
@@ -3700,11 +3571,7 @@
         "event_text": "m_c was too weak to recover from an illness and passed away.",
         "m_c": {
             "age": [
-                "adolescent",
-                "young adult",
-                "adult",
-                "senior adult",
-                "senior"
+                "any"
             ],
             "status": [ "any" ],
             "dies": true
@@ -3731,11 +3598,7 @@
         "event_text": "Weakened by a lack of prey, m_c couldn't fight off whitecough and passed away.",
         "m_c": {
             "age": [
-                "senior",
-                "adolescent",
-                "young adult",
-                "adult",
-                "senior adult"
+                "any"
             ],
             "status": [ "any" ],
             "dies": true
@@ -3762,13 +3625,9 @@
         "event_text": "m_c was taken quickly by a case of greencough.",
         "m_c": {
             "age": [
-                "senior",
-                "adolescent",
-                "young adult",
-                "adult",
-                "senior adult"
+                "any"
             ],
-            "status": [],
+            "status": [ "any" ],
             "dies": true
         },
         "history": {
@@ -3793,8 +3652,6 @@
         "m_c": {
             "age": [
                 "senior",
-                "adolescent",
-                "young adult",
                 "adult",
                 "senior adult"
             ],
@@ -6456,5 +6313,189 @@
                 "amount": -15
             }
         ]
+    },
+    {
+        "event_id": "gen_death_freeze_leafbarekit1",
+        "biome": [
+            "any"
+        ],
+        "camp": [
+            "any"
+        ],
+        "season": [
+            "leaf-bare"
+        ],
+        "tags": [],
+        "weight": 20,
+        "event_text": "m_c disappeared from the nursery and was later found dead, not far from camp.",
+        "m_c": {
+            "age": [
+                "kitten"
+            ],
+            "status": [
+                "kitten"
+            ],
+            "trait": [
+                "daring",
+                "impulsive",
+                "attention-seeker",
+                "troublesome"
+            ],
+            "dies": true
+        },
+        "history": {
+            "reg_death": "m_c froze to death."
+        }
+    },
+    {
+        "event_id": "gen_death_drown_leafbarekit1",
+        "biome": [
+            "forest", "plains", "mountainous", "beach", "wetlands"
+        ],
+        "camp": [
+            "any"
+        ],
+        "season": [
+            "leaf-bare"
+        ],
+        "tags": [],
+        "weight": 20,
+        "event_text": "m_c was playing on the ice, when it cracked and {PRONOUN/m_c/subject} fell in.",
+        "m_c": {
+            "age": [
+                "kitten"
+            ],
+            "status": [
+                "kitten"
+            ],
+            "trait": [
+                "daring",
+                "attention-seeker",
+                "impulsive"
+            ],
+            "dies": true
+        },
+        "history": {
+            "reg_death": "m_c froze to death after falling through ice."
+        }
+    },
+    {
+        "event_id": "gen_death_predator_anykit1",
+        "biome": [
+            "any"
+        ],
+        "camp": [
+            "any"
+        ],
+        "season": [
+            "leaf-fall",
+            "leaf-bare"
+        ],
+        "tags": [
+            "no_body"
+        ],
+        "weight": 20,
+        "event_text": "m_c wandered away from camp in the night, never to be seen again.",
+        "m_c": {
+            "age": [
+                "kitten"
+            ],
+            "status": [
+                "kitten"
+            ],
+            "dies": true
+        },
+        "history": {
+            "cats": ["m_c"],
+            "reg_death": "m_c was eaten by a predator."
+        }
+    },
+    {
+        "event_id": "gen_death_predator_anykit2",
+        "biome": [
+            "any"
+        ],
+        "camp": [
+            "any"
+        ],
+        "season": [
+            "any"
+        ],
+        "tags": [
+            "no_body"
+        ],
+        "weight": 20,
+        "event_text": "m_c vanished from camp after sneaking out, and the search parties find nothing but blood.",
+        "m_c": {
+            "age": [
+                "kitten"
+            ],
+            "status": [
+                "kitten"
+            ],
+            "dies": true
+        },
+        "history": {
+            "cats": ["m_c"],
+            "reg_death": "m_c was eaten by a predator."
+        }
+    },
+    {
+        "event_id": "gen_death_mouse_anykit1",
+        "biome": [
+            "forest", "plains", "moutainous", "wetlands"
+        ],
+        "camp": [
+            "any"
+        ],
+        "season": [
+            "any"
+        ],
+        "tags": [],
+        "weight": 20,
+        "event_text": "m_c is found within a few fox-lengths of camp, {PRONOUN/m_c/poss} tiny body cold and covered in bites. The scent of mouse hangs heavy in the air...",
+        "m_c": {
+            "age": [
+                "kitten"
+            ],
+            "status": [
+                "kitten"
+            ],
+            "dies": true
+        },
+        "history": {
+            "cats": ["m_c"],
+            "reg_death": "m_c was killed by a feisty mouse."
+        }
+    },
+    {
+        "event_id": "gen_death_shrew_anykit",
+        "biome": [
+            "forest", "plains", "moutainous", "wetlands"
+        ],
+        "camp": [
+            "any"
+        ],
+        "season": [
+            "any"
+        ],
+        "tags": [
+            "no_body"
+        ],
+        "weight": 20,
+        "event_text": "m_c can be heard boasting that {PRONOUN/m_c/subject}'{VERB/m_c/re/s} ready to be made an apprentice <i>right now</i>, and that {PRONOUN/m_c/subject}'{VERB/m_c/re/s} already one of the best hunters in the Clan. That evening, to prove {PRONOUN/m_c/poss} point, {PRONOUN/m_c/subject} sneak out of camp, intending to catch something for the fresh-kill pile. A frantic search party follows {PRONOUN/m_c/poss} trail, only to find blood and the foul stench of a shrew at the end.",
+        "m_c": {
+            "age": [
+                "kitten"
+            ],
+            "status": [
+                "kitten"
+            ],
+            "dies": true
+        },
+        "history": {
+            "cats": ["m_c"],
+            "reg_death": "m_c was eaten by a shrew."
+        }
     }
 ]
