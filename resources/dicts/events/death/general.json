@@ -2125,6 +2125,7 @@
             "dies": true
         },
         "history": {
+            "cats": ["m_c"],
             "reg_death": "m_c suffocated underground.",
             "lead_death": "{VERB/m_c/were/was} suffocated underground."
         }
@@ -6750,6 +6751,7 @@
             "dies": true
         },
         "history": {
+            "cats": ["m_c"],
             "reg_death": "m_c froze to death."
         }
     },
@@ -6782,6 +6784,7 @@
             "dies": true
         },
         "history": {
+            "cats": ["m_c"],
             "reg_death": "m_c froze to death after falling through ice."
         }
     },
