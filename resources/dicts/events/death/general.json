@@ -2528,7 +2528,7 @@
             "leaf-fall",
             "leaf-bare"
         ],
-        "tags": [ "all_lives" ],
+        "tags": [ "all_lives", "no_body" ],
         "weight": 20,
         "event_text": "m_c was buried alive in an avalanche.",
         "m_c": {
@@ -2553,7 +2553,7 @@
             "newleaf",
             "leaf-fall"
         ],
-        "tags": [],
+        "tags": [ "all_lives", "no_body" ],
         "weight": 20,
         "event_text": "m_c was buried alive in a landslide.",
         "m_c": {
@@ -2614,6 +2614,39 @@
         "history": {
             "cats": ["m_c"],
             "reg_death": "m_c slipped off the edge of a cliff.",
+            "lead_death": "slipped off the edge of a cliff"
+        }
+    },
+    {
+        "event_id": "gen_death_cliff_anylead1",
+        "biome": [
+            "mountainous", "forest", "beach"
+        ],
+        "camp": [
+            "any"
+        ],
+        "season": [
+            "any"
+        ],
+        "tags": [
+            "all_lives"
+        ],
+        "weight": 20,
+        "event_text": "m_c slipped off a cliff onto the sharp rocks at the bottom and couldn't recover.",
+        "m_c": {
+            "age": [
+                "young adult",
+                "adult",
+                "senior adult",
+                "senior"
+            ],
+            "status": [
+                "leader"
+            ],
+            "dies": true
+        },
+        "history": {
+            "cats": ["m_c"],
             "lead_death": "slipped off the edge of a cliff"
         }
     },
@@ -2857,7 +2890,7 @@
     },
     {
         "event_id": "gen_death_drown_multi2",
-        "biome": ["any"],
+        "biome": ["plains", "forest", "mountainous", "plains"],
         "camp": [
             "any"
         ],
@@ -2883,7 +2916,8 @@
         },
         "history": {
             "cats": ["m_c"],
-            "reg_death": "m_c fell into the river and drowned."
+            "reg_death": "m_c fell into the river and drowned.",
+            "lead_death": "fell into the river and drowned"
         }
     },
     {
@@ -3693,6 +3727,38 @@
         "history": {
             "cats": ["m_c"],
             "lead_death": "{VERB/m_c/were/was} struck by lightning"
+        }
+    },
+    {
+        "event_id": "gen_death_flood_multilead1",
+        "biome": [
+            "forest", "mountainous", "plains", "beach", "wetlands"
+        ],
+        "camp": [
+            "any"
+        ],
+        "season": [
+            "greenleaf",
+            "newleaf"
+        ],
+        "tags": [],
+        "weight": 20,
+        "event_text": "m_c lost a life after being swept away by a flood.",
+        "m_c": {
+            "age": [
+                "young adult",
+                "adult",
+                "senior adult",
+                "senior"
+            ],
+            "status": [
+                "leader"
+            ],
+            "dies": true
+        },
+        "history": {
+            "cats": ["m_c"],
+            "lead_death": "{VERB/m_c/were/was} swept away by a flood"
         }
     },
     {

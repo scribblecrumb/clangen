@@ -149,38 +149,6 @@
         }
     },
     {
-        "event_id": "fst_death_flood_multilead1",
-        "biome": [
-            "forest"
-        ],
-        "camp": [
-            "any"
-        ],
-        "season": [
-            "greenleaf",
-            "newleaf"
-        ],
-        "tags": [],
-        "weight": 20,
-        "event_text": "m_c lost a life after being swept away by a flood.",
-        "m_c": {
-            "age": [
-                "young adult",
-                "adult",
-                "senior adult",
-                "senior"
-            ],
-            "status": [
-                "leader"
-            ],
-            "dies": true
-        },
-        "history": {
-            "cats": ["m_c"],
-            "lead_death": "{VERB/m_c/were/was} swept away by a flood"
-        }
-    },
-    {
         "event_id": "fst_death_hawk_anylead2",
         "biome": [
             "forest"
