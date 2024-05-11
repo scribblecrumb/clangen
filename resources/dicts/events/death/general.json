@@ -1970,7 +1970,7 @@
     },
     {
         "event_id": "gen_death_bury_any1",
-        "biome": ["any"],
+        "biome": ["beach", "plains", "forest"],
         "camp": [
             "any"
         ],
@@ -1993,7 +1993,7 @@
     },
     {
         "event_id": "gen_death_bury_any2",
-        "biome": ["plains"],
+        "biome": ["plains", "forest", "beach"],
         "camp": [
             "any"
         ],
@@ -2108,7 +2108,7 @@
     },
     {
         "event_id": "gen_death_bury_any3",
-        "biome": ["any"],
+        "biome": ["plains", "beach", "forest"],
         "camp": [
             "any"
         ],
@@ -2780,7 +2780,7 @@
     },
     {
         "event_id": "gen_death_war_any3",
-        "biome": ["any"],
+        "biome": ["mountainous", "forest", "beach"],
         "camp": [
             "any"
         ],
@@ -2800,6 +2800,12 @@
             "cats": ["m_c"],
             "reg_death": "m_c was crushed by a falling boulder.",
             "lead_death": "{VERB/m_c/were/was} crushed by a falling boulder."
+        },
+        "other_clan": {
+            "current_rep": [
+                "hostile"
+            ],
+            "changed": -5
         }
     },
     {
@@ -2832,8 +2838,342 @@
         }
     },
     {
+        "event_id": "gen_death_hawk_anylead1",
+        "biome": [
+            "forest", "mountainous", "plains", "wetlands"
+        ],
+        "camp": [
+            "any"
+        ],
+        "season": [
+            "any"
+        ],
+        "tags": [],
+        "weight": 20,
+        "event_text": "m_c lost a life when a hawk attempted to grab and lift {PRONOUN/m_c/object}.",
+        "m_c": {
+            "age": [
+                "young adult",
+                "adult",
+                "senior adult",
+                "senior"
+            ],
+            "status": [
+                "leader"
+            ],
+            "dies": true
+        },
+        "history": {
+            "cats": ["m_c"],
+            "lead_death": "{VERB/m_c/were/was} grabbed by a hawk"
+        }
+    },
+    {
+        "event_id": "gen_death_hawk_anylead2",
+        "biome": [
+            "forest", "mountainous", "plains", "wetlands"
+        ],
+        "camp": [
+            "any"
+        ],
+        "season": [
+            "any"
+        ],
+        "tags": [],
+        "weight": 20,
+        "event_text": "m_c lost a life defending r_c from a hawk.",
+        "m_c": {
+            "age": [
+                "young adult",
+                "adult",
+                "senior adult",
+                "senior"
+            ],
+            "status": [
+                "leader"
+            ],
+            "not_skill": [
+                "FIGHTER,2"
+            ],
+            "trait": [
+                "bold",
+                "bloodthirsty",
+                "ambitious",
+                "daring",
+                "confident",
+                "fierce",
+                "loyal",
+                "loving",
+                "empathetic",
+                "responsible",
+                "righteous",
+                "vengeful"
+            ],
+            "dies": true
+        },
+        "r_c": {
+            "age": [ "kitten", "adolescent" ],
+            "status": [ "any" ]
+        },
+        "history": {
+            "cats": ["m_c"],
+            "lead_death": "defended r_c from a hawk"
+        },
+        "relationships": [
+            {
+                "cats_from": [
+                    "r_c"
+                ],
+                "cats_to": [
+                    "m_c"
+                ],
+                "values": [
+                    "platonic",
+                    "trust",
+                    "respect"
+                ],
+                "amount": 15
+            },
+            {
+                "cats_from": [
+                    "r_c"
+                ],
+                "cats_to": [
+                    "m_c"
+                ],
+                "values": [
+                    "dislike"
+                ],
+                "amount": -15
+            }
+        ]
+    },
+    {
+        "event_id": "gen_death_hawk_anylead3",
+        "biome": [
+            "forest", "mountainous", "plains", "wetlands"
+        ],
+        "camp": [
+            "any"
+        ],
+        "season": [
+            "any"
+        ],
+        "tags": [
+            "all_lives",
+            "no_body"
+        ],
+        "weight": 20,
+        "event_text": "m_c was carried off by a hawk, never to be seen again.",
+        "m_c": {
+            "age": [
+                "young adult",
+                "adult",
+                "senior adult",
+                "senior"
+            ],
+            "status": [
+                "leader"
+            ],
+            "not_skill": [
+                "FIGHTER,2"
+            ],
+            "dies": true
+        },
+        "history": {
+            "cats": ["m_c"],
+            "lead_death": "{VERB/m_c/were/was} carried away by a hawk"
+        }
+    },
+    {
+        "event_id": "gen_death_eagle_anylead1",
+        "biome": [
+            "plains", "mountainous"
+        ],
+        "camp": [
+            "any"
+        ],
+        "season": [
+            "any"
+        ],
+        "tags": [],
+        "weight": 20,
+        "event_text": "m_c was grabbed and dropped by an eagle, losing a life.",
+        "m_c": {
+            "age": [
+                "young adult",
+                "adult",
+                "senior adult",
+                "senior"
+            ],
+            "status": [
+                "leader"
+            ],
+            "dies": true
+        },
+        "history": {
+            "cats": ["m_c"],
+            "lead_death": "{VERB/m_c/were/was} grabbed by an eagle"
+        }
+    },
+    {
+        "event_id": "gen_death_eagle_anylead2",
+        "biome": [
+            "mountainous", "plains"
+        ],
+        "camp": [
+            "any"
+        ],
+        "season": [
+            "any"
+        ],
+        "tags": [],
+        "weight": 20,
+        "event_text": "m_c lost a life defending r_c from an eagle.",
+        "m_c": {
+            "age": [
+                "young adult",
+                "adult",
+                "senior adult",
+                "senior"
+            ],
+            "status": [
+                "leader"
+            ],
+            "relationship_status": [],
+            "not_skill": [
+                "FIGHTER,2"
+            ],
+            "trait": [
+                "bold",
+                "bloodthirsty",
+                "ambitious",
+                "daring",
+                "confident",
+                "fierce",
+                "loyal",
+                "loving",
+                "empathetic",
+                "responsible",
+                "righteous",
+                "vengeful"
+            ],
+            "dies": true
+        },
+        "r_c": {
+            "age": [ "kitten", "adolescent"],
+            "status": [ "any" ]
+        },
+        "history": {
+            "cats": ["m_c"],
+            "lead_death": "defended r_c from an eagle"
+        },
+        "relationships": [
+            {
+                "cats_from": [
+                    "r_c"
+                ],
+                "cats_to": [
+                    "m_c"
+                ],
+                "values": [
+                    "platonic",
+                    "comfort",
+                    "trust",
+                    "respect"
+                ],
+                "amount": 15
+            },
+            {
+                "cats_from": [
+                    "r_c"
+                ],
+                "cats_to": [
+                    "m_c"
+                ],
+                "values": [
+                    "dislike"
+                ],
+                "amount": -15
+            }
+        ]
+    },
+    {
+        "event_id": "gen_death_eagle_anylead3",
+        "biome": [
+            "mountainous", "plains"
+        ],
+        "camp": [
+            "any"
+        ],
+        "season": [
+            "any"
+        ],
+        "tags": [
+            "all_lives",
+            "no_body"
+        ],
+        "weight": 20,
+        "event_text": "m_c was carried off by an eagle, never to be seen again.",
+        "m_c": {
+            "age": [
+                "young adult",
+                "adult",
+                "senior adult",
+                "senior"
+            ],
+            "status": [
+                "leader"
+            ],
+            "not_skill": [
+                "FIGHTER,3"
+            ],
+            "dies": true
+        },
+        "history": {
+            "cats": ["m_c"],
+            "lead_death": "{VERB/m_c/were/was} carried away by an eagle"
+        }
+    },
+    {
+        "event_id": "gen_death_river_multilead2",
+        "biome": [
+            "forest", "mountainous", "plains", "wetlands"
+        ],
+        "camp": [
+            "any"
+        ],
+        "season": [
+            "greenleaf",
+            "newleaf",
+            "leaf-fall"
+        ],
+        "tags": [
+            "all_lives",
+            "no_body"
+        ],
+        "weight": 20,
+        "event_text": "m_c fell into a river and was swept away by the current, never to be seen again.",
+        "m_c": {
+            "age": [
+                "young adult",
+                "adult",
+                "senior adult",
+                "senior"
+            ],
+            "status": [
+                "leader"
+            ],
+            "dies": true
+        },
+        "history": {
+            "cats": ["m_c"],
+            "lead_death": "{VERB/m_c/were/was} swept away by the river"
+        }
+    },
+    {
         "event_id": "gen_death_hawk_any2",
-        "biome": ["any"],
+        "biome": ["forest", "mountainous", "plains", "wetlands"],
         "camp": [
             "any"
         ],
@@ -2847,10 +3187,10 @@
         "event_text": "m_c was taken by a hawk, never to be seen again.",
         "m_c": {
             "age": [
-                "kitten"
+                "kitten", "adolescent"
             ],
             "status": [
-                "kitten"
+                "any"
             ],
             "dies": true
         },
