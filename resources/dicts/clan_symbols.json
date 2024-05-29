@@ -216,7 +216,7 @@
     "tags0": ["plant", "flower"]
   }, 
   "Bug": {
-    "variants": 0,
+    "variants": 1,
     "tags0": ["bug"]
   }, 
   "Bumble": {
@@ -240,7 +240,7 @@
     "tags0": ["plant"]
   }, 
   "Butterfly": {
-    "variants": 0,
+    "variants": 1,
     "tags0": ["bug"]
   }, 
   "Buzzard": {
@@ -296,7 +296,7 @@
     "tags0": ["plant"]
   }, 
   "Cicada": {
-    "variants": 0,
+    "variants": 1,
     "tags0": ["bug"]
   }, 
   "Claw": {
@@ -376,7 +376,7 @@
     "tags0": ["animal", "bird"]
   }, 
   "Cricket": {
-    "variants": 0,
+    "variants": 1,
     "tags0": ["bug"]
   }, 
   "Crooked": {
@@ -420,11 +420,11 @@
     "tags0": ["miscellaneous"]
   }, 
   "Dapple": {
-    "variants": 0,
+    "variants": 1,
     "tags0": ["descriptor"]
   }, 
   "Dappled": {
-    "variants": 0,
+    "variants": 1,
     "tags0": ["descriptor"]
   }, 
   "Dart": {
@@ -448,7 +448,7 @@
     "tags0": ["element", "water"]
   }, 
   "Dog": {
-    "variants": 0,
+    "variants": 1,
     "tags0": ["animal", "mammal"]
   }, 
   "Down": {
@@ -596,8 +596,8 @@
     "tags0": []
   }, 
   "Fleck": {
-    "variants": 0,
-    "tags0": []
+    "variants": 1,
+    "tags0": ["descriptor"]
   }, 
   "Fleet": {
     "variants": 0,
@@ -656,8 +656,8 @@
     "tags0": []
   }, 
   "Freckle": {
-    "variants": 0,
-    "tags0": []
+    "variants": 1,
+    "tags0": ["descriptor"]
   }, 
   "Fringe": {
     "variants": 0,
@@ -976,8 +976,8 @@
     "tags0": []
   }, 
   "Locust": {
-    "variants": 0,
-    "tags0": []
+    "variants": 1,
+    "tags0": ["bug"]
   }, 
   "Long": {
     "variants": 0,
@@ -1012,8 +1012,8 @@
     "tags0": []
   }, 
   "Mantis": {
-    "variants": 0,
-    "tags0": []
+    "variants": 1,
+    "tags0": ["bug"]
   }, 
   "Maple": {
     "variants": 0,
@@ -1084,20 +1084,20 @@
     "tags0": []
   }, 
   "Moth": {
-    "variants": 0,
-    "tags0": []
+    "variants": 1,
+    "tags0": ["bug"]
   }, 
   "Mottle": {
-    "variants": 0,
-    "tags0": []
+    "variants": 1,
+    "tags0": ["descriptor"]
   }, 
   "Mottled": {
-    "variants": 0,
-    "tags0": []
+    "variants": 1,
+    "tags0": ["descriptor"]
   }, 
   "Mouse": {
-    "variants": 0,
-    "tags0": []
+    "variants": 1,
+    "tags0": ["animal", "mammal"]
   }, 
   "Mumble": {
     "variants": 0,
@@ -1180,8 +1180,8 @@
     "tags0": []
   }, 
   "Patch": {
-    "variants": 0,
-    "tags0": []
+    "variants": 1,
+    "tags0": ["descriptor"]
   }, 
   "Patchouli": {
     "variants": 0,
@@ -1248,8 +1248,8 @@
     "tags0": ["location"]
   }, 
   "Pool": {
-    "variants": 0,
-    "tags0": []
+    "variants": 1,
+    "tags0": ["location", "element", "water"]
   }, 
   "Pop": {
     "variants": 0,
@@ -1368,8 +1368,8 @@
     "tags0": ["element", "location", "water"]
   }, 
   "Roach": {
-    "variants": 0, 
-    "tags0": []
+    "variants": 1, 
+    "tags0": ["bug"]
   }, 
   "Roar": {
     "variants": 0, 
@@ -1484,8 +1484,8 @@
     "tags0": []
   }, 
   "Silent": {
-    "variants": 0,
-    "tags0": []
+    "variants": 1,
+    "tags0": ["miscellaneous", "descriptor"]
   }, 
   "Silk": {
     "variants": 0,
@@ -1592,8 +1592,8 @@
     "tags0": []
   }, 
   "Spider": {
-    "variants": 0,
-    "tags0": []
+    "variants": 1,
+    "tags0": ["bug"]
   }, 
   "Spike": {
     "variants": 0,
@@ -1612,12 +1612,12 @@
     "tags0": []
   }, 
   "Spot": {
-    "variants": 0,
-    "tags0": []
+    "variants": 1,
+    "tags0": ["descriptor"]
   }, 
   "Spotted": {
-    "variants": 0,
-    "tags0": []
+    "variants": 1,
+    "tags0": ["descriptor"]
   }, 
   "Spring": {
     "variants": 0,
@@ -1808,8 +1808,8 @@
     "tags0": []
   }, 
   "Wasp": {
-    "variants": 0,
-    "tags0": []
+    "variants": 1,
+    "tags0": ["bug"]
   }, 
   "Weasel": {
     "variants": 1, 
@@ -1888,8 +1888,8 @@
     "tags0": []
   }, 
   "Wolf": {
-    "variants": 0,
-    "tags0": []
+    "variants": 1,
+    "tags0": ["animal", "mammal"]
   }, 
   "Wolverine": {
     "variants": 0,
