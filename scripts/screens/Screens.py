@@ -268,10 +268,6 @@ class Screens():
         pass
 
     # Functions to deal with the menu.
-    #   The menu is used very often, so I don't want to keep
-    #   recreating and killing it. Lots of changes for bugs there. 
-    #   
-
     def hide_menu_buttons(self):
         """This hides the menu buttons, so they are no longer visible
             or interact-able. It does not delete the buttons from memory."""
@@ -498,12 +494,3 @@ class Screens():
             container=self.menu_buttons['moons_n_seasons'],
             starting_height=2,
             tool_tip_text=f'{game.clan.current_season}')
-
-
-# CAT PROFILES
-def cat_profiles():
-    """Updates every cat's sprites"""
-    game.choose_cats.clear()
-
-    for x in Cat.all_cats:
-        update_sprite(Cat.all_cats[x])
