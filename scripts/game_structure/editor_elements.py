@@ -2,6 +2,8 @@ from typing import Tuple
 
 import pygame
 import pygame_gui
+from pygame_gui.core import UIContainer
+from pygame_gui.elements import UIAutoResizingContainer
 
 from scripts.game_structure import image_cache
 from scripts.game_structure.ui_elements import (
@@ -273,3 +275,83 @@ class EditorDropDownSelection(EditorElement):
     @displayed_info.setter
     def displayed_info(self, new_text):
         self.display.set_text(f"{self.display_text} {new_text}")
+
+
+class EditorBlockSelection(UIAutoResizingContainer):
+    def __init__(
+        self,
+        relative_rect: pygame.Rect,
+        anchors: dict = None,
+        container=None,
+        object_id=None,
+        starting_height=None,
+        manager=None,
+        item_dict: dict = None,
+    ):
+        super().__init__(
+            relative_rect,
+            manager=manager,
+            container=container,
+            anchors=anchors,
+            object_id=object_id,
+            starting_height=starting_height,
+        )
+
+        self.frame = pygame_gui.elements.UIImage(
+            ui_scale(pygame.Rect((12, 20), (112, 186))),
+            get_box(BoxStyles.FRAME, (112, 186)),
+            manager=manager,
+            container=self,
+        )
+
+        self.list = UIScrollingButtonList(
+            pygame.Rect((20, 28), (100, 168)),
+            item_list=list(item_dict.keys()),
+            button_dimensions=(96, 30),
+            multiple_choice=False,
+            disable_selection=True,
+            container=self,
+            manager=manager,
+        )
+        self.update_tooltips()
+
+        self.add = UISurfaceImageButton(
+            ui_scale(pygame.Rect((30, 4), (36, 36))),
+            "+",
+            get_button_dict(ButtonStyles.ICON_TAB_BOTTOM, (36, 36)),
+            manager=manager,
+            object_id="@buttonstyles_icon_tab_bottom",
+            container=self,
+            anchors={
+                "top_target": self.list,
+            },
+            tool_tip_text="add a new cat",
+        )
+
+        self.delete = UISurfaceImageButton(
+            ui_scale(pygame.Rect((5, 4), (36, 36))),
+            "-",
+            get_button_dict(ButtonStyles.ICON_TAB_BOTTOM, (36, 36)),
+            manager=manager,
+            object_id="@buttonstyles_icon_tab_bottom",
+            container=self,
+            anchors={
+                "top_target": self.list,
+                "left_target": self.add,
+            },
+            tool_tip_text="delete selected cat",
+        )
+
+        self.item_dict = item_dict
+
+    @property
+    def selected_info(self):
+        return (
+            self.item_dict[self.list.selected_list[0]]
+            if self.list.selected_list
+            else None
+        )
+
+    def update_tooltips(self):
+        for name, button in self.list.buttons.items():
+            button.set_tooltip(self.item_dict[name])
