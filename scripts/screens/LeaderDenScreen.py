@@ -7,6 +7,7 @@ from pygame_gui.core import UIContainer
 
 from scripts.cat.cats import Cat
 from scripts.cat.enums import CatRank, CatGroup
+from scripts.cat.skills import SkillPath
 from scripts.clan import OtherClan
 from scripts.game_structure import game
 from scripts.clan_package.settings.clan_settings import (
@@ -717,6 +718,22 @@ class LeaderDenScreen(Screens):
 
         if gathering_cat != game.clan.leader:
             fail_chance = fail_chance * 1.4
+
+        tier = (
+            gathering_cat.skills.primary.tier
+            if gathering_cat.skills.primary.path == SkillPath.INSIGHTFUL
+            else 0
+        )
+        if not tier:
+            tier = (
+                gathering_cat.skills.secondary.tier
+                if gathering_cat.skills.secondary
+                and gathering_cat.skills.secondary.path == SkillPath.INSIGHTFUL
+                else 0
+            )
+
+        # each tier level decreases the fail chance by 5%, this makes 15% the max decrease possible from INSIGHTFUL
+        fail_chance = max(fail_chance - (tier * 0.05), 0.05)
 
         if random.random() >= fail_chance:
             success = True
