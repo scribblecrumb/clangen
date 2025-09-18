@@ -9,6 +9,7 @@ TODO: Docs
 import logging
 import os
 import re
+import traceback
 from itertools import combinations
 from math import floor
 from random import choice, choices, randint, random, sample, randrange, getrandbits
@@ -864,7 +865,7 @@ def create_new_cat(
                     # TODO: refactor this entire function to remove this call amongst other things
                     from scripts.cat.pelts import Pelt
 
-                    new_cat.pelt.accessory.append(choice(Pelt.collars))
+                    new_cat.pelt.accessory.append(choice(Pelt.collar_accessories))
 
             # try to give name from full loner name list
             elif original_social in (CatSocial.LONER, CatSocial.ROGUE) and bool(
@@ -2874,7 +2875,7 @@ def generate_sprite(
         if not acc_hidden and cat.pelt.accessory:
             cat_accessories = cat.pelt.accessory
             categories = [
-                "collars",
+                "collar_accessories",
                 "tail_accessories",
                 "body_accessories",
                 "head_accessories",
@@ -2904,7 +2905,7 @@ def generate_sprite(
                                 ),
                                 (0, 0),
                             )
-                        elif accessory in cat.pelt.collars:
+                        elif accessory in cat.pelt.collar_accessories:
                             new_sprite.blit(
                                 _recolor_lineart(
                                     sprites.sprites["collars" + accessory + cat_sprite],
@@ -2995,6 +2996,7 @@ def generate_sprite(
             new_sprite = pygame.transform.flip(new_sprite, True, False)
 
     except (TypeError, KeyError):
+        traceback.print_exc()
         logger.exception("Failed to load sprite")
 
         # Placeholder image

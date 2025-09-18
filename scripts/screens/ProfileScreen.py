@@ -28,6 +28,7 @@ from scripts.utility import (
     ui_scale_offset,
     adjust_list_text,
 )
+from scripts.cat.pelts import Pelt
 from .Screens import Screens
 from ..cat.enums import CatAge, CatRank, CatGroup
 from ..cat.sprites import sprites
@@ -756,15 +757,29 @@ class ProfileScreen(Screens):
 
         # ACCESSORY
         if the_cat.pelt.accessory:
+            cats_accs = the_cat.pelt.accessory.copy()
+            acc_list = []
+            for acc in the_cat.pelt.accessory:
+                potential_collar = "".join([x for x in acc if not x.islower()]).strip(
+                    "_"
+                )
+                for style in Pelt.collar_styles:
+                    if style == potential_collar:
+                        acc_list.append(
+                            i18n.t(f"cat.accessories.{potential_collar}", count=0)
+                        )
+                        cats_accs.remove(acc)
+                        break
+                if acc_list:
+                    break
+
+            acc_list.extend(
+                [i18n.t(f"cat.accessories.{acc}", count=0) for acc in cats_accs]
+            )
             output += "\n"
             output += i18n.t(
                 "screens.profile.accessory_label",
-                accessory=adjust_list_text(
-                    [
-                        i18n.t(f"cat.accessories.{acc}", count=0)
-                        for acc in the_cat.pelt.accessory
-                    ]
-                ),
+                accessory=adjust_list_text(acc_list),
             )
             # NEWLINE ----------
 
@@ -1559,39 +1574,6 @@ class ProfileScreen(Screens):
             text = process_text(text, cat_dict)
 
         return text
-
-    def get_text_for_murder_event(self, event, death):
-        """Returns the adjusted murder history text for the victim"""
-
-        if switch_get_value(Switch.show_history_moons):
-            moons = True
-        else:
-            moons = False
-
-        if event["text"] == death["text"] and event["moon"] == death["moon"]:
-            if event["revealed"] is True:
-                final_text = event_text_adjust(
-                    Cat,
-                    event["text"],
-                    main_cat=self.the_cat,
-                    random_cat=Cat.fetch_cat(death["involved"]),
-                )
-
-                if event.get("revelation_text"):
-                    final_text = f"{final_text} {event['revelation_text']}"
-                if moons:
-                    if event.get("revelation_moon"):
-                        final_text = f"{final_text} (Moon {event['revelation_moon']})."
-                return final_text
-            else:
-                return event_text_adjust(
-                    Cat,
-                    event["text"],
-                    main_cat=self.the_cat,
-                    random_cat=Cat.fetch_cat(death["involved"]),
-                )
-
-        return None
 
     def get_death_text(self):
         """
