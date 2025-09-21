@@ -229,14 +229,15 @@ class Sprites:
         # if anyone changes lineart for whatever reason update this
         if isinstance(self.size, int):
             pass
-        elif width / 3 == height / 7:
-            self.size = width / 3
+        elif width / self.sheet_layout[0] == height / self.sheet_layout[1]:
+            self.size = width / self.sheet_layout[0]
         else:
             self.size = 50  # default, what base clangen uses
-            print(f"lineart.png is not 3x7, falling back to {self.size}")
             print(
-                f"if you are a modder, please update scripts/cat/sprites.py and "
-                f"do a search for 'if width / 3 == height / 7:'"
+                f"lineart.png is not {self.sheet_layout}, falling back to {self.size}"
+            )
+            print(
+                f"if you are a modder, please update sheet_layout in sprites/dicts/pose_sprite_data.json"
             )
 
         del width, height  # unneeded
@@ -300,7 +301,7 @@ class Sprites:
         for data in data_jsons:
             # collar accs
             # this guy is special since it uses palette mapping
-            if data == self.COLLAR_DATA:
+            if data == self.COLLAR_DATA and self.COLLAR_DATA["palette_map"]:
                 spritesheet = self.COLLAR_DATA["spritesheet"]
                 for row, style_type in enumerate(self.COLLAR_DATA["style_data"]):
                     for col, style in enumerate(style_type):

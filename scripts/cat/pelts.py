@@ -18,8 +18,8 @@ class Pelt:
     newborn_poses = [x for x in all_poses if "newborn" in x]
     kitten_poses = [x for x in all_poses if "kitten" in x]
     adolescent_poses = [x for x in all_poses if "adolescent" in x]
-    adult_short_poses = [x for x in all_poses if "adult_short" in x]
-    adult_long_poses = [x for x in all_poses if "adult_long" in x]
+    adult_short_poses = [x for x in all_poses if "adult_short" in x and "para" not in x]
+    adult_long_poses = [x for x in all_poses if "adult_long" in x and "para" not in x]
     senior_poses = [x for x in all_poses if "senior" in x]
 
     # PELT LENGTH
@@ -182,11 +182,15 @@ class Pelt:
 
     collar_accessories = []
     collar_styles = []
-    for style_type in sprites.COLLAR_DATA["style_data"]:
-        for style, color_list in style_type.items():
-            collar_styles.append(style)
-            for colour in color_list:
-                collar_accessories.append(f"{style}_{colour}")
+    if sprites.COLLAR_DATA["palette_map"]:
+        for style_type in sprites.COLLAR_DATA["style_data"]:
+            for style, color_list in style_type.items():
+                collar_styles.append(style)
+                for colour in color_list:
+                    collar_accessories.append(f"{style}_{colour}")
+    else:
+        for sprite_list in sprites.COLLAR_DATA["sprite_list"]:
+            collar_accessories.extend(sprite_list)
 
     # this is used for acc-giving events, only change if you're adding a new category tag to the event filter
     # adding a category here will automatically update the event editor's options
@@ -219,6 +223,7 @@ class Pelt:
         tint: str = "none",
         skin: str = "BLACK",
         white_patches_tint: str = "none",
+        newborn_sprite: str = None,
         kitten_sprite: str = None,
         adol_sprite: str = None,
         adult_sprite: str = None,
@@ -319,6 +324,9 @@ class Pelt:
             )
 
             self.cat_sprites = {
+                "newborn": newborn_sprite
+                if newborn_sprite is not None and newborn_sprite in self.newborn_poses
+                else "newborn0",
                 "kitten": kitten_sprite
                 if kitten_sprite is not None and kitten_sprite in self.kitten_poses
                 else "kitten0",
@@ -334,7 +342,6 @@ class Pelt:
                 "para_adult": para_adult_sprite
                 if para_adult_sprite is not None
                 else "para_adult_short0",
-                "newborn": "newborn0",
                 "para_young": "para_young0",
             }
 
