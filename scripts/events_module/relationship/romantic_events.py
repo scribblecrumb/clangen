@@ -444,59 +444,21 @@ class RomanticEvents:
 
         cat_from.unset_mate(cat_to, breakup=False)
 
-        if cat_to.ID in cat_from.relationships:
-            relationship_from = cat_from.relationships[cat_to.ID]
-        else:
-            relationship_from = cat_from.create_one_relationship(cat_to)
-
-        if cat_from.ID in cat_to.relationships:
-            relationship_to = cat_to.relationships[cat_from.ID]
-        else:
-            relationship_to = cat_to.create_one_relationship(cat_from)
-
-        # These are large decreases - they are to prevent becoming mates again on the same moon.
-        if breakup_type == "had_fight":
-            relationship_to.romance -= 15
-            relationship_from.romance -= 15
-            relationship_from.like -= 10
-            relationship_to.like -= 10
-            relationship_from.trust -= 10
-            relationship_to.trust -= 10
-        elif breakup_type == "decided_to_be_friends":
-            relationship_to.romance -= 30
-            relationship_from.romance -= 30
-            relationship_from.like += 30
-            relationship_to.like += 30
-            relationship_from.trust += 20
-            relationship_to.trust += 20
-            relationship_to.comfort += 5
-            relationship_from.comfort += 5
-        elif breakup_type == "lost_feelings":
-            relationship_to.romance -= 30
-            relationship_from.romance -= 30
-            relationship_from.like -= 10
-            relationship_to.like -= 10
-            relationship_to.comfort -= 10
-            relationship_from.comfort -= 10
-        elif breakup_type == "bad_breakup":
-            relationship_to.romance -= 20
-            relationship_from.romance -= 15
-            relationship_from.like -= 10
-            relationship_to.like -= 15
-            relationship_from.trust -= 20
-            relationship_to.trust -= 25
-            relationship_to.comfort -= 20
-            relationship_from.comfort -= 20
-            relationship_to.respect -= 10
-            relationship_from.respect -= 10
-        elif breakup_type == "chill_breakup":
-            relationship_to.romance -= 15
-            relationship_from.romance -= 15
-            relationship_to.comfort -= 10
-            relationship_from.comfort -= 10
-
         text = choice(RomanticEvents.BREAKUP_STRINGS[breakup_type])
         text = event_text_adjust(Cat, text, main_cat=cat_from, random_cat=cat_to)
+
+        breakup_changes = constants.CONFIG["mates"]["breakup"]["reactions"][
+            breakup_type
+        ]
+        for change in breakup_changes:
+            adjust_by = constants.CONFIG["mates"]["breakup"]["variability"]
+            change += random.randint(adjust_by[0], adjust_by[1])
+
+        breakup_changes["cats_from"] = cat_from
+        breakup_changes["cats_to"] = cat_to
+        breakup_changes["mutual"] = True
+        breakup_changes["log"] = text
+
         game.cur_events_list.append(
             Single_Event(
                 text,

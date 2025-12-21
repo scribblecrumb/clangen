@@ -121,6 +121,34 @@ dev_tools = false
       comfort = 15
       trust = 20
 
+  # these denote how relationships change upon a breakup
+  [mates.breakup]
+    variability = [-10, 10]
+    [mates.breakup.reactions.had_fight]
+      romance = -20
+      like = -10
+      trust = -15
+    [mates.breakup.reactions.decided_to_be_friends]
+      romance = -40
+      like = 30
+      trust = 20
+      comfort = 10
+    [mates.breakup.reactions.lost_feelings]
+      romance = -40
+      like = -10
+      comfort = -10
+    [mates.breakup.reactions.bad_breakup]
+      romance = -30
+      like = -10
+      trust = -30
+      comfort = -20
+      respect = -10
+    [mates.breakup.reactions.chill_breakup]
+      romance = -20
+      comfort = -10
+
+
+
 [new_cat]
   # number of welcoming events to add when a new cat joins
   cat_amount_welcoming = 3
