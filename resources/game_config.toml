@@ -64,6 +64,8 @@ dev_tools = false
   # 1/chance of becoming mates, triggers with friends_to_lover (has to be a high number because many relationships are checked each moon)
   chance_friends_to_lovers = 170
 
+  breakup_threshold = 150
+
   # NOTE FOR RELATIONSHIP CONSTRAINTS
   #  0: no condition
   #  positive number: value has to be higher than number

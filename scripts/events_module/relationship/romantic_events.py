@@ -7,7 +7,7 @@ import i18n
 
 import scripts.cat_relations.interaction as interactions
 from scripts.cat.cats import Cat
-from scripts.cat_relations.relationship import RelType
+from scripts.cat_relations.relationship import RelType, Relationship
 from scripts.event_class import Single_Event
 from scripts.game_structure import constants
 from scripts.game_structure import game
@@ -972,23 +972,21 @@ class RomanticEvents:
         """
         # Gather relationships
         if cat_to.ID in cat_from.relationships:
-            relationship_from = cat_from.relationships[cat_to.ID]
+            relationship_from: Relationship = cat_from.relationships[cat_to.ID]
         else:
-            relationship_from = cat_from.create_one_relationship(cat_to)
+            relationship_from: Relationship = cat_from.create_one_relationship(cat_to)
 
         if cat_from.ID in cat_to.relationships:
-            relationship_to = cat_to.relationships[cat_from.ID]
+            relationship_to: Relationship = cat_to.relationships[cat_from.ID]
         else:
-            relationship_to = cat_to.create_one_relationship(cat_from)
+            relationship_to: Relationship = cat_to.create_one_relationship(cat_from)
 
-        # No breakup chance if the cat is a good deal above the make-confession requirments.
-        condition = constants.CONFIG["mates"]["confession"]["make_confession"].copy()
-        for x in condition:
-            if condition[x] > 0:
-                condition[x] += 16
-        if RomanticEvents.relationship_fulfill_condition(relationship_from, condition):
-            return 0
-        if RomanticEvents.relationship_fulfill_condition(relationship_to, condition):
+        # No breakup chance if the cat is above the breakup threshold.
+        threshold = constants.CONFIG["mates"]["breakup_threshold"]
+        if (
+            relationship_from.total_relationship_value > threshold
+            or relationship_to.total_relationship_value > threshold
+        ):
             return 0
 
         chance_number = 30
