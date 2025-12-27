@@ -341,7 +341,6 @@ class RomanticEvents:
         subset = random.sample(subset, max(int(len(subset) / 3), 1))
 
         for other_cat in subset:
-            relationship = cat.relationships.get(other_cat.ID)
             flag = RomanticEvents.handle_new_mates(cat, other_cat)
             if flag:
                 return
@@ -543,7 +542,7 @@ class RomanticEvents:
             and condition[RelType.ROMANCE] > 0
             and rel_to_check.romance >= condition[RelType.ROMANCE] * 1.5
         ):
-            become_mates = True
+            become_mate = True
             if (
                 cat_from.ID in cat_to.previous_mates
                 and cat_to.ID in cat_from.previous_mates
@@ -620,7 +619,6 @@ class RomanticEvents:
     def check_if_new_mate(cat_from, cat_to):
         """Checks if the two cats can become mates, or not. Returns: boolean and event_string"""
         become_mates = False
-        young_age = ("newborn", "kitten", "adolescent")
         if cat_to.status.is_outsider != cat_from.status.is_outsider:
             return False, None
 
