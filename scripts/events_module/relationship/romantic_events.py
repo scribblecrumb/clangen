@@ -8,7 +8,7 @@ import i18n
 import scripts.cat_relations.interaction as interactions
 from scripts.cat.cats import Cat
 from scripts.cat.enums import CatCompatibility
-from scripts.cat_relations.relationship import RelType
+from scripts.cat_relations.relationship import RelType, Relationship
 from scripts.event_class import Single_Event
 from scripts.game_structure import constants
 from scripts.game_structure import game
@@ -18,6 +18,7 @@ from scripts.utility import (
     event_text_adjust,
     get_personality_compatibility,
     process_text,
+    change_relationship_values,
 )
 
 
@@ -341,6 +342,7 @@ class RomanticEvents:
         subset = random.sample(subset, max(int(len(subset) / 3), 1))
 
         for other_cat in subset:
+            relationship = cat.relationships.get(other_cat.ID)
             flag = RomanticEvents.handle_new_mates(cat, other_cat)
             if flag:
                 return
@@ -431,16 +433,37 @@ class RomanticEvents:
 
         # Determine if this is a nice breakup or a fight breakup
         # TODO - make this better
-        breakup_type = random.choices(
-            [
-                "had_fight",
-                "decided_to_be_friends",
-                "lost_feelings",
-                "bad_breakup",
-                "chill_breakup",
-            ],
-            [3, 3, 2, 5, 5],
-        )[0]
+        if cat_to.ID in cat_from.relationships:
+            relationship_from: Relationship = cat_from.relationships[cat_to.ID]
+        else:
+            relationship_from: Relationship = cat_from.create_one_relationship(cat_to)
+        if cat_from.ID in cat_to.relationships:
+            relationship_to: Relationship = cat_to.relationships[cat_from.ID]
+        else:
+            relationship_to: Relationship = cat_to.create_one_relationship(cat_from)
+
+        possible_breakups = constants.CONFIG["mates"]["breakup"]["default_weights"]
+
+        if relationship_from.romance < 40 or relationship_to.romance < 40:
+            possible_breakups["chill_breakup"] += 2
+        if relationship_from.romance < 20 or relationship_to.romance < 20:
+            possible_breakups["lost_feelings"] += 5
+        if (
+            relationship_from.total_relationship_value < 80
+            or relationship_to.total_relationship_value < 80
+        ):
+            possible_breakups["had_fight"] += 3
+            possible_breakups["bad_breakup"] += 2
+        if relationship_from.like > 40 and relationship_to.like > 40:
+            possible_breakups["decided_to_be_friends"] += 5
+
+        _b_types = []
+        _b_weights = []
+        for breakup in possible_breakups:
+            _b_types.append(breakup)
+            _b_weights.append(possible_breakups[breakup])
+
+        breakup_type = random.choices(_b_types, weights=_b_weights)[0]
 
         cat_from.unset_mate(cat_to, breakup=False)
 
@@ -450,14 +473,32 @@ class RomanticEvents:
         breakup_changes = constants.CONFIG["mates"]["breakup"]["reactions"][
             breakup_type
         ]
-        for change in breakup_changes:
-            adjust_by = constants.CONFIG["mates"]["breakup"]["variability"]
-            change += random.randint(adjust_by[0], adjust_by[1])
 
-        breakup_changes["cats_from"] = cat_from
-        breakup_changes["cats_to"] = cat_to
-        breakup_changes["mutual"] = True
-        breakup_changes["log"] = text
+        # reaction of cat_from
+        cat_from_change = breakup_changes.copy()
+        for change in cat_from_change:
+            adjust_by = constants.CONFIG["mates"]["breakup"]["variability"]
+            cat_from_change[change] += random.randint(adjust_by[0], adjust_by[1])
+        cat_from_change["cats_from"] = [cat_from]
+        cat_from_change["cats_to"] = [cat_to]
+        cat_from_change["log"] = text
+
+        # reaction of cat_to
+        cat_to_change = breakup_changes.copy()
+        for change in cat_to_change:
+            adjust_by = constants.CONFIG["mates"]["breakup"]["variability"]
+            cat_to_change[change] += random.randint(adjust_by[0], adjust_by[1])
+
+        cat_to_change["cats_from"] = [cat_to]
+        cat_to_change["cats_to"] = [cat_from]
+        cat_to_change["log"] = text
+
+        change_relationship_values(
+            **cat_from_change,
+        )
+        change_relationship_values(
+            **cat_to_change,
+        )
 
         game.cur_events_list.append(
             Single_Event(
@@ -542,7 +583,7 @@ class RomanticEvents:
             and condition[RelType.ROMANCE] > 0
             and rel_to_check.romance >= condition[RelType.ROMANCE] * 1.5
         ):
-            become_mate = True
+            become_mates = True
             if (
                 cat_from.ID in cat_to.previous_mates
                 and cat_to.ID in cat_from.previous_mates
@@ -619,6 +660,7 @@ class RomanticEvents:
     def check_if_new_mate(cat_from, cat_to):
         """Checks if the two cats can become mates, or not. Returns: boolean and event_string"""
         become_mates = False
+        young_age = ("newborn", "kitten", "adolescent")
         if cat_to.status.is_outsider != cat_from.status.is_outsider:
             return False, None
 
@@ -943,7 +985,7 @@ class RomanticEvents:
             relationship_to: Relationship = cat_to.create_one_relationship(cat_from)
 
         # No breakup chance if the cat is above the breakup threshold.
-        threshold = constants.CONFIG["mates"]["breakup_threshold"]
+        threshold = constants.CONFIG["mates"]["breakup"]["threshold"]
         if (
             relationship_from.total_relationship_value > threshold
             or relationship_to.total_relationship_value > threshold
@@ -951,16 +993,16 @@ class RomanticEvents:
             return 0
 
         chance_number = 30
-        chance_number += int(relationship_from.romance / 20)
-        chance_number += int(relationship_to.romance / 20)
-        chance_number += int(relationship_from.like / 20)
-        chance_number += int(relationship_to.like / 20)
-        chance_number += int(relationship_from.respect / 20)
-        chance_number += int(relationship_to.respect / 20)
-        chance_number += int(relationship_from.trust / 20)
-        chance_number += int(relationship_to.trust / 20)
-        chance_number += int(relationship_from.comfort / 20)
-        chance_number += int(relationship_to.comfort / 20)
+        chance_number += int(relationship_from.romance / 10)
+        chance_number += int(relationship_to.romance / 10)
+        chance_number += int(relationship_from.like / 10)
+        chance_number += int(relationship_to.like / 10)
+        chance_number += int(relationship_from.respect / 10)
+        chance_number += int(relationship_to.respect / 10)
+        chance_number += int(relationship_from.trust / 10)
+        chance_number += int(relationship_to.trust / 10)
+        chance_number += int(relationship_from.comfort / 10)
+        chance_number += int(relationship_to.comfort / 10)
 
         # change the change based on the personality
         get_along = get_personality_compatibility(cat_from, cat_to)
