@@ -22,24 +22,24 @@ def generate_new_cat(
     """
 
     # PARENTAL INDEXES
-    parent1, parent2, adoptive_parents = get_parent_indexes(
+    parent1, parent2, adoptive_parents = _get_parent_indexes(
         attribute_list, event, in_event_cats, new_cat_index
     )
 
     # MATE INDEXES
-    mate_indexes = get_mate_indexes(attribute_list, in_event_cats)
+    mate_indexes = _get_mate_indexes(attribute_list, in_event_cats)
 
     # GENDER
-    gender = get_gender_tag(attribute_list)
+    gender = _get_gender_tag(attribute_list)
 
     # NAME
-    needs_new_name = get_name_status(attribute_list)
+    needs_new_name = _get_name_status(attribute_list)
 
     # GROUP
-    cat_social, cat_group = get_cat_social_and_group(attribute_list, other_clan)
+    cat_social, cat_group = _get_cat_social_and_group(attribute_list, other_clan)
 
     # RANK AND AGE - must be handled at this point in the sequence
-    rank, moon_age = get_rank_and_age(attribute_list, mate_indexes)
+    rank, moon_age = _get_rank_and_age(attribute_list, mate_indexes)
 
     # MEETING
     if "meeting" in attribute_list:
@@ -50,7 +50,7 @@ def generate_new_cat(
         joining = True
 
     # BACKSTORIES
-    possible_stories, chosen_backstory, cat_social, cat_group = get_backstory(
+    possible_stories, chosen_backstory, cat_social, cat_group = _get_backstory(
         attribute_list, cat_social, cat_group, rank
     )
 
@@ -102,7 +102,7 @@ def generate_new_cat(
         # if we have any qualified outsiders
         if possible_outsiders:
             chosen_cat = choice(possible_outsiders)
-            handle_use_of_existing_cat(alive, chosen_cat, joining, needs_new_name, rank)
+            _handle_use_of_existing_cat(alive, chosen_cat, joining, needs_new_name, rank)
 
             return [chosen_cat]
 
@@ -112,7 +112,7 @@ def generate_new_cat(
     return new_cats
 
 
-def handle_use_of_existing_cat(alive, chosen_cat, joining, needs_new_name, rank):
+def _handle_use_of_existing_cat(alive, chosen_cat, joining, needs_new_name, rank):
     if not alive:
         chosen_cat.die()
 
@@ -144,7 +144,7 @@ def handle_use_of_existing_cat(alive, chosen_cat, joining, needs_new_name, rank)
             chosen_cat.status.change_standing(CatStanding.KNOWN)
 
 
-def get_name_status(attribute_list) -> bool:
+def _get_name_status(attribute_list) -> bool:
     if "new_name" in attribute_list:
         return True
     elif "old_name" in attribute_list:
@@ -155,7 +155,7 @@ def get_name_status(attribute_list) -> bool:
         return bool(getrandbits(1))
 
 
-def get_gender_tag(attribute_list) -> Optional[str]:
+def _get_gender_tag(attribute_list) -> Optional[str]:
     if "male" in attribute_list:
         return "male"
     elif "female" in attribute_list:
@@ -166,8 +166,8 @@ def get_gender_tag(attribute_list) -> Optional[str]:
         return None
 
 
-def get_backstory(attribute_list, cat_social, cat_group, rank) -> (str, CatSocial):
-    chosen_backstory, cat_social = check_if_backstory_tagged(attribute_list, cat_social)
+def _get_backstory(attribute_list, cat_social, cat_group, rank) -> (str, CatSocial):
+    chosen_backstory, cat_social = _check_if_backstory_tagged(attribute_list, cat_social)
 
     # if no backstory was specified, we pick one based off rank/social or just assign and random one
     if not chosen_backstory:
@@ -204,7 +204,7 @@ def get_backstory(attribute_list, cat_social, cat_group, rank) -> (str, CatSocia
     return chosen_backstory, cat_social, cat_group
 
 
-def check_if_backstory_tagged(attribute_list, cat_social) -> (list, str, CatSocial):
+def _check_if_backstory_tagged(attribute_list, cat_social) -> (list, str, CatSocial):
     possible_stories = []
 
     # find any backstory tags
@@ -254,7 +254,7 @@ def check_if_backstory_tagged(attribute_list, cat_social) -> (list, str, CatSoci
     return possible_stories, chosen_backstory, cat_social
 
 
-def get_cat_social_and_group(
+def _get_cat_social_and_group(
     attribute_list, other_clan
 ) -> (Optional[CatSocial], CatGroup):
     cat_group = None
@@ -285,9 +285,9 @@ def get_cat_social_and_group(
     return cat_social, cat_group
 
 
-def get_rank_and_age(attribute_list, mate_indexes) -> (CatRank, int):
-    rank = get_rank(attribute_list)
-    moon_age = get_moon_age(attribute_list, mate_indexes)
+def _get_rank_and_age(attribute_list, mate_indexes) -> (CatRank, int):
+    rank = _get_rank(attribute_list)
+    moon_age = _get_moon_age(attribute_list, mate_indexes)
 
     if rank and not moon_age:
         # in this case, we need to ensure the cat takes an appropriate age for their rank
@@ -310,7 +310,7 @@ def get_rank_and_age(attribute_list, mate_indexes) -> (CatRank, int):
     return rank, moon_age
 
 
-def get_moon_age(attribute_list, mate_indexes) -> Optional[int]:
+def _get_moon_age(attribute_list, mate_indexes) -> Optional[int]:
     for _tag in attribute_list:
         match = re.match(r"age:(.+)", _tag)
         if not match:
@@ -331,7 +331,7 @@ def get_moon_age(attribute_list, mate_indexes) -> Optional[int]:
     return None
 
 
-def get_rank(attribute_list) -> Optional[CatRank]:
+def _get_rank(attribute_list) -> Optional[CatRank]:
     for _tag in attribute_list:
         match = re.match(r"status:(.+)", _tag)
         if not match:
@@ -353,7 +353,7 @@ def get_rank(attribute_list) -> Optional[CatRank]:
     return None
 
 
-def get_mate_indexes(attribute_list, in_event_cats) -> List[Cat]:
+def _get_mate_indexes(attribute_list, in_event_cats) -> List[Cat]:
     mate_indexes = []
     for tag in attribute_list:
         match = re.match(r"mate:([_,0-9a-zA-Z]+)", tag)
@@ -378,7 +378,7 @@ def get_mate_indexes(attribute_list, in_event_cats) -> List[Cat]:
     return mate_indexes
 
 
-def get_parent_indexes(
+def _get_parent_indexes(
     attribute_list, event, in_event_cats, new_cat_index
 ) -> (str, str, List[str]):
     parent1 = None
