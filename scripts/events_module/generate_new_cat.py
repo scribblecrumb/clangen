@@ -128,9 +128,9 @@ def handle_use_of_existing_cat(alive, chosen_cat, joining, needs_new_name, rank)
         # change name
         if needs_new_name:
             if bool(getrandbits(1)):
-                give_kitty_clan_name(chosen_cat)
+                chosen_cat.name.give_partial_clan_name()
             else:  # completely new name
-                give_normal_clan_name(chosen_cat)
+                chosen_cat.name.give_clan_name()
 
     elif not joining:
         # updates so that the clan is marked as knowing of this cat
@@ -142,36 +142,6 @@ def handle_use_of_existing_cat(alive, chosen_cat, joining, needs_new_name, rank)
             and CatStanding.EXILED not in current_standing
         ):
             chosen_cat.status.change_standing(CatStanding.KNOWN)
-
-
-def give_normal_clan_name(chosen_cat):
-    chosen_cat.name.give_prefix(
-        eyes=chosen_cat.pelt.eye_colour,
-        colour=chosen_cat.pelt.colour,
-        biome=game.clan.biome,
-    )
-    chosen_cat.name.give_suffix(
-        pelt=chosen_cat.pelt.colour,
-        biome=game.clan.biome,
-        tortie_pattern=chosen_cat.pelt.tortie_pattern,
-    )
-
-
-def give_kitty_clan_name(chosen_cat):
-    name = f"{chosen_cat.name.prefix}"
-    spaces = name.count(" ")
-    if spaces > 0:  # adding suffix to OG name
-        # make a list of the words within the name, then add the OG name back in the list
-        words = name.split(" ")
-        words.append(name)
-        new_prefix = choice(words)  # pick new prefix from that list
-        name = new_prefix
-    chosen_cat.name.prefix = name
-    chosen_cat.name.give_suffix(
-        pelt=chosen_cat.pelt,
-        biome=game.clan.biome,
-        tortie_pattern=chosen_cat.pelt.tortie_pattern,
-    )
 
 
 def get_name_status(attribute_list) -> bool:

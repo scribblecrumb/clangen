@@ -5,12 +5,16 @@ Module that handles the name generation for all cats.
 import contextlib
 import os
 import random
+from typing import TYPE_CHECKING
 
 import ujson
 
+from scripts.events_module.generate_new_cat import give_normal_clan_name
 from scripts.game_structure import constants
-from scripts.cat.enums import CatRank, CatGroup
 from scripts.housekeeping.datadir import get_save_dir
+
+if TYPE_CHECKING:
+    from scripts.cat.cats import Cat
 
 
 class Name:
@@ -72,45 +76,59 @@ class Name:
 
     def __init__(
         self,
-        prefix=None,
-        suffix=None,
-        biome=None,
-        specsuffix_hidden=False,
-        load_existing_name=False,
-        cat=None,
+        prefix: str = None,
+        suffix: str = None,
+        biome: str = None,
+        specsuffix_hidden: bool = False,
+        load_existing_name: bool = False,
+        cat: "Cat" = None,
     ):
         self.prefix = prefix
         self.suffix = suffix
         self.specsuffix_hidden = specsuffix_hidden
 
         self.cat = cat
+        self.biome = biome
 
+        if not load_existing_name:
+            self.give_clan_name()
+
+    def __str__(self):
+        return self.__repr__()
+
+    def give_clan_name(self, replace_current_name: bool = False):
+        """
+        Gives the cat a typical Clan name. In its default behavior, this func will only fill in missing prefixes and suffixes. If the cat already has a prefix or suffix, they will not be changed.
+        :param replace_current_name: Set True if the cat's current name should be completely erased.
+        """
         try:
-            color = cat.pelt.colour
-            eyes = cat.pelt.eye_colour
-            pelt = cat.pelt.name
-            tortie_pattern = cat.pelt.tortie_pattern
+            color = self.cat.pelt.colour
+            eyes = self.cat.pelt.eye_colour
+            pelt = self.cat.pelt.name
+            tortie_pattern = self.cat.pelt.tortie_pattern
         except AttributeError:
             color = None
             eyes = None
             pelt = None
             tortie_pattern = None
 
-        name_fixpref = False
+        if replace_current_name:
+            self.prefix = None
+            self.suffix = None
+
         # Set prefix
-        if prefix is None:
-            self.give_prefix(eyes, color, biome)
+        prefix_changed = False
+        if self.prefix is None:
+            self.give_prefix(eyes, color, self.biome)
             # needed for random dice when we're changing the Prefix
-            name_fixpref = True
+            prefix_changed = True
 
         # Set suffix
         if self.suffix is None:
-            self.give_suffix(pelt, biome, tortie_pattern)
-            if name_fixpref and self.prefix is None:
-                # needed for random dice when we're changing the Prefix
-                name_fixpref = False
+            self.give_suffix(pelt, self.biome, tortie_pattern)
 
-        if self.suffix and not load_existing_name:
+        # check if prefix and suffix conflict
+        if self.suffix:
             # Prevent triple letter names from joining prefix and suffix from occurring (ex. Beeeye)
             possible_three_letter = (
                 self.prefix[-2:] + self.suffix[0],
@@ -147,10 +165,10 @@ class Name:
                 )
             ):
                 # check if random die was for prefix
-                if name_fixpref:
-                    self.give_prefix(eyes, color, biome)
+                if prefix_changed:
+                    self.give_prefix(eyes, color, self.biome)
                 else:
-                    self.give_suffix(pelt, biome, tortie_pattern)
+                    self.give_suffix(pelt, self.biome, tortie_pattern)
 
                 nono_name = self.prefix + self.suffix
                 possible_three_letter = (
@@ -170,8 +188,34 @@ class Name:
                     double_animal = False
                 i += 1
 
-    def __str__(self):
-        return self.__repr__()
+    def give_partial_clan_name(self):
+        """
+        Uses the cat's current prefix to create a clan name. If the prefix is multiple words long, then it's possible that a single word from the prefix will be chosen to be preserved, rather than the whole prefix.
+        """
+
+        # get rid of suffix, if there is one (there really shouldn't be, but just in case)
+        self.suffix = None
+
+        current_name = self.prefix
+        words = current_name.split(" ")
+        if len(words) > 0:
+            # choose new prefix from a list of all the words in the current name as well as the current name in its entirety.
+            words.append(current_name)
+            self.prefix = random.choice(words)
+
+        self.give_clan_name()
+
+    def give_outsider_name(self, only_nature_names: bool = False):
+        """
+        Removes any current suffix and chooses only a prefix for the cat. Prefix options will include "loner" names from the name file.
+        :param only_nature_names: set True if "loner_names" options should be disallowed.
+        """
+        self.suffix = None
+
+        if only_nature_names or bool(random.getrandbits(1)):
+            self.prefix = random.choice(self.names_dict["normal_prefixes"])
+        else:
+            self.prefix = random.choice(self.names_dict["loner_names"])
 
     # Generate possible prefix
     def give_prefix(self, eyes, colour, biome):
