@@ -1285,7 +1285,7 @@ class OtherClan:
     ):
         self.group_ID = ID
         if not self.group_ID:
-            self.group_ID = game.get_free_group_ID(CatGroup.OTHER_CLAN)
+            self.group_ID: str = game.get_free_group_ID(CatGroup.OTHER_CLAN)
         game.clan.other_clan_IDs.append(self.group_ID)
 
         clan_names = names.names_dict["normal_prefixes"]

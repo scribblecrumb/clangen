@@ -1,5 +1,5 @@
 import re
-from random import getrandbits, randint, choice
+from random import getrandbits, randint, choice, choices
 from typing import List, Optional, Dict
 
 import i18n
@@ -7,7 +7,7 @@ import i18n
 from scripts.cat.cats import Cat, BACKSTORIES
 from scripts.cat.enums import CatRank, CatAge, CatSocial, CatGroup, CatStanding
 from scripts.clan_package.settings import get_clan_setting
-from scripts.game_structure import game
+from scripts.game_structure import game, constants
 
 
 def generate_new_cat(
@@ -102,7 +102,9 @@ def generate_new_cat(
         # if we have any qualified outsiders
         if possible_outsiders:
             chosen_cat = choice(possible_outsiders)
-            _handle_use_of_existing_cat(alive, chosen_cat, joining, needs_new_name, rank)
+            _handle_use_of_existing_cat(
+                alive, chosen_cat, joining, needs_new_name, rank
+            )
 
             return [chosen_cat]
 
@@ -110,6 +112,64 @@ def generate_new_cat(
     new_cats: list = []
 
     return new_cats
+
+
+def _create_litter(
+    backstory: str,
+    joining: bool,
+    moon_age: int,
+    parent1: str,
+    parent2: str,
+    adoptive_parents: List[str],
+    original_social: Optional[CatSocial],
+    original_group: Optional[str],
+) -> list[Cat]:
+    """
+    Creates a litter of kittens.
+    """
+    litter_size = choices([2, 3, 4, 5], [5, 4, 1, 1], k=1)[0]
+
+    if not moon_age:
+        moon_age = randint(1, 5)
+
+    if moon_age == 0:
+        age = CatAge.NEWBORN
+    else:
+        age = CatAge.KITTEN
+
+    # if we don't know our social, then we copy a parent
+    if not original_social and parent1:
+        original_social = Cat.fetch_cat(parent1).status.social
+    if not original_group and parent1:
+        original_group = Cat.fetch_cat(parent1).status.group_ID
+
+    for baby in range(litter_size):
+        new_cat = Cat(
+            moons=moon_age,
+            status_dict={
+                "social": original_social,
+                "age": age,
+                "group_ID": original_group,
+            },
+            backstory=backstory,
+            parent=parent1,
+            parent2=parent2,
+            adoptive_parents=adoptive_parents if adoptive_parents else [],
+        )
+        new_cat.status.change_current_moons_as(moon_age)
+
+        if joining:
+            # add to clan
+            new_cat.status.add_to_group(CatGroup.PLAYER_CLAN_ID, age)
+            new_cat.add_to_clan()
+
+            # change name
+            new_cat.change_name()
+
+            # perm conditions
+            chance_for_perm_condition = int(
+                constants.CONFIG["cat_generation"]["base_permanent_condition"] / 11.25
+            )
 
 
 def _handle_use_of_existing_cat(alive, chosen_cat, joining, needs_new_name, rank):
@@ -167,7 +227,9 @@ def _get_gender_tag(attribute_list) -> Optional[str]:
 
 
 def _get_backstory(attribute_list, cat_social, cat_group, rank) -> (str, CatSocial):
-    chosen_backstory, cat_social = _check_if_backstory_tagged(attribute_list, cat_social)
+    chosen_backstory, cat_social = _check_if_backstory_tagged(
+        attribute_list, cat_social
+    )
 
     # if no backstory was specified, we pick one based off rank/social or just assign and random one
     if not chosen_backstory:
@@ -254,9 +316,7 @@ def _check_if_backstory_tagged(attribute_list, cat_social) -> (list, str, CatSoc
     return possible_stories, chosen_backstory, cat_social
 
 
-def _get_cat_social_and_group(
-    attribute_list, other_clan
-) -> (Optional[CatSocial], CatGroup):
+def _get_cat_social_and_group(attribute_list, other_clan) -> (Optional[CatSocial], str):
     cat_group = None
 
     if "kittypet" in attribute_list:
