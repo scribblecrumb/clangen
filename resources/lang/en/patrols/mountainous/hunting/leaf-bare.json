@@ -1728,12 +1728,11 @@
                             "patrol"
                         ],
                         "mutual": false,
-                        "values": [
-                            "like",
-                            "respect",
-                            "trust"
-                        ],
-                        "amount": 5
+                        "values": ["like", "trust"],
+                        "amount": 5,
+                        "log": {
+                            "cats_from": "from_cat and to_cat enjoyed a successful hunt together."
+                        }
                     }
                 ],
                 "frequency": 4
@@ -1753,12 +1752,21 @@
                             "patrol"
                         ],
                         "mutual": false,
-                        "values": [
-                            "like",
-                            "respect",
-                            "trust"
-                        ],
-                        "amount": 5
+                        "values": ["comfort"],
+                        "amount": 5,
+                        "log": {
+                            "cats_from": "from_cat and to_cat engaged in a friendly hunting competition together."
+                        }
+                    },
+                    {
+                        "cats_to": ["p_l"],
+                        "cats_from": ["patrol"],
+                        "mutual": false,
+                        "values": ["like"],
+                        "amount": 5,
+                        "log": {
+                            "cats_from": "from_cat enjoyed the little challenge that to_cat set to the patrol when they were hunting together."
+                        }
                     }
                 ],
                 "frequency": 1
@@ -1775,19 +1783,24 @@
                 ],
                 "relationships": [
                     {
-                        "cats_to": [
-                            "patrol"
-                        ],
-                        "cats_from": [
-                            "patrol"
-                        ],
+                        "cats_to": ["s_c"],
+                        "cats_from": ["patrol"],
                         "mutual": false,
-                        "values": [
-                            "like",
-                            "respect",
-                            "trust"
-                        ],
-                        "amount": 5
+                        "values": ["like"],
+                        "amount": -5,
+                        "log": {
+                            "cats_from": "...and thought {PRONOUN/to_cat/subject} {VERB/to_cat/were/was} bragging about it a little more than necessary."
+                        }
+                    },
+                    {
+                        "cats_to": ["s_c"],
+                        "cats_from": ["patrol"],
+                        "mutual": false,
+                        "values": ["respect"],
+                        "amount": 10,
+                        "log": {
+                            "cats_from": "from_cat watched to_cat catch squirrel after squirrel on a hunting patrol..."
+                        }
                     }
                 ],
                 "frequency": 4
@@ -1806,12 +1819,11 @@
                             "patrol"
                         ],
                         "mutual": false,
-                        "values": [
-                            "like",
-                            "respect",
-                            "trust"
-                        ],
-                        "amount": -5
+                        "values": ["trust"],
+                        "amount": -5,
+                        "log": {
+                            "cats_from": "from_cat doubted to_cat's hunting skill after a disappointing hunting patrol."
+                        }
                     }
                 ],
                 "prey": [
@@ -1852,12 +1864,9 @@
                             "patrol"
                         ],
                         "mutual": false,
-                        "values": [
-                            "like",
-                            "respect",
-                            "trust"
-                        ],
-                        "amount": -5
+                        "values": ["comfort"],
+                        "amount": -5,
+                        "log": "from_cat and to_cat avoided each other after a disastrous squirrel hunting patrol."
                     }
                 ],
                 "prey": [
@@ -1903,10 +1912,12 @@
                             "patrol"
                         ],
                         "mutual": false,
-                        "values": [
-                            "respect"
-                        ],
-                        "amount": 5
+                        "values": ["respect"],
+                        "amount": 5,
+                        "log":
+                        {
+                            "cats_from": "from_cat was impressed by to_cat's idea for baiting squirrels."
+                        }
                     }
                 ],
                 "frequency": 4
@@ -1926,10 +1937,12 @@
                             "patrol"
                         ],
                         "mutual": false,
-                        "values": [
-                            "respect"
-                        ],
-                        "amount": 5
+                        "values": ["respect"],
+                        "amount": 8,
+                        "log":
+                        {
+                            "cats_from": "from_cat was impressed by to_cat's clever idea for baiting squirrels."
+                        }
                     }
                 ],
                 "frequency": 1
@@ -1938,7 +1951,8 @@
                 "text": "r_c suggests baiting the squirrels with food and picking them off when they come out to eat. All the patrol has to do is set the trap - with s_c on the patrol, they rarely have to lift a paw, and each cat carries multiple squirrels home.",
                 "exp": 20,
                 "stat_skill": [
-                    "HUNTER,1"
+                    "HUNTER,1",
+                    "CLEVER,1"
                 ],
                 "prey": [
                     "large"
@@ -1952,10 +1966,11 @@
                             "patrol"
                         ],
                         "mutual": false,
-                        "values": [
-                            "respect"
-                        ],
-                        "amount": 5
+                        "values": ["respect"],
+                        "amount": 10,
+                        "log": {
+                            "cats_from": "from_cat was highly impressed by to_cat's genius idea for baiting squirrels."
+                        }
                     }
                 ],
                 "frequency": 4
@@ -1985,10 +2000,11 @@
                             "patrol"
                         ],
                         "mutual": false,
-                        "values": [
-                            "respect"
-                        ],
-                        "amount": -5
+                        "values": ["respect"],
+                        "amount": -5,
+                        "log": {
+                            "cats_from": "from_cat felt that to_cat wasted a perfectly good hunting patrol with a hare-brained squirrel-baiting scheme."
+                        }
                     }
                 ],
                 "prey": [
@@ -2685,7 +2701,7 @@
             ]
         },
         "frequency": 3,
-        "intro_text": "app1 has been acting weird all day, full of too-quick answers and furtive glances. A parent usually knows; p_l has seen that look too often in app1's nursery days. So, when {PRONOUN/app1/subject} {VERB/app1/creep/creeps} out of camp and into the frosty chilled shadows of the forest at night, p_l is there waiting for {PRONOUN/app1/object}. app1 freezes, staring up with wide eyes.",
+        "intro_text": "app1 has been acting weird all day, full of too-quick answers and furtive glances. A parent usually knows; p_l has seen that look too often in app1's nursery days. So, when {PRONOUN/app1/subject} {VERB/app1/creep/creeps} out of camp and into the frosty  shadows of the mountains at night, p_l is there waiting for {PRONOUN/app1/object}. app1 freezes, staring up with wide eyes.",
         "decline_text": "A stern glance and wide swish of {PRONOUN/p_l/poss} tail is all that's needed to turn app1's nighttime wanderings around and send {PRONOUN/app1/object} back to the apprentices' den. p_l will have a talk with {PRONOUN/app1/object} in the morning - leaf-bare isn't the season to take risks like this.",
         "chance_of_success": 40,
         "relationship_constraint": [
@@ -2693,7 +2709,7 @@
         ],
         "success_outcomes": [
             {
-                "text": "app1 straightens - c_n <i>needs</i> food, and app1 is going to provide. {PRONOUN/app1/subject/CAP} {VERB/app1/stride/strides} forward, tail beckoning p_l as though this is a normal hunt, not an illicit adventure, and helplessly p_l follows, determined to keep app1 safe. WIth app1 in leading {PRONOUN/p_l/object} through the dark and cold, together they bring down a kea bird. p_l will cover for app1's shenanigans, just this once.",
+                "text": "app1 straightens - c_n <i>needs</i> food, and app1 is going to provide. {PRONOUN/app1/subject/CAP} {VERB/app1/stride/strides} forward, tail beckoning p_l as though this is a normal hunt, not an illicit adventure, and helplessly p_l follows, determined to keep app1 safe. With app1 in leading {PRONOUN/p_l/object} through the dark and cold, together they bring down a kea bird. p_l will cover for app1's shenanigans, just this once.",
                 "exp": 20,
                 "prey": [
                     "large"
