@@ -347,9 +347,6 @@ class ShortEvent:
                 else:  # if freshkill isn't being adjusted, then it must be a herb supply
                     self.handle_herb_supply(block)
 
-        if "clan_wide" in self.tags:
-            self.all_involved_cat_ids.clear()
-
         # adjust text again to account for info that wasn't available when we do rel changes
         self.text = event_text_adjust(
             Cat,
@@ -365,7 +362,7 @@ class ShortEvent:
         )
 
         if self.chosen_herb:
-            game.herb_events_list.append(f"{self} {self.herb_notice}.")
+            game.herb_events_list.append(f"{self.text} {self.herb_notice}")
 
         self.gather_future_event()
 
@@ -922,7 +919,7 @@ class ShortEvent:
             else:
                 self.chosen_herb = supply_type
 
-            herb_list.append(self.chosen_herb)
+            herb_list.append(i18n.t(f"conditions.herbs.{self.chosen_herb}", count=2))
 
             # now adjust the supply for the chosen_herb
             total_herb = herb_supply.total_of_herb(self.chosen_herb)
