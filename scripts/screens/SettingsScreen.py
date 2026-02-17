@@ -23,9 +23,9 @@ import scripts.game_structure.game.settings.settings as all_settings
 from scripts.game_structure import game
 from scripts.game_structure.ui_elements import (
     UIImageHorizontalSlider,
-    UIModifiedScrollingContainer,
     UICheckbox,
 )
+from ..ui.elements.modified_scrolling_container import UIModifiedScrollingContainer
 from ..ui.elements.image_button import UIImageButton
 from ..ui.elements.surface_image_button import UISurfaceImageButton
 from scripts.housekeeping.datadir import open_data_dir
