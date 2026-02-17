@@ -2,7 +2,10 @@ import pygame
 import pygame_gui
 from pygame_gui.core import IContainerLikeInterface
 
-from scripts.game_structure.ui_elements import UIScrollingDropDown, UIScrollingButtonList
+from scripts.game_structure.ui_elements import (
+    UIScrollingDropDown,
+    UIScrollingButtonList,
+)
 from scripts.ui.elements.image_button import UIImageButton
 from scripts.ui.scale import ui_scale, ui_scale_value
 

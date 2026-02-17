@@ -6,9 +6,7 @@ from pygame_gui.core import IContainerLikeInterface
 from pygame_gui.core.gui_type_hints import Coordinate
 from pygame_gui.core.interfaces import IUIElementInterface
 
-from scripts.game_structure.ui_elements import (
-    UIModifiedHorizScrollBar,
-)
+from scripts.ui.elements.modified_horizontal_scrollbar import UIModifiedHorizScrollBar
 from scripts.ui.elements.image_vertical_scrollbar import UIImageVerticalScrollBar
 from scripts.ui.scale import ui_scale_value
 
