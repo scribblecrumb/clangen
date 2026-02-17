@@ -2034,9 +2034,9 @@ class Cat:
         new_condition = choice(possible_conditions)
 
         if new_condition == "born without a leg":
-            cat.pelt.scars.append("NOPAW")
+            cat.pelt.scars = (*cat.pelt.scars, "NOPAW")
         elif new_condition == "born without a tail":
-            cat.pelt.scars.append("NOTAIL")
+            cat.pelt.scars = (*cat.pelt.scars, "NOTAIL")
 
         self.get_permanent_condition(new_condition, born_with=True)
 
@@ -2057,7 +2057,7 @@ class Cat:
 
         # remove accessories if need be
         if "NOTAIL" in self.pelt.scars or "HALFTAIL" in self.pelt.scars:
-            self.pelt.accessory = [
+            self.pelt.accessory = tuple(
                 acc
                 for acc in self.pelt.accessory
                 if acc
@@ -2072,7 +2072,7 @@ class Cat:
                     "WISTERIA",
                     "GOLDEN CREEPING JENNY",
                 )
-            ]
+            )
 
         condition = PERMANENT[name]
         new_condition = False
@@ -3458,9 +3458,9 @@ def create_cat(rank, moons=None, biome=None):
         "MANLEG",
     ]
 
-    for scar in new_cat.pelt.scars:
-        if scar in not_allowed_scars:
-            new_cat.pelt.scars.remove(scar)
+    new_cat.pelt.scars = tuple(
+        scar for scar in new_cat.pelt.scars if scar not in not_allowed_scars
+    )
 
     return new_cat
 
