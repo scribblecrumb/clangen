@@ -23,10 +23,13 @@ from scripts.game_structure.screen_settings import MANAGER
 from scripts.game_structure.ui_elements import (
     UICheckbox,
     UIModifiedImage,
-    UIScrollingButtonList,
     UIDropDown,
     UICollapsibleContainer,
-    UIScrollingDropDown,
+)
+from scripts.ui.elements.scrolling_button_list import UIScrollingButtonList
+from scripts.ui.elements.scrolling_dropdown import UIScrollingDropDown
+from scripts.ui.elements.modified_scrolling_container import (
+    UIModifiedScrollingContainer,
 )
 from scripts.ui.elements.modified_scrolling_container import (
     UIModifiedScrollingContainer,

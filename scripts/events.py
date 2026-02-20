@@ -635,7 +635,7 @@ def handle_focus():
     """
     # if no focus is selected, skip all other
     focus_text = i18n.t("defaults.focus_text")
-    if get_clan_setting("business as usual") or get_clan_setting("rest and recover"):
+    if get_clan_setting("business_as_usual") or get_clan_setting("rest_and_recover"):
         return
     elif get_clan_setting("hunting"):
         # handle warrior
@@ -669,7 +669,7 @@ def handle_focus():
         focus_text = i18n.t("hardcoded.focus_prey", count=total_amount)
         game.freshkill_event_list.append(focus_text)
 
-    elif get_clan_setting("herb gathering"):
+    elif get_clan_setting("herb_gathering"):
         # get medicine cats
         healthy_meds = find_alive_cats_with_rank(
             Cat,
@@ -685,31 +685,31 @@ def handle_focus():
 
         focus_text = game.clan.herb_supply.handle_focus(healthy_meds, healthy_warriors)
 
-    elif get_clan_setting("threaten outsiders"):
+    elif get_clan_setting("threaten_outsiders"):
         amount = constants.CONFIG["focus"]["outsiders"]["reputation"]
         change_clan_reputation(-amount)
         focus_text = None
 
-    elif get_clan_setting("seek outsiders"):
+    elif get_clan_setting("seek_outsiders"):
         amount = constants.CONFIG["focus"]["outsiders"]["reputation"]
         change_clan_reputation(amount)
         focus_text = None
 
-    elif get_clan_setting("sabotage other clans") or get_clan_setting(
-        "aid other clans"
+    elif get_clan_setting("sabotage_other_clans") or get_clan_setting(
+        "aid_other_clans"
     ):
-        amount = constants.CONFIG["focus"]["other clans"]["relation"]
-        if get_clan_setting("sabotage other clans"):
+        amount = constants.CONFIG["focus"]["other_clans"]["relation"]
+        if get_clan_setting("sabotage_other_clans"):
             amount = amount * -1
         for name in game.clan.clans_in_focus:
             clan = [clan for clan in game.clan.all_other_clans if clan.name == name][0]
             change_clan_relations(clan, amount)
         focus_text = None
 
-    elif get_clan_setting("hoarding") or get_clan_setting("raid other clans"):
+    elif get_clan_setting("hoarding") or get_clan_setting("raid_other_clans"):
         info_dict = constants.CONFIG["focus"]["hoarding"]
-        if get_clan_setting("raid other clans"):
-            info_dict = constants.CONFIG["focus"]["raid other clans"]
+        if get_clan_setting("raid_other_clans"):
+            info_dict = constants.CONFIG["focus"]["raid_other_clans"]
 
         involved_cats = {"injured": [], "sick": []}
         # handle prey
@@ -741,19 +741,19 @@ def handle_focus():
 
         # handle injuries / illness
         relevant_cats = healthy_warriors + healthy_meds
-        if get_clan_setting("raid other clans"):
+        if get_clan_setting("raid_other_clans"):
             chance = info_dict[f"injury_chance_warrior"]
             # increase the chance of injuries depending on how many clans are raided
             increase = info_dict["chance_increase_per_clan"]
             chance -= increase * len(game.clan.clans_in_focus)
         for cat in relevant_cats:
             # if the raid setting or 50/50 for hoarding to get to the injury part
-            if get_clan_setting("raid other clans") or random.getrandbits(1):
+            if get_clan_setting("raid_other_clans") or random.getrandbits(1):
                 status_use = cat.status.rank
                 if status_use in (CatRank.DEPUTY, CatRank.LEADER):
                     status_use = CatRank.WARRIOR
                 chance = info_dict[f"injury_chance_{status_use}"]
-                if get_clan_setting("raid other clans"):
+                if get_clan_setting("raid_other_clans"):
                     # increase the chance of injuries depending on how many clans are raided
                     increase = info_dict["chance_increase_per_clan"]
                     chance -= increase * len(game.clan.clans_in_focus)
@@ -778,17 +778,17 @@ def handle_focus():
                         involved_cats["sick"].append(cat.ID)
 
         # if it is raiding, lower the relation to other clans
-        if get_clan_setting("raid other clans"):
+        if get_clan_setting("raid_other_clans"):
             for name in game.clan.clans_in_focus:
                 clan = [
                     clan for clan in game.clan.all_other_clans if clan.name == name
                 ][0]
-                amount = -constants.CONFIG["focus"]["raid other clans"]["relation"]
+                amount = -constants.CONFIG["focus"]["raid_other_clans"]["relation"]
                 change_clan_relations(clan, amount)
 
         # finish
         text_snippet = "hardcoded.focus_injury_hoarding"
-        if get_clan_setting("raid other clans"):
+        if get_clan_setting("raid_other_clans"):
             text_snippet = "hardcoded.focus_injury_raiding"
         for condition_type, value in involved_cats.items():
             game.cur_events_list.append(
@@ -966,7 +966,8 @@ def one_moon_cat(cat):
 
     if cat.dead:
         cat.get_new_thought(CatThought.WHILE_DEAD)
-        if cat.ID in game.just_died:
+        if cat.ID in game.just_died and cat.status.rank != CatRank.NEWBORN:
+            # newborns are exempt from this bc if we increase the moons, they become a kitten without actually gaining the kitten rank
             cat.moons += 1
         else:
             cat.status.increase_current_moons_as()

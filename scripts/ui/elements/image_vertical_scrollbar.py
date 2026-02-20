@@ -2,10 +2,6 @@ import pygame
 import pygame_gui
 from pygame_gui.core import IContainerLikeInterface
 
-from scripts.game_structure.ui_elements import (
-    UIScrollingDropDown,
-    UIScrollingButtonList,
-)
 from scripts.ui.elements.image_button import UIImageButton
 from scripts.ui.scale import ui_scale, ui_scale_value
 
@@ -106,7 +102,10 @@ class UIImageVerticalScrollBar(pygame_gui.elements.UIVerticalScrollBar):
             :return: True to ignore, False if we should care
             """
             if (
-                isinstance(element, (UIScrollingDropDown, UIScrollingButtonList))
+                isinstance(
+                    element,
+                    (pygame_gui.elements.UIScrollingContainer),
+                )
                 and element.are_contents_hovered()
             ):
                 return True
