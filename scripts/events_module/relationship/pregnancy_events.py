@@ -364,16 +364,24 @@ class Pregnancy_Events:
 
         if thinking_amount[0] == "correct":
             if correct_guess == "small":
-                text = Pregnancy_Events.PREGNANT_STRINGS["litter_guess"][0]
+                text = choice(
+                    Pregnancy_Events.PREGNANT_STRINGS["litter_guess"]["small"]
+                )
             else:
-                text = Pregnancy_Events.PREGNANT_STRINGS["litter_guess"][1]
+                text = choice(
+                    Pregnancy_Events.PREGNANT_STRINGS["litter_guess"]["large"]
+                )
         elif thinking_amount[0] == "incorrect":
             if correct_guess == "small":
-                text = Pregnancy_Events.PREGNANT_STRINGS["litter_guess"][1]
+                text = choice(
+                    Pregnancy_Events.PREGNANT_STRINGS["litter_guess"]["large"]
+                )
             else:
-                text = Pregnancy_Events.PREGNANT_STRINGS["litter_guess"][0]
+                text = choice(
+                    Pregnancy_Events.PREGNANT_STRINGS["litter_guess"]["small"]
+                )
         else:
-            text = Pregnancy_Events.PREGNANT_STRINGS["litter_guess"][2]
+            text = choice(Pregnancy_Events.PREGNANT_STRINGS["litter_guess"]["unsure"])
 
         try:
             if cat.injuries["pregnant"]["severity"] == "minor":
@@ -1073,7 +1081,7 @@ class Pregnancy_Events:
         all_relatives = [
             Cat.fetch_cat(c)
             for c in all_relatives
-            if c not in parents and c not in all_kitten
+            if c not in list(parents) and c not in [k.ID for k in all_kitten]
         ]
         all_relatives = [c for c in all_relatives if c.status.alive_in_player_clan]
 
