@@ -242,7 +242,7 @@
                 "amount": 30,
                 "mutual": false,
                 "log": {
-                    "cats_from": "n_c:0 left {PRONOUN/n_c:0/poss} kit to the m_c, trusting {PRONOUN/m_c/object} to raise {PRONOUN/n_c:1/object}."
+                    "cats_from": "n_c:0 left {PRONOUN/n_c:0/poss} kit to m_c, trusting {PRONOUN/m_c/object} to raise {PRONOUN/n_c:1/object}."
                 }
             },
             {
@@ -296,7 +296,7 @@
                 "amount": 30,
                 "mutual": false,
                 "log": {
-                    "cats_from": "n_c:0 left {PRONOUN/n_c:0/poss} kit to the m_c, trusting {PRONOUN/m_c/object} to raise {PRONOUN/n_c:1/object}."
+                    "cats_from": "n_c:0 left {PRONOUN/n_c:0/poss} kit to m_c, trusting {PRONOUN/m_c/object} to raise {PRONOUN/n_c:1/object}."
                 }
             },
             {
@@ -342,7 +342,7 @@
                 "amount": 30,
                 "mutual": false,
                 "log": {
-                    "cats_from": "n_c:0 left {PRONOUN/n_c:0/poss} kit to the m_c, trusting {PRONOUN/m_c/object} to raise {PRONOUN/n_c:1/object}."
+                    "cats_from": "n_c:0 left {PRONOUN/n_c:0/poss} kit to m_c, trusting {PRONOUN/m_c/object} to raise {PRONOUN/n_c:1/object}."
                 }
             },
             {
@@ -1965,7 +1965,7 @@
     "relationships": [
         {
             "cats_from": ["clan"],
-            "cats_to": ["n_c:0, n_c:1, n_c:2"],
+            "cats_to": ["n_c:0", "n_c:1", "n_c:2"],
             "mutual": false,
             "values": ["trust", "like"],
             "amount": 10,
@@ -1975,7 +1975,7 @@
         },
         {
             "cats_from": ["clan", "high_aggress"],
-            "cats_to": ["n_c:0, n_c:1, n_c:2"],
+            "cats_to": ["n_c:0", "n_c:1", "n_c:2"],
             "mutual": false,
             "values": ["trust", "like"],
             "amount": -10,
@@ -2021,7 +2021,7 @@
     "relationships": [
         {
             "cats_from": ["clan"],
-            "cats_to": ["n_c:0, n_c:1, n_c:2"],
+            "cats_to": ["n_c:0", "n_c:1", "n_c:2"],
             "mutual": false,
             "values": ["trust", "like"],
             "amount": -10,
@@ -2067,7 +2067,7 @@
     "relationships": [
         {
             "cats_from": ["clan"],
-            "cats_to": ["n_c:0, n_c:1, n_c:2"],
+            "cats_to": ["n_c:0", "n_c:1", "n_c:2"],
             "mutual": false,
             "values": ["trust", "like"],
             "amount": 10,
@@ -2077,7 +2077,7 @@
         },
         {
             "cats_from": ["clan", "high_lawful"],
-            "cats_to": ["n_c:0, n_c:1, n_c:2"],
+            "cats_to": ["n_c:0", "n_c:1", "n_c:2"],
             "mutual": false,
             "values": ["trust", "like"],
             "amount": -15,
