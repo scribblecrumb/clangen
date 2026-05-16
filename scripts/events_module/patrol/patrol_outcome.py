@@ -1009,7 +1009,9 @@ class PatrolOutcome:
             history_text = (
                 history_text
                 if "o_c_n" not in history_text
-                else history_text.replace("o_c_n", f"{str(patrol.other_clan.name)}Clan")
+                else history_text.replace(
+                    "o_c_n", i18n.t("general.clan", name=patrol.other_clan.name)
+                )
             )
 
             cat.history.add_scar(history_text)
@@ -1040,7 +1042,7 @@ class PatrolOutcome:
                 final_death_history
                 if "o_c_n" not in final_death_history
                 else final_death_history.replace(
-                    "o_c_n", f"{str(patrol.other_clan.name)}Clan"
+                    "o_c_n", i18n.t("general.clan", name=patrol.other_clan.name)
                 )
             )
 
@@ -1048,7 +1050,9 @@ class PatrolOutcome:
             history_scar = (
                 history_scar
                 if "o_c_n" not in history_scar
-                else history_scar.replace("o_c_n", f"{str(patrol.other_clan.name)}Clan")
+                else history_scar.replace(
+                    "o_c_n", i18n.t("general.clan", name=patrol.other_clan.name)
+                )
             )
 
         cat.history.add_possible_history(
@@ -1068,7 +1072,7 @@ class PatrolOutcome:
 
         if final_death_history and isinstance(final_death_history, str):
             final_death_history = final_death_history.replace(
-                "o_c_n", f"{str(patrol.other_clan.name)}Clan"
+                "o_c_n", i18n.t("general.clan", name=patrol.other_clan.name)
             )
 
         cat.history.add_death(death_text=final_death_history)
