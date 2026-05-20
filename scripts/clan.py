@@ -21,12 +21,19 @@ from scripts.cat.names import names
 from scripts.cat.save_load import (
     save_cats,
     get_faded_ids,
-    load_faded_cat_ids,
 )
 from scripts.clan_package.settings import save_clan_settings, load_clan_settings
 from scripts.clan_package.settings.clan_settings import reset_loaded_clan_settings
 from scripts.clan_resources.freshkill import FreshkillPile, Nutrition
 from scripts.clan_resources.herb.herb_supply import HerbSupply
+from scripts.clan_resources.point_of_interest import (
+    load_pois,
+    get_poi_save_dict,
+    generate_and_add_new_poi,
+    PoiType,
+    get_poi_names_set,
+    clear_pois,
+)
 from scripts.events_module.future.future_event import FutureEvent
 from scripts.events_module.generate_events import OngoingEvent
 from scripts.game_structure import constants
@@ -284,6 +291,14 @@ class Clan:
             other_clan = OtherClan(name=other_clan_name)
             self.all_other_clans.append(other_clan)
 
+        # remove any already loaded points of interest
+        clear_pois()
+
+        generate_and_add_new_poi(game.clan.biome, PoiType.GATHERING)
+        generate_and_add_new_poi(game.clan.biome, PoiType.MOONPLACE)
+        for i in range(3):
+            generate_and_add_new_poi(game.clan.biome, PoiType.TERRAIN)
+
         # create leader's ceremony
         self.leader.generate_lead_ceremony()
 
@@ -480,6 +495,8 @@ class Clan:
 
         clan_data["war"] = self.war
 
+        clan_data["poi"] = get_poi_save_dict()
+
         self.save_herb_supply(game.clan)
         self.save_disaster(game.clan)
         self.save_future_events(game.clan)
@@ -502,6 +519,7 @@ class Clan:
         """
 
         version_info = None
+        game.reset_used_group_IDs()
         if os.path.exists(
             get_save_dir() + "/" + switch_get_value(Switch.clan_list)[0] + "clan.json"
         ):
@@ -752,6 +770,8 @@ class Clan:
         else:
             displayname = clan_data["clanname"]
 
+        load_pois(clan_data.get("poi", {"empty": []}))
+
         game.clan = Clan(
             name=clan_data["clanname"],
             displayname=displayname,
@@ -858,8 +878,6 @@ class Clan:
                 print("WARNING: Cat not found:", cat)
         if "war" in clan_data:
             game.clan.war = clan_data["war"]
-
-        load_faded_cat_ids(clan_data["clanname"])
 
         game.clan.last_focus_change = clan_data.get("last_focus_change")
         game.clan.clans_in_focus = clan_data.get("clans_in_focus", [])
