@@ -2101,7 +2101,10 @@ def handle_injuries_or_general_death(cat):
         Condition_Events.handle_injuries(cat)
         return
 
-    use_war_modifier = switch_get_value(Switch.war_rel_change_type) != "rel_up"
+    use_war_modifier = (
+        game.clan.war["at_war"]
+        and switch_get_value(Switch.war_rel_change_type) != "rel_up"
+    )
 
     # chance to kill leader: 1/50 by default
     leader_death_chance = get_config(game.clan, "death_related.leader_death_chance") - (
