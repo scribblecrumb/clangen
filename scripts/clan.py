@@ -25,7 +25,10 @@ from scripts.cat.save_load import (
 )
 from scripts.clan_package.clan_names import get_possible_clan_names
 from scripts.clan_package.settings import save_clan_settings, load_clan_settings
-from scripts.clan_package.settings.clan_settings import reset_loaded_clan_settings
+from scripts.clan_package.settings.clan_settings import (
+    reset_loaded_clan_settings,
+    set_clan_setting,
+)
 from scripts.clan_resources.freshkill import FreshkillPile, Nutrition
 from scripts.clan_resources.herb.herb_supply import HerbSupply
 from scripts.clan_resources.point_of_interest import (
@@ -165,10 +168,14 @@ class Clan:
 
     @property
     def current_season(self):
-        modifiers = {"Newleaf": 0, "Greenleaf": 3, "Leaf-fall": 6, "Leaf-bare": 9}
+        season_length = get_config("seasons.length")
+        modifiers = {
+            season: i * season_length
+            for i, season in enumerate(get_config("seasons.calendar"))
+        }
         return (
             self.starting_season
-            if constants.CONFIG["lock_season"]
+            if get_config("seasons.lock_season")
             else constants.SEASON_CALENDAR[
                 (self.age + modifiers[self.starting_season]) % 12
             ]
@@ -303,7 +310,8 @@ class Clan:
             generate_and_add_new_poi(game.clan.biome, PoiType.TERRAIN)
 
         # create leader's ceremony and give lives
-        self.leader.generate_lead_ceremony()
+        if self.leader:
+            self.leader.generate_lead_ceremony()
 
         self.save_clan()
         save_clanlist(self.save_id)
@@ -319,6 +327,36 @@ class Clan:
         if switch_get_value(Switch.game_mode) == "":
             switch_set_value(Switch.game_mode, "classic")
             self.game_mode = "classic"
+
+        # makes sure all the settings are at their starting positions
+        self._adjust_settings()
+
+    @staticmethod
+    def _adjust_settings():
+        """
+        Make sure settings are at their starting positions as dictated in the game_config
+        """
+        # deputy
+        if get_config("settings.force_enable.deputy"):
+            set_clan_setting("deputy", True)
+            save_clan_settings()
+
+        # feeding order
+        starting_order = get_config("prey.feeding.starting_order")
+        for setting in [
+            "low_rank",
+            "high_rank",
+            "youngest_first",
+            "oldest_first",
+            "hungriest_first",
+            "experience_first",
+        ]:
+            set_clan_setting(setting, True if starting_order == setting else False)
+
+        # feeding priority
+        starting_priority = get_config("prey.feeding.starting_priority")
+        for setting in ["hunter_first", "sick_injured_first"]:
+            set_clan_setting(setting, True if starting_priority == setting else False)
 
     def add_cat(self, cat):  # cat is a 'Cat' object
         """Adds cat into the list of clan cats"""
@@ -805,7 +843,11 @@ class Clan:
             biome=clan_data["biome"],
             camp_bg=clan_data["camp_bg"],
             game_mode=clan_data["gamemode"],
-            cruel_cards=clan_data.get("cruel_cards", []),
+            cruel_cards=[
+                c
+                for c in clan_data.get("cruel_cards", [])
+                if c in constants.CRUEL_CARDS_ALL
+            ],
             self_run_init_functions=False,
         )
         game.clan.post_initialization_functions()
@@ -1395,7 +1437,10 @@ class OtherClan:
             while self.name in used_names:  # making sure we don't repeat a name
                 self.name = choice(clan_names)
 
-        self.relations = relations or randint(8, 12)
+        self.relations = relations or randint(
+            get_config("clan_creation.starting_clan_relation")[0],
+            get_config("clan_creation.starting_clan_relation")[1],
+        )
 
         self.temperament: tuple[str, str]
 
