@@ -10,12 +10,12 @@
     No assumptions should be made about the gender of any cat. Nothing in the game is completely gender-locked, including pregnancy under certain settings, so all text should take this into account.
 
 
-# Why Writing for ClanGen is Different
+## Why Writing for ClanGen is Different
 - The nature of a game like ClanGen means most text is likely to be encountered *many times* over a single playthrough.
 - If text is brief and gives its information directly, it will serve its function the same way each time a player encounters it. If it's flowery and lyrical, the player will enjoy it the first time, but then all subsequent times, their eyes will skim over it.
 - That's not to say flowery writing doesn't have its place. Adding some extra sparkle to highly rare events can make them exciting and signal that something important and unusual is happening. As with character motivations, the more constrained and rare text is, the more descriptively it can be written.
 
-# Dos and Don'ts
+## Dos and Don'ts
 ### **DO:** Prioritize player creativity!
 Events can act as writing prompts. If a text generates over and over again, one way keep it interesting is ambiguity. You can add a single unusual detail in an event's text without elaborating on its meaning: the player will take it from there!
 ### **DON'T:** Over-describe
