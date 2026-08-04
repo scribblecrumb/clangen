@@ -85,27 +85,22 @@ Event and flavor text should always use Americanized spelling.
 
 
 ## Being Mindful of Disabilities
-> Written with the input of disabled ClanGen developers
+- Written with the input of disabled ClanGen developers
 
 Disabled cats should not be sidelined in favor of how their disability affects those around them:
-
-- For example, the "sad circumstances" of the "poor" parents of a disabled kitten. The kitten is the cat who is disabled and should not be ignored or regarded as a burden for their disability in favor of pitying their parental figures.
+>For example, the "sad circumstances" of the "poor" parents of a disabled kitten. The kitten is the cat who is disabled and should not be ignored or regarded as a burden for their disability in favor of pitying their parental figures.
 
 Disability should not be portrayed as the ultimate tragedy of a cat's life. Their life does not end when they become disabled.
-
-- While ClanGen allows disabled cats to "retire" early, the cats aren't required to do so. Retiring also doesn't mean an "end" to their life within the Clan. They can still receive events and interactions. 
+>While ClanGen allows disabled cats to "retire" early, the cats aren't required to do so. Retiring also doesn't mean an "end" to their life within the Clan. They can still receive events and interactions. 
 
 Avoid inspiration porn. Inspiration porn slants stories and images of disabled people in a way that allows a nondisabled audience to feel warm and fuzzy, but regards the disabled person as nothing more than an object that produces these positive feelings. 
-
-- Remember that there is a difference between "joy" and "inspiration". Disabled cats can feel joyful and fulfilled in their life without that joy being used solely as inspiration for those around them.
+>Remember that there is a difference between "joy" and "inspiration". Disabled cats can feel joyful and fulfilled in their life without that joy being used solely as inspiration for those around them.
 
 Disabled cats are not inherently worth less than their abled counterparts and should not be treated as such. Disabled cats have just as much power, autonomy, and dignity as abled cats.
-
-- Disabled cats should be allowed to engage with Clan life in all the same ways that abled cats can.
+>Disabled cats should be allowed to engage with Clan life in all the same ways that abled cats can.
 
 Cats are allowed to engage with the complexity of their individual disabilities, both the negatives and the positives. 
-
-- A cat who becomes paralyzed is allowed to wish that they could still walk on four paws, while also celebrating that they can continue participating in Clan activities. A cat who is blind in one eye is allowed to struggle with their blindness, while still serving the Clan as a warrior or leader.
+>A cat who becomes paralyzed is allowed to wish that they could still walk on four paws, while also celebrating that they can continue participating in Clan activities. A cat who is blind in one eye is allowed to struggle with their blindness, while still serving the Clan as a warrior or leader.
 
 When possible, a writer who experiences a certain disability should write for it. It's always best for those with a first-hand perspective to dictate how their experiences be portrayed.
 
