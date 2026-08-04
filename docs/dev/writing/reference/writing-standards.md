@@ -100,7 +100,7 @@ Disabled cats are not inherently worth less than their abled counterparts and sh
 >Disabled cats should be allowed to engage with Clan life in all the same ways that abled cats can.
 
 Cats are allowed to engage with the complexity of their individual disabilities, both the negatives and the positives. 
->A cat who becomes paralyzed is allowed to wish that they could still walk on four paws, while also celebrating that they can continue participating in Clan activities. A cat who is blind in one eye is allowed to struggle with their blindness, while still serving the Clan as a warrior or leader.
+>A cat who becomes paralyzed is allowed to wish that they could still walk on four paws, while also celebrating their accomplishments. A cat who is blind in one eye is allowed to struggle with their blindness, while still serving the Clan as a warrior or leader.
 
 When possible, a writer who experiences a certain disability should write for it. It's always best for those with a first-hand perspective to dictate how their experiences be portrayed.
 
