@@ -106,7 +106,7 @@ When possible, a writer who experiences a certain disability should write for it
 
 While the mainly-RNG controlled nature of ClanGen means nuance isn't particularly easy to add into individual events, writers are encouraged to allow nuance by creating a wide variety of events that portray the myriad aspects of disability.
 
-**What ways can we portray the lifestyle of a disabled cat?**
+###What ways can we portray the lifestyle of a disabled cat?
 
 - "Tail signals" are a great stand-in for human sign language and can be used to communicate. 
 - While blindness absolutely affects a cat's ability, keep in mind that cats actually rely far more on their other senses! Whiskers, especially, help even seeing cats to navigate the surrounding space. When writing blind cats, consider having them follow a "guiding" Clanmate's scent/presence or investigate their surroundings before making a move (such as feeling for a safe ledge before jumping up to it.) Have them rely on smell and hearing to understand what's happening around them.
