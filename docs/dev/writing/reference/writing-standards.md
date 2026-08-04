@@ -93,7 +93,7 @@ Disabled cats should not be sidelined in favor of how their disability affects t
 Disability should not be portrayed as the ultimate tragedy of a cat's life. Their life does not end when they become disabled.
 >While ClanGen allows disabled cats to "retire" early, the cats aren't required to do so. Retiring also doesn't mean an "end" to their life within the Clan. They can still receive events and interactions. 
 
-Avoid inspiration porn. Inspiration porn slants stories and images of disabled people in a way that allows a nondisabled audience to feel warm and fuzzy, but regards the disabled person as nothing more than an object that produces these positive feelings. 
+Avoid inspiration sensationalism. Inspiration sensationalism slants stories and images of disabled people in a way that allows a nondisabled audience to feel warm and fuzzy, but regards the disabled person as nothing more than an object that produces these positive feelings. 
 >Remember that there is a difference between "joy" and "inspiration". Disabled cats can feel joyful and fulfilled in their life without that joy being used solely as inspiration for those around them.
 
 Disabled cats are not inherently worth less than their abled counterparts and should not be treated as such. Disabled cats have just as much power, autonomy, and dignity as abled cats.
