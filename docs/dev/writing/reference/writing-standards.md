@@ -86,8 +86,18 @@ Event and flavor text should always use Americanized spelling.
 
 ## Being Mindful of Disabilities
 
-Disabled characters should not be sidelined in favor of how their disability affects those around them:
-    - For example, the "sad circumstances" of the "poor" parents of a disabled kitten. The kitten is the character who is disabled and should not be ignored or regarded as a burden for their disability in favor of pitying their parental figures.
+Disabled cats should not be sidelined in favor of how their disability affects those around them:
+    - For example, the "sad circumstances" of the "poor" parents of a disabled kitten. The kitten is the cat who is disabled and should not be ignored or regarded as a burden for their disability in favor of pitying their parental figures.
 
 Disability should not be portrayed as an ultimate tragedy. It's a natural part of life and a legitimate way to live.
+
+Avoid inspiration porn. Inspiration porn slants stories and images of disabled people in a way that allows a nondisabled audience to feel warm and fuzzy, but regards the disabled person as nothing more than an object that produces these positive feelings. 
+
+Disabled cats are not inherently worth less than their abled counterparts. While ClanGen allows disabled cats to "retire" early, the cats aren't required to do so. Retiring also doesn't mean an "end" to their life within the Clan. They can still receive events and interactions. 
+
+Disabled cats should be allowed to engage with Clan life in all the same ways that abled cats can.
+
+Cats are allowed to engage with the complexity of their individual disabilities, both the negatives and the positives. A cat who becomes paralyzed is allowed to wish that they could still walk on four paws, while also celebrating that they can continue participating in Clan activities.
+
+
 
