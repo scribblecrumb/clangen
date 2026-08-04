@@ -85,7 +85,7 @@ Event and flavor text should always use Americanized spelling.
 
 
 ## Being Mindful of Disabilities
-- Written with the input of disabled ClanGen developers
+*Written with the input of disabled ClanGen developers*
 
 Disabled cats should not be sidelined in favor of how their disability affects those around them:
 >For example, the "sad circumstances" of the "poor" parents of a disabled kitten. The kitten is the cat who is disabled and should not be ignored or regarded as a burden for their disability in favor of pitying their parental figures.
