@@ -85,19 +85,39 @@ Event and flavor text should always use Americanized spelling.
 
 
 ## Being Mindful of Disabilities
+> Written with the input of disabled ClanGen developers
 
 Disabled cats should not be sidelined in favor of how their disability affects those around them:
-    - For example, the "sad circumstances" of the "poor" parents of a disabled kitten. The kitten is the cat who is disabled and should not be ignored or regarded as a burden for their disability in favor of pitying their parental figures.
 
-Disability should not be portrayed as an ultimate tragedy. It's a natural part of life and a legitimate way to live.
+- For example, the "sad circumstances" of the "poor" parents of a disabled kitten. The kitten is the cat who is disabled and should not be ignored or regarded as a burden for their disability in favor of pitying their parental figures.
+
+Disability should not be portrayed as the ultimate tragedy of a cat's life. Their life does not end when they become disabled.
+
+- While ClanGen allows disabled cats to "retire" early, the cats aren't required to do so. Retiring also doesn't mean an "end" to their life within the Clan. They can still receive events and interactions. 
 
 Avoid inspiration porn. Inspiration porn slants stories and images of disabled people in a way that allows a nondisabled audience to feel warm and fuzzy, but regards the disabled person as nothing more than an object that produces these positive feelings. 
 
-Disabled cats are not inherently worth less than their abled counterparts. While ClanGen allows disabled cats to "retire" early, the cats aren't required to do so. Retiring also doesn't mean an "end" to their life within the Clan. They can still receive events and interactions. 
+- Remember that there is a difference between "joy" and "inspiration". Disabled cats can feel joyful and fulfilled in their life without that joy being used solely as inspiration for those around them.
 
-Disabled cats should be allowed to engage with Clan life in all the same ways that abled cats can.
+Disabled cats are not inherently worth less than their abled counterparts and should not be treated as such. Disabled cats have just as much power, autonomy, and dignity as abled cats.
 
-Cats are allowed to engage with the complexity of their individual disabilities, both the negatives and the positives. A cat who becomes paralyzed is allowed to wish that they could still walk on four paws, while also celebrating that they can continue participating in Clan activities.
+- Disabled cats should be allowed to engage with Clan life in all the same ways that abled cats can.
+
+Cats are allowed to engage with the complexity of their individual disabilities, both the negatives and the positives. 
+
+- A cat who becomes paralyzed is allowed to wish that they could still walk on four paws, while also celebrating that they can continue participating in Clan activities. A cat who is blind in one eye is allowed to struggle with their blindness, while still serving the Clan as a warrior or leader.
+
+When possible, a writer who experiences a certain disability should write for it. It's always best for those with a first-hand perspective to dictate how their experiences be portrayed.
+
+While the mainly-RNG controlled nature of ClanGen means nuance isn't particularly easy to add into individual events, writers are encouraged to allow nuance by creating a wide variety of events that portray the myriad aspects of disability.
+
+**What ways can we portray the lifestyle of a disabled cat?**
+
+- "Tail signals" are a great stand-in for human sign language and can be used to communicate. 
+- While blindness absolutely affects a cat's ability, keep in mind that cats actually rely far more on their other senses! Whiskers, especially, help even seeing cats to navigate the surrounding space. When writing blind cats, consider having them follow a "guiding" Clanmate's scent/presence or investigate their surroundings before making a move (such as feeling for a safe ledge before jumping up to it.) Have them rely on smell and hearing to understand what's happening around them.
+- The cats within this universe do not have the ability to create wheelchairs or prothesis for their paralyzed or mobility-impaired Clanmates. However, remember that cats are incredibly adaptible creatures. Real-life 3-legged, paralyzed, and weak-legged cats can still be incredibly agile and fast. There are still ways in which they may struggle, but they aren't relegated to just wandering around camp.
+- Remember that while these cats aren't so technologically advanced as to create complex tools like a wheelchair, they are still intelligent beings who can be creative in how they support their disabled Clanmates; and disabled cats are likewise intelligent beings who can be creative in how they support themselves.
+
 
 
 
