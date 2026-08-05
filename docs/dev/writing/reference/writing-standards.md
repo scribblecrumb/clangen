@@ -102,7 +102,7 @@ Disabled cats are not inherently worth less than their abled counterparts and sh
 Cats are allowed to engage with the complexity of their individual disabilities, both the negatives and the positives. 
 >A cat who becomes paralyzed is allowed to wish that they could still walk on four paws, while also celebrating their accomplishments. A cat who is blind in one eye is allowed to struggle with their blindness, while still serving the Clan as a warrior or leader.
 
-When possible, a writer who experiences a certain disability should write for it. It's always best for those with a first-hand perspective to dictate how their experiences be portrayed.
+When possible, seek advice from fellow developers with the disability you plan to write for. It's always best for those with a first-hand perspective to dictate how their experiences be portrayed.
 
 While the mainly-RNG controlled nature of ClanGen means nuance isn't particularly easy to add into individual events, writers are encouraged to allow nuance by creating a wide variety of events that portray the myriad aspects of disability.
 
