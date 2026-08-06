@@ -1,0 +1,63 @@
+{
+    "tick_bite": {
+        "duration": 1,
+        "severity": "minor",
+        "mortality": {},
+        "infectiousness": 0,
+        "affect_on_infection_chance": 0,
+        "side_effect": {},
+        "progression": {},
+        "risks": {
+            "infected_wound": 0.1,
+            "tick_fever": 0.3
+        },
+        "causes_permanent": {},
+        "treatment_strength": {
+            "1": [
+                "moss"
+            ],
+            "2": [],
+            "3": [
+                "plantain"
+            ]
+        }
+    },
+    "blood_loss": {
+        "duration": 1,
+        "severity": "minor",
+        "mortality": {
+            "newborn": 0.6,
+            "kitten": 0.5,
+            "adolescent": 0.2,
+            "young adult": 0.1,
+            "adult": 0.1,
+            "senior adult": 0.2,
+            "senior": 0.4
+        },
+        "infectiousness": 0,
+        "affect_on_infection_chance": 0,
+        "side_effect": {
+            "shock": 0.2
+        },
+        "progression": {},
+        "risks": {},
+        "causes_permanent": {},
+        "treatment_strength": {
+            "1": [
+                "cobwebs",
+                "marigold",
+                "tansy"
+            ],
+            "2": [
+                "wild_garlic",
+                "horsetail",
+                "oak_leaves"
+            ],
+            "3": [
+                "poppy",
+                "goldenrod",
+                "moss"
+            ]
+        }
+    }
+}

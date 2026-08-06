@@ -1,0 +1,144 @@
+{
+
+    "broken_jaw": {
+        "duration": 4,
+        "severity": "severe",
+        "mortality": {
+            "newborn": 0.5,
+            "kitten": 0.3,
+            "adolescent": 0.2,
+            "young adult": 0.1,
+            "adult": 0.1,
+            "senior adult": 0.2,
+            "senior": 0.3
+        },
+        "infectiousness": 0,
+        "affect_on_infection_chance": 0,
+        "side_effect": {
+            "blood_loss": 0.1,
+            "scrapse": 0.1,
+            "bruises": 0.1
+        },
+        "progression": {},
+        "risks": {
+            "infected_wound": 0.2
+        },
+        "causes_permanent": {
+            "crooked_jaw": 0.8,
+            "damaged_throat": 0.2
+        },
+        "treatment_strength": {
+            "1": [
+                "cobwebs",
+                "marigold",
+                "tansy",
+                "moss"
+            ],
+            "2": [
+                "wild_garlic",
+                "horsetail",
+                "oak_leaves"
+            ],
+            "3": [
+                "poppy",
+                "goldenrod"
+            ]
+        }
+    },
+    "broken_bone": {
+        "duration": 5,
+        "severity": "severe",
+        "mortality": {
+            "newborn": 0.5,
+            "kitten": 0.3,
+            "adolescent": 0.2,
+            "young adult": 0.1,
+            "adult": 0.1,
+            "senior adult": 0.2,
+            "senior": 0.3
+        },
+        "infectiousness": 0,
+        "affect_on_infection_chance": 0,
+        "side_effect": {
+            "mangled_leg": 0.4,
+            "blood_loss": 0.1,
+            "scrapes": 0.2,
+            "bruises": 0.5
+        },
+        "progression": {},
+        "risks": {
+            "infected_wound": 0.2
+        },
+        "causes_permanent": {
+            "weak_leg": 0.2,
+            "twisted_leg": 0.3
+        },
+        "treatment_strength": {
+            "1": [
+                "cobwebs",
+                "marigold",
+                "tansy",
+                "moss"
+            ],
+            "2": [
+                "wild_garlic",
+                "horsetail",
+                "oak_leaves"
+            ],
+            "3": [
+                "poppy",
+                "goldenrod"
+            ]
+        }
+    },
+    "mangled_leg": {
+        "duration": 3,
+        "severity": "severe",
+        "mortality": {
+            "newborn": 0.5,
+            "kitten": 0.4,
+            "adolescent": 0.3,
+            "young adult": 0.1,
+            "adult": 0.2,
+            "senior adult": 0.3,
+            "senior": 0.4
+        },
+        "infectiousness": 0,
+        "affect_on_infection_chance": 0,
+        "side_effect": {
+            "broken_bone": 0.2,
+            "blood_loss": 0.1,
+            "scrapes": 0.2,
+            "bruises": 0.5,
+            "dislocated_joint": 0.4
+        },
+        "progression": {
+            "amputation": 0.3
+        },
+        "risks": {
+            "infected_wound": 0.5
+        },
+        "causes_permanent": {
+            "weak_leg": 0.2,
+            "twisted_leg": 0.3
+        },
+        "treatment_strength": {
+            "1": [
+                "cobwebs",
+                "marigold",
+                "tansy",
+                "mullein"
+            ],
+            "2": [
+                "wild_garlic",
+                "horsetail",
+                "oak_leaves",
+                "moss"
+            ],
+            "3": [
+                "poppy",
+                "goldenrod"
+            ]
+        }
+    }
+}
