@@ -1,5 +1,4 @@
 {
-
     "claw_wound": {
         "duration": 3,
         "severity": "major",
@@ -245,6 +244,96 @@
                 "poppy",
                 "goldenrod",
                 "burdock"
+            ]
+        }
+    },
+    "dislocated_joint": {
+        "duration": 2,
+        "severity": "major",
+        "mortality": {},
+        "infectiousness": 0,
+        "affect_on_infection_chance": 0,
+        "side_effect": {
+            "bruises": 0.3,
+            "sore": 0.5,
+            "joint_pain": 0.3
+        },
+        "progression": {},
+        "risks": {},
+        "causes_permanent": {
+            "constant_joint_pain": 0.1
+        },
+        "treatment_strength": {
+            "1": [
+                "marigold",
+                "ragwort",
+                "oak_leaves"
+            ],
+            "2": [
+                "daisy"
+            ],
+            "3": [
+                "poppy"
+            ]
+        }
+    },
+    "sprain": {
+        "duration": 2,
+        "severity": "major",
+        "mortality": {},
+        "infectiousness": 0,
+        "affect_on_infection_chance": 0,
+        "side_effect": {},
+        "progression": {},
+        "risks": {},
+        "causes_permanent": {},
+        "treatment_strength": {
+            "1": [
+                "poppy"
+            ],
+            "2": [
+                "dandelion"
+            ],
+            "3": [
+                "elder_leaves"
+            ]
+        }
+    },
+    "frostbite": {
+        "duration": 2,
+        "severity": "major",
+        "mortality": {
+            "newborn": 0.5,
+            "kitten": 0.3,
+            "adolescent": 0.1,
+            "young adult": 0.02,
+            "adult": 0.05,
+            "senior adult": 0.1,
+            "senior": 0.2
+        },
+        "infectiousness": 0,
+        "affect_on_infection_chance": 0.2,
+        "side_effect": {},
+        "progression": {
+            "tail_amputation": 0.1,
+            "leg_amputation": 0.1
+        },
+        "risks": {
+            "whitecough": 0.2
+        },
+        "causes_permanent": {},
+        "treatment_strength": {
+            "1": [
+                "ragwort",
+                "moss"
+            ],
+            "2": [
+                "mullein"
+            ],
+            "3": [
+                "poppy",
+                "dandelion",
+                "juniper"
             ]
         }
     }

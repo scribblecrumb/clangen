@@ -59,5 +59,147 @@
                 "moss"
             ]
         }
+    },
+    "joint_pain": {
+        "duration": 1,
+        "severity": "minor",
+        "mortality": {},
+        "infectiousness": 0,
+        "affect_on_infection_chance": 0,
+        "side_effect": {},
+        "progression": {},
+        "risks": {},
+        "causes_permanent": {},
+        "treatment_strength": {
+            "1": [
+                "poppy"
+            ],
+            "2": [
+                "marigold"
+            ],
+            "3": [
+                "juniper",
+                "daisy",
+                "ragwort"
+            ]
+        }
+    },
+    "bruises": {
+        "duration": 1,
+        "severity": "minor",
+        "mortality": {},
+        "infectiousness": 0,
+        "affect_on_infection_chance": 0,
+        "side_effect": {},
+        "progression": {},
+        "risks": {},
+        "causes_permanent": {},
+        "treatment_strength": {
+            "1": [
+                "poppy"
+            ],
+            "2": [],
+            "3": []
+        }
+    },
+    "sore": {
+        "duration": 1,
+        "severity": "minor",
+        "mortality": {},
+        "infectiousness": 0,
+        "affect_on_infection_chance": 0,
+        "side_effect": {},
+        "progression": {},
+        "risks": {},
+        "causes_permanent": {},
+        "treatment_strength": {
+            "1": [
+                "daisy",
+                "marigold",
+                "ragwort"
+            ],
+            "2": [
+                "poppy"
+            ],
+            "3": [
+                "dandelion",
+                "elder_leaves"
+            ]
+        }
+    },
+    "phantom_pain": {
+        "duration": 1,
+        "severity": "minor",
+        "mortality": {},
+        "infectiousness": 0,
+        "affect_on_infection_chance": 0,
+        "side_effect": {},
+        "progression": {},
+        "risks": {},
+        "causes_permanent": {},
+        "treatment_strength": {
+            "1": [
+                "raspberry"
+            ],
+            "2": [
+                "dandelion"
+            ],
+            "3": [
+                "poppy"
+            ]
+        }
+    },
+    "scrapes": {
+        "duration": 1,
+        "severity": "minor",
+        "mortality": {},
+        "infectiousness": 0,
+        "affect_on_infection_chance": 0,
+        "side_effect": {},
+        "progression": {},
+        "risks": {
+            "infected_wound": 0.1
+        },
+        "causes_permanent": {},
+        "treatment_strength": {
+            "1": [
+                "cobwebs",
+                "marigold"
+            ],
+            "2": [],
+            "3": [
+                "oak_leaves",
+                "wild_garlic"
+            ]
+        }
+    },
+    "torn_ear": {
+        "duration": 1,
+        "severity": "minor",
+        "mortality": {},
+        "infectiousness": 0,
+        "affect_on_infection_chance": 0,
+        "side_effect": {},
+        "progression": {},
+        "risks": {
+            "infected_wound": 0.1
+        },
+        "causes_permanent": {
+            "partial_hearing_loss": 0.1
+        },
+        "treatment_strength": {
+            "1": [
+                "cobwebs",
+                "marigold"
+            ],
+            "2": [
+                "wild_garlic",
+                "dandelion"
+            ],
+            "3": [
+                "goldenrod",
+                "oak_leaves"
+            ]
+        }
     }
 }

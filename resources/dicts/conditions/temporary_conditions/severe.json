@@ -113,7 +113,7 @@
             "dislocated_joint": 0.4
         },
         "progression": {
-            "amputation": 0.3
+            "leg_amputation": 0.3
         },
         "risks": {
             "infected_wound": 0.5
@@ -122,6 +122,50 @@
             "weak_leg": 0.2,
             "twisted_leg": 0.3
         },
+        "treatment_strength": {
+            "1": [
+                "cobwebs",
+                "marigold",
+                "tansy",
+                "mullein"
+            ],
+            "2": [
+                "wild_garlic",
+                "horsetail",
+                "oak_leaves",
+                "moss"
+            ],
+            "3": [
+                "poppy",
+                "goldenrod"
+            ]
+        }
+    },
+    "mangled_tail": {
+        "duration": 3,
+        "severity": "severe",
+        "mortality": {
+            "newborn": 0.5,
+            "kitten": 0.4,
+            "adolescent": 0.3,
+            "young adult": 0.1,
+            "adult": 0.2,
+            "senior adult": 0.3,
+            "senior": 0.4
+        },
+        "infectiousness": 0,
+        "affect_on_infection_chance": 0,
+        "side_effect": {
+            "blood_loss": 0.1,
+            "scrapes": 0.2
+        },
+        "progression": {
+            "tail_amputation": 0.3
+        },
+        "risks": {
+            "infected_wound": 0.5
+        },
+        "causes_permanent": {},
         "treatment_strength": {
             "1": [
                 "cobwebs",
