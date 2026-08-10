@@ -1,0 +1,322 @@
+{
+    "crooked_jaw": {
+        "severity": "major",
+        "can_be_congenital": true,
+        "can_be_acquired": true,
+        "moons_until_discovery": 0,
+        "mortality": {},
+        "immune_system_effect": 0,
+        "side_effect": {},
+        "progression": {},
+        "risks": {},
+        "treatment_strength": {
+            "1": [],
+            "2": [],
+            "3": []
+        }
+    },
+    "lost_a_leg": {
+        "severity": "major",
+        "can_be_congenital": false,
+        "can_be_acquired": true,
+        "moons_until_discovery": 0,
+        "mortality": {},
+        "immune_system_effect": 0,
+        "side_effect": {},
+        "progression": {},
+        "risks": {
+            "an infected wound": 0.014,
+            "phantom pain": 0.05,
+            "sore": 0.05
+        },
+        "treatment_strength": {
+            "1": [
+                "marigold",
+                "ragwort"
+            ],
+            "2": [
+                "daisy",
+                "juniper"
+            ],
+            "3": [
+                "dandelion"
+            ]
+        }
+    },
+    "born_without_a_leg": {
+        "severity": "major",
+        "can_be_congenital": true,
+        "can_be_acquired": false,
+        "moons_until_discovery": 0,
+        "mortality": {},
+        "immune_system_effect": 0,
+        "side_effect": {},
+        "progression": {},
+        "risks": {
+            "sore": 0.05,
+            "joint pain": 0.025
+        },
+        "treatment_strength": {
+            "1": [
+                "marigold",
+                "ragwort"
+            ],
+            "2": [
+                "daisy"
+            ],
+            "3": [
+                "juniper"
+            ]
+        }
+    },
+    "twisted_leg": {
+        "severity": "major",
+        "can_be_congenital": true,
+        "can_be_acquired": true,
+        "moons_until_discovery": 1,
+        "mortality": {},
+        "immune_system_effect": 0,
+        "side_effect": {},
+        "progression": {},
+        "risks": {
+            "sore": 0.05,
+            "joint pain": 0.025
+        },
+        "treatment_strength": {
+            "1": [
+                "marigold",
+                "ragwort",
+                "dandelion"
+            ],
+            "2": [
+                "juniper",
+                "daisy"
+            ],
+            "3": [
+                "poppy",
+                "thyme"
+            ]
+        }
+    },
+    "wasting_disease": {
+        "severity": "major",
+        "can_be_congenital": true,
+        "can_be_acquired": true,
+        "moons_until_discovery": 1,
+        "mortality": {},
+        "immune_system_effect": 0.25,
+        "side_effect": {},
+        "progression": {},
+        "risks": {
+            "running nose": 0.1,
+            "yellowcough": 0.02,
+            "redcough": 0.017
+        },
+        "treatment_strength": {
+            "1": [
+                "juniper",
+                "ragwort",
+                "goldenrod",
+                "mullein"
+            ],
+            "2": [
+                "betony",
+                "tansy"
+            ],
+            "3": [
+                "poppy"
+            ]
+        }
+    },
+    "strange_lump": {
+        "severity": "major",
+        "can_be_congenital": true,
+        "can_be_acquired": true,
+        "moons_until_discovery": 40,
+        "mortality": {},
+        "immune_system_effect": 0.1,
+        "side_effect": {},
+        "progression": {},
+        "risks": {
+            "seizure": 0.033,
+            "paralyzed": 0.017,
+            "redcough": 0.02
+        },
+        "treatment_strength": {
+            "1": [
+                "juniper",
+                "ragwort",
+                "goldenrod",
+                "dandelion"
+            ],
+            "2": [
+                "betony",
+                "mullein"
+            ],
+            "3": [
+                "poppy"
+            ]
+        }
+    },
+    "blind": {
+        "severity": "major",
+        "can_be_congenital": true,
+        "can_be_acquired": true,
+        "moons_until_discovery": 1,
+        "mortality": {},
+        "immune_system_effect": 0,
+        "side_effect": {},
+        "progression": {},
+        "risks": {},
+        "treatment_strength": {
+            "1": [],
+            "2": [],
+            "3": []
+        }
+    },
+    "one_bad_eye": {
+        "severity": "major",
+        "can_be_congenital": true,
+        "can_be_acquired": true,
+        "moons_until_discovery": 2,
+        "mortality": {},
+        "immune_system_effect": 0,
+        "side_effect": {},
+        "progression": {},
+        "risks": {
+            "failing eyesight": 0.013
+        },
+        "treatment_strength": {
+            "1": [],
+            "2": [],
+            "3": []
+        }
+    },
+    "failing_eyesight": {
+        "severity": "major",
+        "can_be_congenital": true,
+        "can_be_acquired": true,
+        "moons_until_discovery": 3,
+        "mortality": {},
+        "immune_system_effect": 0,
+        "side_effect": {},
+        "progression": {},
+        "risks": {
+            "blind": 0.02
+        },
+        "treatment_strength": {
+            "1": [],
+            "2": [],
+            "3": []
+        }
+    },
+    "deaf": {
+        "severity": "major",
+        "can_be_congenital": true,
+        "can_be_acquired": true,
+        "moons_until_discovery": 1,
+        "mortality": {},
+        "immune_system_effect": 0,
+        "side_effect": {},
+        "progression": {},
+        "risks": {},
+        "treatment_strength": {
+            "1": [],
+            "2": [],
+            "3": []
+        }
+    },
+    "seizure_prone": {
+        "severity": "major",
+        "can_be_congenital": true,
+        "can_be_acquired": true,
+        "moons_until_discovery": 3,
+        "mortality": {},
+        "immune_system_effect": 0,
+        "side_effect": {},
+        "progression": {},
+        "risks": {
+            "seizure": 0.1
+        },
+        "treatment_strength": {
+            "1": [
+                "ragwort"
+            ],
+            "2": [
+                "juniper"
+            ],
+            "3": [
+                "thyme",
+                "betony"
+            ]
+        }
+    },
+    "constantly_dizzy": {
+        "severity": "major",
+        "can_be_congenital": false,
+        "can_be_acquired": true,
+        "moons_until_discovery": 0,
+        "mortality": {},
+        "immune_system_effect": 0,
+        "side_effect": {},
+        "progression": {},
+        "risks": {
+            "headache": 0.05
+        },
+        "treatment_strength": {
+            "1": [],
+            "2": [],
+            "3": []
+        }
+    },
+    "recurring_shock": {
+        "severity": "major",
+        "can_be_congenital": false,
+        "can_be_acquired": true,
+        "moons_until_discovery": 0,
+        "mortality": {},
+        "immune_system_effect": 0,
+        "side_effect": {},
+        "progression": {},
+        "risks": {
+            "constant nightmares": 0.05,
+            "selective mutism": 0.004
+        },
+        "treatment_strength": {
+            "1": [
+                "poppy"
+            ],
+            "2": [
+                "juniper"
+            ],
+            "3": [
+                "thyme"
+            ]
+        }
+    },
+    "persistent_headaches": {
+        "severity": "major",
+        "can_be_congenital": true,
+        "can_be_acquired": true,
+        "moons_until_discovery": 4,
+        "mortality": {},
+        "immune_system_effect": 0,
+        "side_effect": {},
+        "progression": {},
+        "risks": {
+            "severe headache": 0.05,
+            "headache": 0.05
+        },
+        "treatment_strength": {
+            "1": [
+                "rosemary"
+            ],
+            "2": [
+                "juniper"
+            ],
+            "3": [
+                "poppy"
+            ]
+        }
+    }
+}

@@ -1,17 +1,99 @@
 {
-    "tick_bites": {
-        "duration": 2,
+    "fleas": {
         "severity": "minor",
+        "duration": 4,
+        "mortality": {},
+        "infectiousness": 10,
+        "immune_system_effect": 0,
+        "side_effect": {},
+        "progression": {},
+        "risks": {
+            "torn pelt": 0.05
+        },
+        "treatment_strength": {
+            "1": [
+                "plantain"
+            ],
+            "2": [],
+            "3": []
+        }
+    },
+    "running_nose": {
+        "severity": "minor",
+        "duration": 3,
+        "mortality": {},
+        "infectiousness": 0,
+        "immune_system_effect": 0,
+        "side_effect": {},
+        "progression": {
+            "whitecough": 0.067
+        },
+        "risks": {
+            "sore throat": 0.05
+        },
+        "treatment_strength": {
+            "1": [
+                "ragwort",
+                "poppy"
+            ],
+            "2": [],
+            "3": [
+                "juniper"
+            ]
+        }
+    },
+    "stomachache": {
+        "severity": "minor",
+        "duration": 2,
         "mortality": {},
         "infectiousness": 0,
         "immune_system_effect": 0,
         "side_effect": {},
         "progression": {},
         "risks": {
-            "an infected wound": 0.3,
-            "tick fever": 0.5
+            "diarrhea": 0.125
         },
-        "causes_permanent": {},
+        "treatment_strength": {
+            "1": [
+                "ragwort"
+            ],
+            "2": [
+                "juniper"
+            ],
+            "3": [
+                "mallow"
+            ]
+        }
+    },
+    "malnourished": {
+        "severity": "minor",
+        "duration": 100,
+        "mortality": {},
+        "infectiousness": 0,
+        "immune_system_effect": 0,
+        "side_effect": {},
+        "progression": {},
+        "risks": {},
+        "treatment_strength": {
+            "1": [
+                "thyme"
+            ],
+            "2": [],
+            "3": []
+        }
+    },
+    "tick_bites": {
+        "severity": "minor",
+        "duration": 2,
+        "mortality": {},
+        "infectiousness": 0,
+        "immune_system_effect": 0,
+        "side_effect": {},
+        "progression": {},
+        "risks": {
+            "an infected wound": 0.033,
+            "tick fever": 0.02
+        },
         "treatment_strength": {
             "1": [
                 "moss"
@@ -23,16 +105,16 @@
         }
     },
     "blood_loss": {
-        "duration": 1,
         "severity": "minor",
+        "duration": 1,
         "mortality": {
-            "newborn": 0.05,
-            "kitten": 0.05,
+            "newborn": 0.2,
+            "kitten": 0.2,
             "adolescent": 0.1,
-            "young adult": 0.2,
-            "adult": 0.25,
-            "senior adult": 0.25,
-            "senior": 0.15
+            "young adult": 0.05,
+            "adult": 0.04,
+            "senior adult": 0.04,
+            "senior": 0.07
         },
         "infectiousness": 0,
         "immune_system_effect": 0,
@@ -41,7 +123,6 @@
         },
         "progression": {},
         "risks": {},
-        "causes_permanent": {},
         "treatment_strength": {
             "1": [
                 "cobwebs",
@@ -61,15 +142,14 @@
         }
     },
     "joint_pain": {
-        "duration": 2,
         "severity": "minor",
+        "duration": 2,
         "mortality": {},
         "infectiousness": 0,
         "immune_system_effect": 0,
         "side_effect": {},
         "progression": {},
         "risks": {},
-        "causes_permanent": {},
         "treatment_strength": {
             "1": [
                 "poppy"
@@ -85,15 +165,14 @@
         }
     },
     "bruises": {
-        "duration": 1,
         "severity": "minor",
+        "duration": 1,
         "mortality": {},
         "infectiousness": 0,
         "immune_system_effect": 0,
         "side_effect": {},
         "progression": {},
         "risks": {},
-        "causes_permanent": {},
         "treatment_strength": {
             "1": [],
             "2": [],
@@ -101,17 +180,16 @@
         }
     },
     "cracked_pads": {
-        "duration": 1,
         "severity": "minor",
+        "duration": 1,
         "mortality": {},
         "infectiousness": 0,
         "immune_system_effect": 0,
         "side_effect": {},
         "progression": {},
         "risks": {
-            "an infected wound": 0.2
+            "an infected wound": 0.05
         },
-        "causes_permanent": {},
         "treatment_strength": {
             "1": [
                 "marigold",
@@ -126,15 +204,14 @@
         }
     },
     "sore": {
-        "duration": 1,
         "severity": "minor",
+        "duration": 1,
         "mortality": {},
         "infectiousness": 0,
         "immune_system_effect": 0,
         "side_effect": {},
         "progression": {},
         "risks": {},
-        "causes_permanent": {},
         "treatment_strength": {
             "1": [
                 "daisy",
@@ -151,17 +228,16 @@
         }
     },
     "scrapes": {
-        "duration": 1,
         "severity": "minor",
+        "duration": 1,
         "mortality": {},
         "infectiousness": 0,
         "immune_system_effect": 0,
         "side_effect": {},
         "progression": {},
         "risks": {
-            "an infected wound": 0.3
+            "an infected wound": 0.033
         },
-        "causes_permanent": {},
         "treatment_strength": {
             "1": [
                 "cobwebs",
@@ -175,17 +251,16 @@
         }
     },
     "small_cut": {
-        "duration": 1,
         "severity": "minor",
+        "duration": 1,
         "mortality": {},
         "infectiousness": 0,
         "immune_system_effect": 0,
         "side_effect": {},
         "progression": {},
         "risks": {
-            "an infected wound": 0.4
+            "an infected wound": 0.025
         },
-        "causes_permanent": {},
         "treatment_strength": {
             "1": [
                 "marigold"
@@ -199,17 +274,16 @@
         }
     },
     "torn_pelt": {
-        "duration": 1,
         "severity": "minor",
+        "duration": 1,
         "mortality": {},
         "infectiousness": 0,
         "immune_system_effect": 0,
         "side_effect": {},
         "progression": {},
         "risks": {
-            "an infected wound": 0.25
+            "an infected wound": 0.04
         },
-        "causes_permanent": {},
         "treatment_strength": {
             "1": [
                 "cobwebs",
@@ -226,18 +300,17 @@
         }
     },
     "torn_ear": {
-        "duration": 1,
         "severity": "minor",
+        "duration": 1,
         "mortality": {},
         "infectiousness": 0,
         "immune_system_effect": 0,
         "side_effect": {},
-        "progression": {},
-        "risks": {
-            "an infected wound": 0.25
-        },
-        "causes_permanent": {
+        "progression": {
             "partial hearing loss": 0.2
+        },
+        "risks": {
+            "an infected wound": 0.04
         },
         "treatment_strength": {
             "1": [
@@ -254,99 +327,23 @@
             ]
         }
     },
-    "shivering": {
-        "duration": 2,
-        "severity": "minor",
-        "mortality": {
-            "newborn": 0.1,
-            "kitten": 0.1,
-            "adolescent": 0.3,
-            "young adult": 0.5,
-            "adult": 0.8,
-            "senior adult": 0.5,
-            "senior": 0.2
-        },
-        "infectiousness": 0,
-        "immune_system_effect": 0.05,
-        "side_effect": {
-            "frostbite": 0.2
-        },
-        "progression": {},
-        "risks": {
-            "frostbite": 0.05
-        },
-        "causes_permanent": {},
-        "treatment_strength": {
-            "1": [
-                "ragwort",
-                "tansy"
-            ],
-            "2": [
-                "thyme"
-            ],
-            "3": [
-                "juniper"
-            ]
-        }
-    },
-    "quilled_by_a_porcupine": {
-        "duration": 2,
-        "severity": "minor",
-        "mortality": {
-            "newborn": 0.1,
-            "kitten": 0.2,
-            "adolescent": 0.4,
-            "young adult": 0.5,
-            "adult": 0.6,
-            "senior adult": 0.5,
-            "senior": 0.3
-        },
-        "infectiousness": 0,
-        "immune_system_effect": 0,
-        "side_effect": {
-            "torn pelt": 0.2
-        },
-        "progression": {},
-        "risks": {
-            "an infected wound": 0.05
-        },
-        "causes_permanent": {},
-        "treatment_strength": {
-            "1": [
-                "cobwebs",
-                "marigold",
-                "juniper",
-                "ragwort"
-            ],
-            "2": [
-                "moss",
-                "oak_leaves"
-            ],
-            "3": [
-                "goldenrod",
-                "wild_garlic",
-                "dandelion"
-            ]
-        }
-    },
     "bee_sting": {
-        "duration": 2,
         "severity": "minor",
+        "duration": 2,
         "mortality": {
             "newborn": 0.1,
-            "kitten": 0.2,
-            "adolescent": 0.3,
-            "young adult": 0.5,
-            "adult": 0.5,
-            "senior adult": 0.5,
-            "senior": 0.3
+            "kitten": 0.05,
+            "adolescent": 0.03,
+            "young adult": 0.02,
+            "adult": 0.02,
+            "senior adult": 0.02,
+            "senior": 0.03
         },
         "infectiousness": 0,
         "immune_system_effect": 0,
         "side_effect": {},
         "progression": {},
         "risks": {},
-        "causes_permanent": {},
         "treatment_strength": {
             "1": [
                 "horsetail"
@@ -360,15 +357,14 @@
         }
     },
     "headache": {
-        "duration": 1,
         "severity": "minor",
+        "duration": 1,
         "mortality": {},
         "infectiousness": 0,
         "immune_system_effect": 0,
         "side_effect": {},
         "progression": {},
         "risks": {},
-        "causes_permanent": {},
         "treatment_strength": {
             "1": [
                 "dandelion"
@@ -382,17 +378,16 @@
         }
     },
     "sore_throat": {
-        "duration": 1,
         "severity": "minor",
+        "duration": 1,
         "mortality": {},
         "infectiousness": 0,
         "immune_system_effect": 0,
         "side_effect": {},
-        "progression": {},
-        "risks": {},
-        "causes_permanent": {
+        "progression": {
             "damaged throat": 0.2
         },
+        "risks": {},
         "treatment_strength": {
             "1": [
                 "poppy",
@@ -402,92 +397,6 @@
             "3": [
                 "honey"
             ]
-        }
-    },
-    "fleas": {
-        "duration": 4,
-        "severity": "minor",
-        "mortality": {},
-        "infectiousness": 10,
-        "immune_system_effect": 0,
-        "side_effect": {},
-        "progression": {},
-        "risks": {
-            "torn pelt": 0.2
-        },
-        "causes_permanent": {},
-        "treatment_strength": {
-            "1": [
-                "plantain"
-            ],
-            "2": [],
-            "3": []
-        }
-    },
-    "running_nose": {
-        "duration": 3,
-        "severity": "minor",
-        "mortality": {},
-        "infectiousness": 0,
-        "immune_system_effect": 0,
-        "side_effect": {},
-        "progression": {},
-        "risks": {
-            "whitecough": 0.15,
-            "sore throat": 0.2
-        },
-        "causes_permanent": {},
-        "treatment_strength": {
-            "1": [
-                "ragwort",
-                "poppy"
-            ],
-            "2": [],
-            "3": [
-                "juniper"
-            ]
-        }
-    },
-    "stomachache": {
-        "duration": 2,
-        "severity": "minor",
-        "mortality": {},
-        "infectiousness": 0,
-        "immune_system_effect": 0,
-        "side_effect": {},
-        "progression": {},
-        "risks": {
-            "diarrhea": 0.08
-        },
-        "causes_permanent": {},
-        "treatment_strength": {
-            "1": [
-                "ragwort"
-            ],
-            "2": [
-                "juniper"
-            ],
-            "3": [
-                "mallow"
-            ]
-        }
-    },
-    "malnourished": {
-        "duration": 100,
-        "severity": "minor",
-        "mortality": {},
-        "infectiousness": 0,
-        "immune_system_effect": 0,
-        "side_effect": {},
-        "progression": {},
-        "risks": {},
-        "causes_permanent": {},
-        "treatment_strength": {
-            "1": [
-                "thyme"
-            ],
-            "2": [],
-            "3": []
         }
     }
 }
