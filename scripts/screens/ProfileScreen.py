@@ -631,7 +631,7 @@ class ProfileScreen(Screens):
                         ),
                         season=game.clan.current_season,
                         show_nest=self.the_cat.age == "newborn"
-                        or self.the_cat.not_working(),
+                        or not self.the_cat.can_work(),
                         group=self.the_cat.status.group,
                     ),
                     ui_scale_dimensions((240, 210)),
@@ -2549,7 +2549,7 @@ class ProfileScreen(Screens):
 
         if biome not in available_biome:
             biome = available_biome[0]
-        if the_cat.age == "newborn" or the_cat.not_working():
+        if the_cat.age == "newborn" or not the_cat.can_work():
             biome = "nest"
 
         biome = biome.lower()

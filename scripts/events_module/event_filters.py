@@ -883,10 +883,10 @@ def _check_cat_health(cat, health_constraints: dict) -> bool:
     # so that a missing value and a False value will be treated differently
     if "working" in health_constraints:
         # "working" equals True and cat isn't working
-        if health_constraints["working"] and cat.not_working():
+        if health_constraints["working"] and not cat.can_work():
             return False
         # "working" equals False and cat IS working
-        elif not health_constraints["working"] and not cat.not_working():
+        elif not health_constraints["working"] and cat.can_work():
             return False
 
     if health_constraints.get("condition"):

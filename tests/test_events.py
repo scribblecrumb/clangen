@@ -150,7 +150,7 @@ class TestEvents(unittest.TestCase):
                             cat.ID not in game.patrolled
                             and cat.status.rank.is_allowed_to_patrol()
                             and cat.status.alive_in_player_clan
-                            and not cat.not_working()
+                            and cat.can_work()
                         ):
                             can_patrol.append(cat)
                     shuffle(can_patrol)

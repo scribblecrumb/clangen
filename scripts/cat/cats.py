@@ -260,7 +260,7 @@ class Cat:
         # Private Sprite
         self._sprite: Optional["pygame.Surface"] = None
         self._sprite_mask: Optional["pygame.Mask"] = None
-        self._sprite_working: bool = self.not_working()
+        self._sprite_working: bool = self.can_work()
         """used to store whether we should be displaying sick sprite or not"""
 
         # SAVE CAT INTO ALL_CATS DICTIONARY IN CATS-CLASS
@@ -1883,8 +1883,11 @@ class Cat:
             new_condition = True
         return new_condition
 
-    def not_working(self):
-        """returns True if the cat cannot work, False if the cat can work"""
+    def can_work(self):
+        """returns True if the cat can work, False if the cat cannot work (is dead/outside or has major/severe condition)"""
+        if not self.status.alive_in_player_clan:
+            return False
+
         for illness in self.illnesses:
             if self.illnesses[illness]["severity"] != "minor":
                 return True
@@ -1918,9 +1921,6 @@ class Cat:
     def is_disabled(self):
         """Returns true if the cat have permanent condition"""
         return len(self.permanent_condition) > 0
-
-    def available_to_work(self):
-        return self.status.alive_in_player_clan and not self.not_working()
 
     def save_condition(self):
         # save conditions for each cat
@@ -2078,7 +2078,7 @@ class Cat:
             for cat in self.all_cats.values():
                 if self.is_valid_mentor(cat):
                     potential_mentors.append(cat)
-                    if not cat.apprentice and not cat.not_working():
+                    if not cat.apprentice and cat.can_work():
                         priority_mentors.append(cat)
             # First try for a cat who currently has no apprentices and is working
             if priority_mentors:  # length of list > 0
@@ -2944,9 +2944,9 @@ class Cat:
             return self._sprite
 
         # Update the sprite
-        if self.pelt.rebuild_sprite or self.not_working() != self._sprite_working:
+        if self.pelt.rebuild_sprite or self.can_work() != self._sprite_working:
             self.pelt.rebuild_sprite = False
-            self._sprite_working = self.not_working()
+            self._sprite_working = self.can_work()
             update_sprite(self)
             update_mask(self)
         return self._sprite

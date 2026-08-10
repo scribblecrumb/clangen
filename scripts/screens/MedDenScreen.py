@@ -486,9 +486,7 @@ class MedDenScreen(Screens):
             )
             med_skill = cat.skills.skill_string(short=True)
             med_exp = i18n.t("general.exp_label", exp=cat.experience_level_string)
-            med_working = True
-            if cat.not_working():
-                med_working = False
+            med_working = cat.can_work()
             if med_working is True:
                 work_status = i18n.t("general.can_work")
             else:

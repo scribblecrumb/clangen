@@ -610,7 +610,7 @@ def get_moon_freshkill():
             lambda c: c.status.rank
             in (CatRank.WARRIOR, CatRank.APPRENTICE, CatRank.LEADER, CatRank.DEPUTY)
             and c.status.alive_in_player_clan
-            and not c.not_working(),
+            and c.can_work(),
             Cat.all_cats.values(),
         )
     )
@@ -659,8 +659,7 @@ def handle_focus():
         healthy_warriors = [
             cat
             for cat in Cat.all_cats.values()
-            if cat.status.rank.is_any_adult_warrior_like_rank()
-            and cat.available_to_work()
+            if cat.status.rank.is_any_adult_warrior_like_rank() and cat.can_work()
         ]
 
         warrior_amount = len(healthy_warriors) * get_config(
@@ -671,7 +670,7 @@ def handle_focus():
         healthy_apprentices = [
             cat
             for cat in Cat.all_cats.values()
-            if cat.status.rank == CatRank.APPRENTICE and cat.available_to_work()
+            if cat.status.rank == CatRank.APPRENTICE and cat.can_work()
         ]
 
         app_amount = len(healthy_apprentices) * get_config(
@@ -732,7 +731,7 @@ def handle_focus():
             filter(
                 lambda c: c.status.rank.is_any_adult_warrior_like_rank()
                 and c.status.alive_in_player_clan
-                and not c.not_working(),
+                and c.can_work(),
                 Cat.all_cats.values(),
             )
         )
@@ -747,7 +746,7 @@ def handle_focus():
             filter(
                 lambda c: c.status.rank == CatRank.MEDICINE_CAT
                 and c.status.alive_in_player_clan
-                and not c.not_working(),
+                and c.can_work(),
                 Cat.all_cats.values(),
             )
         )
@@ -1902,7 +1901,7 @@ def gain_accessories(cat):
 # but I put it here to keep the exp functions together
 def handle_outside_EX(cat):
     if cat.status.is_outsider or cat.status.is_other_clancat:
-        if cat.not_working() and int(random.random() * 3):
+        if not cat.can_work() and int(random.random() * 3):
             return
 
         if cat.age == CatAge.KITTEN:
@@ -1939,7 +1938,7 @@ def handle_apprentice_EX(cat):
     TODO: DOCS
     """
     if cat.status.rank.is_any_apprentice_rank():
-        if cat.not_working() and int(random.random() * 3):
+        if not cat.can_work() and int(random.random() * 3):
             return
 
         if cat.experience > cat.experience_levels_range["learning"][1]:
@@ -1951,7 +1950,7 @@ def handle_apprentice_EX(cat):
             ran = constants.CONFIG["graduation"]["base_app_timeskip_ex"]
 
         mentor_modifier = 1
-        if not cat.mentor or Cat.fetch_cat(cat.mentor).not_working():
+        if not cat.mentor or not Cat.fetch_cat(cat.mentor).can_work():
             # Sick mentor debuff
             mentor_modifier = 0.7
             mentor_skill_modifier = 0
@@ -2085,7 +2084,7 @@ def handle_injuries_or_general_death(cat):
     if (
         not int(random.random() * leader_death_chance)
         and cat.status.is_leader
-        and not cat.not_working()
+        and cat.can_work()
     ):
         create_short_event(
             event_type="birth_death",
@@ -2135,7 +2134,7 @@ def handle_injuries_or_general_death(cat):
     death_chance = get_config(path) - (
         get_config("death_related.war_death_modifier") if use_war_modifier else 0
     )
-    if not int(random.random() * death_chance) and not cat.not_working():  # 1/400
+    if not int(random.random() * death_chance) and cat.can_work():  # 1/400
         create_short_event(
             event_type="birth_death",
             main_cat=cat,

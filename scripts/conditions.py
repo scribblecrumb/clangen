@@ -22,7 +22,7 @@ def amount_clanmembers_covered(all_cats, amount_per_med) -> int:
         i
         for i in all_cats
         if i.status.alive_in_player_clan
-        and not i.not_working()
+        and i.can_work()
         and i.status.rank.is_any_medicine_rank()
     ]
     full_med = [i for i in medicine_cats if i.status.rank == CatRank.MEDICINE_CAT]
