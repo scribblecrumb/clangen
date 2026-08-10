@@ -235,7 +235,8 @@ class SpriteInspectScreen(Screens):
                     if game.clan.override_biome
                     else game.clan.biome,
                     season=game.clan.current_season,
-                    show_nest=self.the_cat.age == "newborn" or not self.the_cat.can_work(),
+                    show_nest=self.the_cat.age == "newborn"
+                    or not self.the_cat.can_work(),
                     group=self.the_cat.status.group,
                 ),
                 ui_scale_dimensions((560, 350)),
