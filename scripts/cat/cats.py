@@ -1892,22 +1892,6 @@ class Cat:
             self.injuries[injury]["severity"] != "minor" for injury in self.injuries
         )
 
-    def not_work_because_hunger(self):
-        """returns True if the only condition, why the cat cannot work is because of starvation"""
-        non_minor_injuries = [
-            injury
-            for injury in self.injuries
-            if self.injuries[injury]["severity"] != "minor"
-        ]
-        if len(non_minor_injuries) > 0:
-            return False
-        non_minor_illnesses = [
-            illness
-            for illness in self.illnesses
-            if self.illnesses[illness]["severity"] != "minor"
-        ]
-        return "starving" in non_minor_illnesses and len(non_minor_illnesses) == 1
-
     def retire_cat(self):
         """This is only for cats that retire due to health condition"""
 
