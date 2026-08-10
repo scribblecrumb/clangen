@@ -287,7 +287,9 @@ class Condition_Events:
                     ]
                     if not int(random.random() * stopping_chance):
                         return triggered
-                season_dict = get_config(f"condition_related.seasonal_chances.{season.casefold()}")
+                season_dict = get_config(
+                    f"condition_related.seasonal_chances.{season.casefold()}"
+                )
                 possible_illnesses = []
 
                 # pick up possible illnesses from the season dict
