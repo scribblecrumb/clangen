@@ -453,7 +453,7 @@ class TestNewCatCreation(unittest.TestCase):
 
             self.assertIn(
                 "greencough",
-                test_cat.illnesses,
+                test_cat.temporary_conditions,
                 msg=f"Greencough was not assigned correctly as an illness.",
             )
 

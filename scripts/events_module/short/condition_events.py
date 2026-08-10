@@ -196,7 +196,7 @@ class Condition_Events:
         if (
             cat_nutrition.percentage > MAL_PERCENTAGE
             and cat.is_ill()
-            and "malnourished" in cat.illnesses
+            and "malnourished" in cat.temporary_conditions
         ):
             illness = "malnourished"
             event = random.choice(
@@ -208,10 +208,10 @@ class Condition_Events:
         elif (
             cat_nutrition.percentage > STARV_PERCENTAGE
             and cat.is_ill()
-            and "starving" in cat.illnesses
+            and "starving" in cat.temporary_conditions
         ):
             if cat_nutrition.percentage < MAL_PERCENTAGE:
-                if "malnourished" not in cat.illnesses:
+                if "malnourished" not in cat.temporary_conditions:
                     cat.get_ill("malnourished")
                 illness = "starving"
                 heal = True

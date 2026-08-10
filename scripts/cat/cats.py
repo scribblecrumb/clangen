@@ -16,6 +16,7 @@ import ujson  # type: ignore
 
 import scripts.game_structure.localization as pronouns
 from scripts.cat import pronouns
+from scripts.cat.conditions.temporary_condition import TemporaryCondition
 from scripts.cat.enums import (
     CatAge,
     CatRank,
@@ -246,12 +247,10 @@ class Cat:
         self.thought = ""
 
         # conditions setup
-        self.illnesses = {}
-        self.injuries = {}
+        self.temporary_conditions: list[TemporaryCondition] = []
+        self.permanent_conditions: list[PermanentCondition] = []
         self.healed_condition = None
         self.leader_death_heal = None
-        self.also_got = False
-        self.permanent_condition = {}
 
         self.faded = faded  # This is only used to flag cats that are faded, but won't be added to the faded list until
         # the next save.
@@ -482,16 +481,14 @@ class Cat:
             and "pregnant" in self.injuries
             and game.clan.leader_lives > 0
         ):
-            self.illnesses.clear()
+            self.temporary_conditions = [
+                condition
+                for condition in self.temporary_conditions
+                if condition != "pregnant"
+            ]
 
-            self.injuries = {
-                key: value
-                for (key, value) in self.injuries.items()
-                if key == "pregnant"
-            }
         else:
-            self.injuries.clear()
-            self.illnesses.clear()
+            self.temporary_conditions.clear()
 
         # Deal with leader death
         if self.status.is_leader:
@@ -1887,11 +1884,9 @@ class Cat:
         if not self.status.alive_in_player_clan:
             return False
 
-        for illness in self.illnesses:
-            if self.illnesses[illness]["severity"] != "minor":
-                return True
         return any(
-            self.injuries[injury]["severity"] != "minor" for injury in self.injuries
+            condition.severity != "minor"
+            for condition in self.temporary_conditions + self.permanent_conditions
         )
 
     def retire_cat(self):

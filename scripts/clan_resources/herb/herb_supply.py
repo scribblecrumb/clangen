@@ -211,11 +211,11 @@ class HerbSupply:
 
             severities = []
 
-            conditions = kitty.permanent_condition.copy()
-            conditions.update(kitty.injuries)
-            conditions.update(kitty.illnesses)
+            conditions = (
+                kitty.permanent_conditions.copy() + kitty.temporary_conditions.copy()
+            )
             for con in conditions:
-                severities.append(conditions[con]["severity"])
+                severities.append(con.severity)
             if "severe" in severities:
                 severity_ranking["severe"].append(kitty)
             elif "major" in severities:

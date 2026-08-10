@@ -1081,22 +1081,21 @@ class ProfileScreen(Screens):
                 output += "\n"
                 break
 
-        if the_cat.is_injured():
-            if "recovering from birth" in the_cat.injuries:
+        if the_cat.temporary_conditions:
+            if "recovering from birth" in the_cat.temporary_conditions:
                 output += i18n.t(
                     "utility.exclamation",
                     text=i18n.t("conditions.injuries.recovering from birth"),
                 )
-            elif "pregnant" in the_cat.injuries:
+            elif "pregnant" in the_cat.temporary_conditions:
                 output += i18n.t(
                     "utility.exclamation", text=i18n.t("conditions.injuries.pregnant")
                 )
             else:
                 output += i18n.t("utility.exclamation", text=i18n.t("general.injured"))
-        elif the_cat.is_ill():
-            if "grief stricken" in the_cat.illnesses:
+            if "grief stricken" in the_cat.temporary_conditions:
                 output += i18n.t("utility.exclamation", text=i18n.t("general.grieving"))
-            elif "fleas" in the_cat.illnesses:
+            elif "fleas" in the_cat.temporary_conditions:
                 output += i18n.t("utility.exclamation", text=i18n.t("general.fleas"))
             else:
                 output += i18n.t("utility.exclamation", text=i18n.t("general.sick"))

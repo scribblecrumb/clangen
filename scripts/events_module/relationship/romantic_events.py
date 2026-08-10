@@ -81,7 +81,7 @@ def _handle_moving_on(cat: Cat, disable_random: bool = False):
         )
 
         # if cat is not grief stricken, then we try to move on
-        if "grief stricken" not in cat.illnesses and dead_or_gone:
+        if "grief stricken" not in cat.temporary_conditions and dead_or_gone:
             chance = get_config("mates.moving_on.chance")
             for threshold_reached in [
                 cat.personality.stability > 8,
@@ -248,7 +248,7 @@ def _handle_new_mate_events(cat: Cat):
     """Triggers and handles any events that result in a new mate"""
 
     # no trying to take a new mate if you're sad
-    if "grief stricken" in cat.illnesses:
+    if "grief stricken" in cat.temporary_conditions:
         return
 
     # First, check high love confession
@@ -603,7 +603,7 @@ def _check_against_grief(cat_from: Cat, cat_to: Cat) -> bool:
     Checks if cat_to will still attempt to become mates with a grief stricken cat_from.
     :return: True if they will attempt, False if they won't
     """
-    if "grief stricken" not in cat_to.illnesses:
+    if "grief stricken" not in cat_to.temporary_conditions:
         return True
 
     chance = get_config("mates.approach_grief.chance")

@@ -2349,18 +2349,18 @@ def handle_outbreaks(cat):
         sort=True,
     )
 
-    for illness in cat.illnesses:
+    for condition in cat.temporary_conditions:
         # check if illness can infect other cats
-        if cat.illnesses[illness]["infectiousness"] == 0:
+        if condition["infectiousness"] == 0:
             continue
-        chance = cat.illnesses[illness]["infectiousness"]
+        chance = condition["infectiousness"]
         chance += len(meds) * get_config("condition_related.med_infection_reduction")
         if not int(random.random() * chance):  # 1/chance to infect
             # fleas are the only condition allowed to spread outside of cold seasons
             if (
                 game.clan.current_season
                 not in get_config("condition_related.illness_outbreak_season")
-                and illness != "fleas"
+                and condition != "fleas"
             ):
                 continue
 
@@ -2371,7 +2371,7 @@ def handle_outbreaks(cat):
                 if not int(random.random() * stopping_chance):
                     continue
 
-            if illness == "kittencough":
+            if condition == "kittencough":
                 # adjust alive cats list to only include kittens
                 healthy_cats = list(
                     filter(
@@ -2412,18 +2412,18 @@ def handle_outbreaks(cat):
                 infected_names.append(str(sick_meowmeow.name))
                 involved_cats.append(sick_meowmeow.ID)
                 sick_meowmeow.get_ill(
-                    illness, event_triggered=True
+                    condition, event_triggered=True
                 )  # SPREAD THE GERMS >:)
 
             # TODO: hardcoded text events, not good, need to consider how to convert
             #  should this be handled in condition_events.py?
-            if illness == "kittencough":
+            if condition == "kittencough":
                 event = i18n.t(
                     "hardcoded.kittencough_spread",
                     kits=adjust_list_text(infected_names),
                     count=len(infected_names),
                 )
-            elif illness == "fleas":
+            elif condition == "fleas":
                 event = i18n.t(
                     "hardcoded.flea_spread",
                     cats=adjust_list_text(infected_names),
@@ -2432,7 +2432,7 @@ def handle_outbreaks(cat):
             else:
                 event = i18n.t(
                     "hardcoded.illness_spread",
-                    illness=str(illness).capitalize(),
+                    illness=str(condition).capitalize(),
                     cats=adjust_list_text(infected_names),
                     count=len(infected_names),
                 )

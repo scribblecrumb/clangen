@@ -265,72 +265,44 @@ class MedDenScreen(Screens):
             self.injured_and_sick_cats = []
             for the_cat in Cat.all_cats_list:
                 if the_cat.status.alive_in_player_clan and (
-                    the_cat.injuries or the_cat.illnesses
+                    the_cat.temporary_conditions
                 ):
                     self.injured_and_sick_cats.append(the_cat)
             for cat in self.injured_and_sick_cats:
-                if cat.injuries:
-                    for injury in cat.injuries:
-                        if cat.injuries[injury][
-                            "severity"
-                        ] != "minor" and injury not in [
-                            "pregnant",
-                            "recovering from birth",
+                for condition in cat.temporary_conditions:
+                    if condition.severity != "minor" and condition.name not in (
+                        "pregnant",
+                        "recovering_from_birth",
+                        "sprain",
+                        "lingering_shock",
+                        "grief_stricken",
+                    ):
+                        if cat not in self.in_den_cats:
+                            self.in_den_cats.append(cat)
+                        if cat in self.out_den_cats:
+                            self.out_den_cats.remove(cat)
+                        elif cat in self.minor_cats:
+                            self.minor_cats.remove(cat)
+                        break
+                    elif (
+                        condition.name
+                        in (
+                            "recovering_from_birth",
                             "sprain",
-                            "lingering shock",
-                        ]:
-                            if cat not in self.in_den_cats:
-                                self.in_den_cats.append(cat)
-                            if cat in self.out_den_cats:
-                                self.out_den_cats.remove(cat)
-                            elif cat in self.minor_cats:
-                                self.minor_cats.remove(cat)
-                            break
-                        elif (
-                            injury
-                            in [
-                                "recovering from birth",
-                                "sprain",
-                                "lingering shock",
-                                "pregnant",
-                            ]
-                            and cat not in self.in_den_cats
-                        ):
-                            if cat not in self.out_den_cats:
-                                self.out_den_cats.append(cat)
-                            if cat in self.minor_cats:
-                                self.minor_cats.remove(cat)
-                            break
-                        elif cat not in (self.in_den_cats or self.out_den_cats):
-                            if cat not in self.minor_cats:
-                                self.minor_cats.append(cat)
-                if cat.illnesses:
-                    for illness in cat.illnesses:
-                        if (
-                            cat.illnesses[illness]["severity"] != "minor"
-                            and illness != "grief stricken"
-                        ):
-                            if cat not in self.in_den_cats:
-                                self.in_den_cats.append(cat)
-                            if cat in self.out_den_cats:
-                                self.out_den_cats.remove(cat)
-                            elif cat in self.minor_cats:
-                                self.minor_cats.remove(cat)
-                            break
-                        elif illness == "grief stricken":
-                            if cat not in self.in_den_cats:
-                                if cat not in self.out_den_cats:
-                                    self.out_den_cats.append(cat)
-                            if cat in self.minor_cats:
-                                self.minor_cats.remove(cat)
-                            break
-                        else:
-                            if (
-                                cat not in self.in_den_cats
-                                and cat not in self.out_den_cats
-                                and cat not in self.minor_cats
-                            ):
-                                self.minor_cats.append(cat)
+                            "lingering_shock",
+                            "pregnant",
+                            "grief_stricken",
+                        )
+                        and cat not in self.in_den_cats
+                    ):
+                        if cat not in self.out_den_cats:
+                            self.out_den_cats.append(cat)
+                        if cat in self.minor_cats:
+                            self.minor_cats.remove(cat)
+                        break
+                    elif cat not in (self.in_den_cats or self.out_den_cats):
+                        if cat not in self.minor_cats:
+                            self.minor_cats.append(cat)
             self.tab_list = self.in_den_cats
             self.current_page = 1
             self.update_sick_cats()
@@ -539,26 +511,21 @@ class MedDenScreen(Screens):
         i = 0
         for cat in self.display_cats:
             condition_list = []
-            if cat.injuries:
+            if cat.temporary_conditions:
                 condition_list.extend(
                     [
-                        i18n.t(f"conditions.injuries.{injury}")
-                        for injury in list(cat.injuries.keys())
+                        i18n.t(f"conditions.injuries.{condition.name}")
+                        for condition in cat.tempoary_conditions
                     ]
                 )
-            if cat.illnesses:
-                condition_list.extend(
-                    [
-                        i18n.t(f"conditions.illnesses.{illness}")
-                        for illness in list(cat.illnesses.keys())
-                    ]
-                )
-            if cat.permanent_condition:
-                for condition in cat.permanent_condition:
-                    if cat.permanent_condition[condition]["moons_until"] == -2:
+            if cat.permanent_conditions:
+                for condition in cat.permanent_conditions:
+                    if condition.moons_until_discovery == -2:
                         condition_list.extend(
                             [
-                                i18n.t(f"conditions.permanent_conditions.{permcond}")
+                                i18n.t(
+                                    f"conditions.permanent_conditions.{permcond.name}"
+                                )
                                 for permcond in list(cat.permanent_condition.keys())
                             ]
                         )
