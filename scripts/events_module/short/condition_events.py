@@ -60,14 +60,6 @@ class Condition_Events:
         "resources/dicts/conditions/permanent_conditions.json", "r", encoding="utf-8"
     ) as read_file:
         PERMANENT = ujson.loads(read_file.read())
-    # ---------------------------------------------------------------------------- #
-    #                                    CHANCE                                    #
-    # ---------------------------------------------------------------------------- #
-
-    with open(
-        "resources/dicts/conditions/illnesses_seasons.json", "r", encoding="utf-8"
-    ) as read_file:
-        ILLNESSES_SEASON_LIST = ujson.loads(read_file.read())
 
     # ---------------------------------------------------------------------------- #
     #                                   STRINGS                                    #
@@ -295,8 +287,7 @@ class Condition_Events:
                     ]
                     if not int(random.random() * stopping_chance):
                         return triggered
-
-                season_dict = Condition_Events.ILLNESSES_SEASON_LIST[season]
+                season_dict = get_config(f"condition_related.seasonal_chances.{season.casefold()}")
                 possible_illnesses = []
 
                 # pick up possible illnesses from the season dict

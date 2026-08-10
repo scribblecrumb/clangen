@@ -636,6 +636,31 @@ dev_tools = false
   # SUBTRACTS from the denominator so higher = more likely to get injured
   war_injury_modifier = 225
 
+  # dictates the chance for cats to get various diseases in each season
+  [condition_related.seasonal_chances]
+    [condition_related.seasonal_chances.newleaf]
+      running_nose = 2
+      stomachache = 1
+      tick_fever = 1
+    [condition_related.seasonal_chances.greenleaf]
+      fleas = 2
+      stomachache = 1
+      heat_exhaustion = 3
+      heat_stroke = 1
+      tick_fever = 1
+    [condition_related.seasonal_chances.leaf-fall]
+      stomachache = 1
+      greencough = 1
+      kittencough = 1
+      running_nose = 3
+    [condition_related.seasonal_chances.leaf-bare]
+      stomachache = 1
+      greencough = 3
+      running_nose = 1
+      kittencough = 4
+      yellowcough = 3
+
+
 [clan_creation]
   # Set this to -1 for it to be infinite
   rerolls = 3
