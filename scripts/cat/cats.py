@@ -1938,50 +1938,6 @@ class Cat:
     def available_to_work(self):
         return self.status.alive_in_player_clan and not self.not_working()
 
-    def contact_with_ill_cat(self, cat: Cat):
-        """handles if one cat had contact with an ill cat"""
-
-        infectious_illnesses = []
-        if self.is_ill() or cat is None or not cat.is_ill():
-            return
-        elif cat.is_ill():
-            for illness in cat.illnesses:
-                if cat.illnesses[illness]["infectiousness"] != 0:
-                    infectious_illnesses.append(illness)
-            if len(infectious_illnesses) == 0:
-                return
-
-        for illness in infectious_illnesses:
-            illness_name = illness
-            rate = cat.illnesses[illness]["infectiousness"]
-            if self.is_injured():
-                for y in self.injuries:
-                    illness_infect = list(
-                        filter(
-                            lambda ill: ill["name"] == illness_name,
-                            self.injuries[y]["illness_infectiousness"],
-                        )
-                    )
-                    if illness_infect is not None and len(illness_infect) > 0:
-                        illness_infect = illness_infect[0]
-                        rate -= illness_infect["lower_by"]
-
-                    # prevent rate lower 0 and print warning message
-                    if rate < 0:
-                        print(
-                            f"WARNING: injury {self.injuries[y]['name']} has lowered \
-                            chance of {illness_name} infection to {rate}"
-                        )
-                        rate = 1
-
-            if not random() * rate:
-                text = f"{self.name} had contact with {cat.name} and now has {illness_name}."
-                # game.health_events_list.append(text)
-                game.cur_events_list.append(
-                    Single_Event(text, "health", cat_dict={"m_c": self})
-                )
-                self.get_ill(illness_name)
-
     def save_condition(self):
         # save conditions for each cat
         save_id = None
