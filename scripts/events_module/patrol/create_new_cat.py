@@ -2,7 +2,7 @@ from itertools import combinations
 from random import choice, randint, getrandbits, choices, random
 
 from scripts.cat.cats import Cat
-from scripts.cat.constants import INJURIES, ILLNESSES, PERMANENT, BACKSTORIES
+from scripts.cat.constants import INJURIES, TEMPORARY_CONDITIONS, PERMANENT, BACKSTORIES
 from scripts.cat.enums import CatRank, CatAge, CatGroup, CatStanding, CatSocial
 from scripts.cat.factories.new_cat_factory import NewCatFactory
 from scripts.cat.names import names
@@ -303,7 +303,7 @@ def _assign_health(created_cat, option_dict):
         condition = choice(option_dict["health"]["condition"])
         if condition in INJURIES:
             created_cat.get_injured(name=condition)
-        elif condition in ILLNESSES:
+        elif condition in TEMPORARY_CONDITIONS:
             created_cat.get_ill(name=condition)
         elif condition in PERMANENT:
             created_cat.get_permanent_condition(

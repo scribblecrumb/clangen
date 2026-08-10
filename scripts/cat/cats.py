@@ -17,6 +17,8 @@ import ujson  # type: ignore
 import scripts.game_structure.localization as pronouns
 from scripts.cat import pronouns
 from scripts.cat.conditions.temporary_condition import TemporaryCondition
+
+from scripts.cat.constants import TEMPORARY_CONDITIONS
 from scripts.cat.enums import (
     CatAge,
     CatRank,
@@ -1616,183 +1618,74 @@ class Cat:
     #                                  conditions                                  #
     # ---------------------------------------------------------------------------- #
 
-    def get_ill(self, name, event_triggered=False, lethal=True, severity="default"):
-        """Add an illness to this cat.
-
-        :param name: name of the illness (str)
-        :param event_triggered: Whether to have this illness skip `moon_skip_illness` for 1 moon, default `False` (bool)
-        :param lethal: Allow lethality, default `True` (bool)
-        :param severity: Override severity, default `'default'` (str, accepted values `'minor'`, `'major'`, `'severe'`)
-        """
-        if self.dead:
-            return
-        if name not in ILLNESSES:
-            print(f"WARNING: {name} is not in the illnesses collection.")
-            return
-        if name == "kittencough" and self.status.rank != CatRank.KITTEN:
-            return
-
-        illness = ILLNESSES[name]
-        mortality = illness["mortality"][self.age.value]
-        med_mortality = illness["medicine_mortality"][self.age.value]
-        illness_severity = illness["severity"] if severity == "default" else severity
-        duration = illness["duration"]
-        med_duration = illness["medicine_duration"]
-
-        amount_per_med = get_amount_cat_for_one_medic(game.clan)
-
-        if medicine_cats_can_cover_clan(Cat.all_cats.values(), amount_per_med):
-            duration = med_duration
-        if severity != "minor":
-            duration += randrange(-1, 1)
-        if duration == 0:
-            duration = 1
-
-        if lethal is False:
-            mortality = 0
-
-        new_illness = Illness(
-            name=name,
-            severity=illness_severity,
-            mortality=mortality,
-            infectiousness=illness["infectiousness"],
-            duration=duration,
-            medicine_duration=illness["medicine_duration"],
-            medicine_mortality=med_mortality,
-            risks=illness["risks"],
-            event_triggered=event_triggered,
-        )
-
-        if new_illness.name not in self.illnesses:
-            self.illnesses[new_illness.name] = {
-                "severity": new_illness.severity,
-                "mortality": new_illness.current_mortality,
-                "infectiousness": new_illness.infectiousness,
-                "duration": new_illness.duration,
-                "moon_start": game.clan.age if game.clan else 0,
-                "risks": new_illness.risks,
-                "event_triggered": new_illness.new,
-            }
-
-    def get_injured(
+    def gain_temporary_condition(
         self,
-        name,
-        event_triggered=False,
-        lethal=True,
-        potential_scars=None,
-        severity="default",
+        name: str,
+        omit_moonskip: bool = False,
+        prevent_death: bool = False,
+        severity: Optional[str] = None,
     ):
-        """Add an injury to this cat.
-
-        :param name: The injury to add
-        :type name: str
-        :param event_triggered: Whether to process healing immediately, defaults to False
-        :type event_triggered: bool, optional
-        :param lethal: _description_, defaults to True
-        :type lethal: bool, optional
-        :param potential_scars: List of possible scars to get upon healing, defaults to None
-        :type potential_scars: array, optional
-        :param severity: _description_, defaults to 'default'
-        :type severity: str, optional
+        """
+        Add a temp condition to the cat
         """
         if self.dead:
             return
-
-        if name not in INJURIES:
-            print(f"WARNING: {name} is not in the injuries collection.")
+        # TODO: check if name is legit condition name
+        if name in self.temporary_conditions:
             return
-
-        if name == "mangled tail" and "NOTAIL" in self.pelt.scars:
-            return
-        if name == "torn ear" and "NOEAR" in self.pelt.scars:
-            return
-
-        injury = INJURIES[name]
-        mortality = injury["mortality"][self.age.value]
-        duration = injury["duration"]
-        med_duration = injury["medicine_duration"]
-
-        injury_severity = injury["severity"] if severity == "default" else severity
-        if medicine_cats_can_cover_clan(
-            Cat.all_cats.values(), get_amount_cat_for_one_medic(game.clan)
+        if name == "kittencough" and self.status.rank not in (
+            CatRank.KITTEN,
+            CatRank.NEWBORN,
         ):
-            duration = med_duration
-        if severity != "minor":
-            duration += randrange(-1, 1)
-        if duration == 0:
-            duration = 1
-        if lethal is False:
-            mortality = 0
+            return
 
-        new_injury = Injury(
-            name=name,
-            severity=injury_severity,
-            duration=injury["duration"],
-            medicine_duration=duration,
-            mortality=mortality,
-            risks=injury["risks"],
-            illness_infectiousness=injury["illness_infectiousness"],
-            also_got=injury["also_got"],
-            cause_permanent=injury["cause_permanent"],
-            event_triggered=event_triggered,
-            potential_scars=potential_scars,
+        condition_info = TEMPORARY_CONDITIONS[name]
+
+        self.temporary_conditions.append(
+            TemporaryCondition(
+                name=name,
+                severity=severity if severity else condition_info["severity"],
+                duration=condition_info["duration"],
+                mortality=condition_info["mortality"][self.age]
+                if not prevent_death
+                else 0.0,
+                infectiousness=condition_info["infectiousness"],
+                immune_system_effect=condition_info["immune_system_effect"],
+                progression=condition_info["progression"],
+                risks=condition_info["risks"],
+                omit_moonskip=omit_moonskip,
+            )
         )
 
-        if new_injury.name not in self.injuries:
-            self.injuries[new_injury.name] = {
-                "severity": new_injury.severity,
-                "mortality": new_injury.current_mortality,
-                "duration": new_injury.duration,
-                "moon_start": game.clan.age if game.clan else 0,
-                "illness_infectiousness": new_injury.illness_infectiousness,
-                "risks": new_injury.risks,
-                "complication": None,
-                "cause_permanent": new_injury.cause_permanent,
-                "event_triggered": new_injury.new,
-                "potential_scars": new_injury.potential_scars,
-            }
+        self.handle_condition_side_effect(side_effects=condition_info["side_effects"])
 
-        if (
-            not Cat.disable_random
-            and len(new_injury.also_got) > 0
-            and not int(random() * 5)
-        ):
+    def handle_condition_side_effect(self, side_effects: dict):
+        for effect, chance in side_effects.items():
             avoided = False
-            if (
-                "blood loss" in new_injury.also_got
-                and len(
-                    find_alive_cats_with_rank(Cat, [CatRank.MEDICINE_CAT], working=True)
-                )
-                != 0
-            ):
-                clan_herbs = {
-                    herb
-                    for herb, clan_has_herb in game.clan.herb_supply.entire_supply.items()
-                    if clan_has_herb
-                }
-                needed_herbs = {"horsetail", "raspberry", "marigold", "cobwebs"}
-                usable_herbs = list(needed_herbs.intersection(clan_herbs))
+            if random() < chance:
+                # if this is blood loss and we have meddies, then they'll try to stop the bleeding
+                if effect == "blood_loss" and find_alive_cats_with_rank(
+                    self, [CatRank.MEDICINE_CAT], working=True
+                ):
+                    # find what herbs we need
+                    needed_herbs = itertools.chain.from_iterable(
+                        TEMPORARY_CONDITIONS["blood_loss"][
+                            "treatment_strength"
+                        ].values()
+                    )
+                    for herb in needed_herbs:
+                        if herb in game.clan.herb_supply.entire_supply:
+                            # we have an available herb, so we use it and move on to the next side effect
+                            avoided = True
+                            game.clan.herb_supply.remove_herb(herb, -1)
+                            text = i18n.t("screens.med_den.blood_loss", name=self.name)
+                            game.herb_events_list.append(text)
+                            break
 
-                if usable_herbs:
-                    # deplete the herb
-                    herb_used = choice(usable_herbs)
-                    game.clan.herb_supply.remove_herb(herb_used, -1)
-                    avoided = True
-                    text = i18n.t("screens.med_den.blood_loss", name=self.name)
-                    game.herb_events_list.append(text)
+                if avoided:
+                    continue
 
-            if not avoided:
-                self.also_got = True
-                additional_injury = choice(new_injury.also_got)
-                if additional_injury in INJURIES:
-                    self.additional_injury(additional_injury)
-                else:
-                    self.get_ill(additional_injury, event_triggered=True)
-        else:
-            self.also_got = False
-
-    def additional_injury(self, injury):
-        self.get_injured(injury, event_triggered=True)
+                self.gain_temporary_condition(effect)
 
     def congenital_condition(self, cat):
         possible_conditions = []
@@ -3174,19 +3067,6 @@ game.cat_class = Cat
 # ---------------------------------------------------------------------------- #
 #                                load json files                               #
 # ---------------------------------------------------------------------------- #
-
-resource_directory = "resources/dicts/conditions/"
-with open(f"{resource_directory}illnesses.json", "r", encoding="utf-8") as read_file:
-    ILLNESSES = ujson.loads(read_file.read())
-
-with open(f"{resource_directory}injuries.json", "r", encoding="utf-8") as read_file:
-    INJURIES = ujson.loads(read_file.read())
-
-with open(
-    f"{resource_directory}permanent_conditions.json", "r", encoding="utf-8"
-) as read_file:
-    PERMANENT = ujson.loads(read_file.read())
-
 
 LEAD_CEREMONY_SC: Optional[Dict] = None
 LEAD_CEREMONY_DF: Optional[Dict] = None

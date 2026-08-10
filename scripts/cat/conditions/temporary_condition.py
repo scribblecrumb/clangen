@@ -9,9 +9,10 @@ class TemporaryCondition:
     mortality: float
     infectiousness: float
     immune_system_effect: float
-    side_effect: dict
     progression: dict
     risks: dict
+
+    omit_moonskip: bool = False
 
     def __eq__(self, other):
         return other == self.name
