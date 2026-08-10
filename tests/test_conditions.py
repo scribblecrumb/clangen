@@ -1,6 +1,5 @@
 import os
 import unittest
-from random import Random
 
 import ujson
 
@@ -10,7 +9,7 @@ from scripts.cat.factories.test_cat_factory import TestCatFactory
 os.environ["SDL_VIDEODRIVER"] = "dummy"
 os.environ["SDL_AUDIODRIVER"] = "dummy"
 
-from scripts.conditions import medicine_cats_can_cover_clan
+from scripts.cat.conditions import medicine_cats_can_cover_clan
 
 cat_factory = TestCatFactory()
 

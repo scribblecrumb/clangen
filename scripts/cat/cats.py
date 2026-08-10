@@ -8,7 +8,7 @@ import bisect
 import itertools
 import os.path
 import sys
-from random import choice, randint, sample, random, randrange, choices
+from random import choice, randint, sample, random, randrange
 from typing import Dict, List, Any, Union, Callable, Optional, TYPE_CHECKING, Literal
 
 import i18n
@@ -47,14 +47,13 @@ from scripts.cat_relations.inheritance2 import inheritance_db
 from scripts.cat_relations.relationship import Relationship
 from scripts.cat_relations.enums import RelType, RelTier, rel_type_tiers
 from scripts.clan_package.settings import get_clan_setting
-from scripts.conditions import (
+from scripts.cat.conditions import (
     Illness,
     Injury,
     PermanentCondition,
     get_amount_cat_for_one_medic,
     medicine_cats_can_cover_clan,
 )
-from scripts.event_class import Single_Event
 from scripts.events_module.generate_events import GenerateEvents
 from scripts.game_structure import image_cache, constants, game
 from scripts.game_structure.game.save_load import safe_save

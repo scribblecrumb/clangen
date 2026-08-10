@@ -23,7 +23,10 @@ from ..clan_package.get_clan_cats import find_alive_cats_with_rank
 from .Screens import Screens
 from .enums import GameScreen
 from ..cat.enums import CatRank
-from ..conditions import get_amount_cat_for_one_medic, amount_clanmembers_covered
+from scripts.cat.conditions import (
+    get_amount_cat_for_one_medic,
+    amount_clanmembers_covered,
+)
 from ..game_structure.game.switches import switch_set_value, Switch
 from ..game_structure.screen_settings import MANAGER
 from ..ui.generate_box import BoxStyles, get_box

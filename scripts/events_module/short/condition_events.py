@@ -8,14 +8,13 @@ import logging
 
 from scripts.cat.cats import Cat
 from scripts.cat.enums import CatAge, CatRank
-from scripts.cat.history import History
 from scripts.clan_package.settings import get_clan_setting
 from scripts.clan_resources.freshkill import (
     FRESHKILL_ACTIVE,
     MAL_PERCENTAGE,
     STARV_PERCENTAGE,
 )
-from scripts.conditions import (
+from scripts.cat.conditions import (
     medicine_cats_can_cover_clan,
     get_amount_cat_for_one_medic,
 )
