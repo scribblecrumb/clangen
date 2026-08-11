@@ -17,6 +17,7 @@ import ujson  # type: ignore
 
 import scripts.game_structure.localization as pronouns
 from scripts.cat import pronouns
+from scripts.cat.conditions.conditions import condition_convert
 from scripts.cat.conditions.temporary_condition import TemporaryCondition
 
 from scripts.cat.conditions.permanent_condition import PermanentCondition
@@ -1829,14 +1830,18 @@ class Cat:
 
         try:
             with open(condition_cat_directory, "r", encoding="utf-8") as read_file:
-                rel_data = ujson.loads(read_file.read())
+                condition_data = ujson.loads(read_file.read())
+                if "permanent conditions" in condition_data:
+                    # presence of this term means this is an old condition file
+                    condition_data = condition_convert(condition_data)
+
                 self.temporary_conditions = [
                     TemporaryCondition(**info)
-                    for info in rel_data.get("temporary_conditions", {})
+                    for info in condition_data.get("temporary_conditions", {})
                 ]
                 self.permanent_conditions = [
                     PermanentCondition(**info)
-                    for info in rel_data.get("permanent_conditions", {})
+                    for info in condition_data.get("permanent_conditions", {})
                 ]
 
             if "paralyzed" in self.permanent_conditions and not self.pelt.paralyzed:

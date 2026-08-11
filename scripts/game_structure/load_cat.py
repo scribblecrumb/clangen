@@ -185,26 +185,8 @@ def version_convert(version_info):
 
     if version < 2:
         for c in Cat.all_cats.values():
-            for con in c.injuries:
-                moons_with = 0
-                if "moons_with" in c.injuries[con]:
-                    moons_with = c.injuries[con]["moons_with"]
-                    c.injuries[con].pop("moons_with")
-                c.injuries[con]["moon_start"] = game.clan.age - moons_with
-
-            for con in c.illnesses:
-                moons_with = 0
-                if "moons_with" in c.illnesses[con]:
-                    moons_with = c.illnesses[con]["moons_with"]
-                    c.illnesses[con].pop("moons_with")
-                c.illnesses[con]["moon_start"] = game.clan.age - moons_with
-
-            for con in c.permanent_condition:
-                moons_with = 0
-                if "moons_with" in c.permanent_condition[con]:
-                    moons_with = c.permanent_condition[con]["moons_with"]
-                    c.permanent_condition[con].pop("moons_with")
-                c.permanent_condition[con]["moon_start"] = game.clan.age - moons_with
+            for con in c.temporary_conditions + c.permanent_conditions:
+                con.moon_gained = game.clan.age - con.moon_gained
 
     # freshkill start for older clans
     if version < 3 and game.clan.freshkill_pile:
@@ -237,72 +219,3 @@ def version_convert(version_info):
 
         for i in range(3):
             generate_and_add_new_poi(biome=game.clan.biome, category=PoiType.TERRAIN)
-
-
-def condition_convert(condition_info: dict):
-    """
-    Needs to happen during cat object creation. `version_convert()` happens afterward, so this func is necessary to preempt it.
-    """
-    new_info = {}
-
-    for condition_type, conditions in condition_info.items():
-        if condition_type == "permanent conditions":
-            new_perm_info = {}
-            for name, con in conditions.items():
-                name = name.replace(" ", "_").replace("-", "_")
-                new_perm_info[name] = {
-                    "severity": con["severity"],
-                    "is_congenital": con["born_with"],
-                    "moons_until_discovery": con["moons_until"],
-                    "moon_gained": con["moon_start"],
-                    "mortality": round(1 / con["mortality"], 2)
-                    if con["mortality"]
-                    else 0.0,
-                    "immune_system_effect": round(
-                        1 / con["illness_infectiousness"][0]["chance"], 2
-                    )
-                    if con["illness_infectiousness"]
-                    else 0.0,
-                    "progression": PERMANENT_CONDITIONS[name]["progression"],
-                    "risks": {},
-                    "current_complication": con["complication"],
-                    "omit_moonskip": con["event_triggered"],
-                }
-                for risk in con["risks"]:
-                    risk_name = risk["name"].replace(" ", "_").replace("-", "_")
-                    if risk_name in new_perm_info["progression"]:
-                        continue
-                    new_perm_info[name]["risks"].update(
-                        {risk_name: round(1 / risk["chance"], 2)}
-                    )
-            new_info["permanent_conditions"] = new_perm_info
-        if condition_type in ("illnesses", "injuries"):
-            new_temp_info = {}
-            for name, con in conditions.items():
-                name = name.replace(" ", "_").replace("-", "_")
-                new_temp_info[name] = {
-                    "severity": con["severity"],
-                    "duration": con["duration"],
-                    "moon_gained": con["moon_start"],
-                    "mortality": round(1 / con["mortality"], 2)
-                    if con["mortality"]
-                    else 0.0,
-                    "immune_system_effect": round(
-                        1 / con["illness_infectiousness"][0]["chance"], 2
-                    )
-                    if con["illness_infectiousness"]
-                    else 0.0,
-                    "progression": TEMPORARY_CONDITIONS[name]["progression"],
-                    "risks": {},
-                    "current_complication": con["complication"],
-                    "omit_moonskip": con["event_triggered"],
-                    "scar_pool_override": con["potential_scars"],
-                }
-                for risk in con["risks"]:
-                    risk_name = risk["name"].replace(" ", "_").replace("-", "_")
-                    if risk_name in new_temp_info["progression"]:
-                        continue
-                    new_temp_info[name]["risks"].update(
-                        {risk_name: round(1 / risk["chance"], 2)}
-                    )
-            new_info["temporary_conditions"] = new_temp_info
