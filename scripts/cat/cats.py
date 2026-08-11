@@ -1745,6 +1745,7 @@ class Cat:
                 immune_system_effect=condition["immune_system_effect"],
                 progression=condition["progression"],
                 risks=condition["risks"],
+                omit_moonskip=omit_moonskip
             )
         )
 

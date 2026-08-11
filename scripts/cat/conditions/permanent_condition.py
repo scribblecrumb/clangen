@@ -12,5 +12,7 @@ class PermanentCondition:
     progression: dict
     risks: dict
 
+    omit_moonskip: bool = False
+
     def __eq__(self, other):
         return other == self.name
