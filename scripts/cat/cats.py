@@ -1684,23 +1684,6 @@ class Cat:
 
                 self.gain_temporary_condition(effect)
 
-    def congenital_condition(self, cat):
-        possible_conditions = []
-
-        for condition in PERMANENT:
-            possible = PERMANENT[condition]
-            if possible["congenital"] in ("always", "sometimes"):
-                possible_conditions.append(condition)
-
-        new_condition = choice(possible_conditions)
-
-        if new_condition == "born without a leg":
-            cat.pelt.scars = (*cat.pelt.scars, "NOPAW")
-        elif new_condition == "born without a tail":
-            cat.pelt.scars = (*cat.pelt.scars, "NOTAIL")
-
-        self.gain_permanent_condition(new_condition, born_with=True)
-
     def gain_permanent_condition(
         self, name: str, is_congenital: bool = False, omit_moonskip: bool = False
     ):
@@ -1745,13 +1728,17 @@ class Cat:
                 immune_system_effect=condition["immune_system_effect"],
                 progression=condition["progression"],
                 risks=condition["risks"],
-                omit_moonskip=omit_moonskip
+                omit_moonskip=omit_moonskip,
             )
         )
 
         # APPEARANCE
         if name == "paralyzed":
             self.pelt.paralyzed = True
+        if name == "born without a leg":
+            self.pelt.scars = (*self.pelt.scars, "NOPAW")
+        elif name == "born without a tail":
+            self.pelt.scars = (*self.pelt.scars, "NOTAIL")
         # remove accessories if need be
         if "NOTAIL" in self.pelt.scars or "HALFTAIL" in self.pelt.scars:
             self.pelt.accessory = tuple(
@@ -1782,18 +1769,6 @@ class Cat:
 
         self.rank_change(CatRank.ELDER)
         return
-
-    def is_ill(self):
-        """Returns true if the cat is ill."""
-        return len(self.illnesses) > 0
-
-    def is_injured(self):
-        """Returns true if the cat is injured."""
-        return len(self.injuries) > 0
-
-    def is_disabled(self):
-        """Returns true if the cat have permanent condition"""
-        return len(self.permanent_condition) > 0
 
     def save_condition(self):
         # save conditions for each cat
