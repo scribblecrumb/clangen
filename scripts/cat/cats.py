@@ -5,6 +5,7 @@ Contains the Cat and Personality classes
 from __future__ import annotations
 
 import bisect
+import dataclasses
 import itertools
 import os.path
 import sys
@@ -624,14 +625,18 @@ class Cat:
                 text = choice(possible_strings)
                 text = event_text_adjust(Cat, text=text, main_cat=self, random_cat=cat)
 
-                cat.gain_temporary_condition("grief_stricken", omit_moonskip=True, severity="major")
+                cat.gain_temporary_condition(
+                    "grief_stricken", omit_moonskip=True, severity="major"
+                )
 
             # If major grief fails, but there are still very_high or high values,
             # it can fail to minor grief. If they have a family relation, bypass the roll and guarantee it
             elif (very_high_types or high_types) and (
                 family_relation != "general" or not int(random() * 5)
             ):
-                cat.gain_temporary_condition("grief_stricken", omit_moonskip=True, severity="minor")
+                cat.gain_temporary_condition(
+                    "grief_stricken", omit_moonskip=True, severity="minor"
+                )
                 grief_type = "minor"
 
                 text = CatThought.ON_GRIEF_NO_BODY
@@ -1619,6 +1624,7 @@ class Cat:
         omit_moonskip: bool = False,
         prevent_death: bool = False,
         severity: Optional[str] = None,
+        scar_pool_override: Optional[list[str]] = None,
     ):
         """
         Add a temp condition to the cat
@@ -1644,10 +1650,13 @@ class Cat:
                 mortality=condition_info["mortality"][self.age]
                 if not prevent_death
                 else 0.0,
+                moon_gained=game.clan.age if game.clan else 0,
                 infectiousness=condition_info["infectiousness"],
                 immune_system_effect=condition_info["immune_system_effect"],
                 progression=condition_info["progression"],
                 risks=condition_info["risks"],
+                current_complication=None,
+                scar_pool_override=scar_pool_override,
                 omit_moonskip=omit_moonskip,
             )
         )
@@ -1725,11 +1734,13 @@ class Cat:
                 moons_until_discovery=condition["moons_until_discovery"]
                 if is_congenital and self.status.rank.is_baby()
                 else -2,
+                moon_gained=game.clan.age if game.clan else 0,
                 mortality=condition["mortality"],
                 immune_system_effect=condition["immune_system_effect"],
                 progression=condition["progression"],
                 risks=condition["risks"],
                 omit_moonskip=omit_moonskip,
+                current_complication=None,
             )
         )
 
@@ -1794,10 +1805,14 @@ class Cat:
         conditions = {}
 
         if self.temporary_conditions:
-            conditions["temporary_conditions"] = self.injuries
+            conditions["temporary_conditions"] = [
+                dataclasses.asdict(con) for con in self.temporary_conditions
+            ]
 
         if self.permanent_conditions:
-            conditions["permanent_conditions"] = self.permanent_condition
+            conditions["permanent_conditions"] = [
+                dataclasses.asdict(con) for con in self.permanent_conditions
+            ]
 
         safe_save(condition_file_path, conditions)
 
@@ -1815,11 +1830,16 @@ class Cat:
         try:
             with open(condition_cat_directory, "r", encoding="utf-8") as read_file:
                 rel_data = ujson.loads(read_file.read())
-                self.illnesses = rel_data.get("illnesses", {})
-                self.injuries = rel_data.get("injuries", {})
-                self.permanent_condition = rel_data.get("permanent conditions", {})
+                self.temporary_conditions = [
+                    TemporaryCondition(**info)
+                    for info in rel_data.get("temporary_conditions", {})
+                ]
+                self.permanent_conditions = [
+                    PermanentCondition(**info)
+                    for info in rel_data.get("permanent_conditions", {})
+                ]
 
-            if "paralyzed" in self.permanent_condition and not self.pelt.paralyzed:
+            if "paralyzed" in self.permanent_conditions and not self.pelt.paralyzed:
                 self.pelt.paralyzed = True
 
         except Exception as e:
