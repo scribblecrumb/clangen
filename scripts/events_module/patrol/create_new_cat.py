@@ -2,7 +2,12 @@ from itertools import combinations
 from random import choice, randint, getrandbits, choices, random
 
 from scripts.cat.cats import Cat
-from scripts.cat.constants import INJURIES, TEMPORARY_CONDITIONS, PERMANENT, BACKSTORIES
+from scripts.cat.constants import (
+    INJURIES,
+    TEMPORARY_CONDITIONS,
+    PERMANENT_CONDITIONS,
+    BACKSTORIES,
+)
 from scripts.cat.enums import CatRank, CatAge, CatGroup, CatStanding, CatSocial
 from scripts.cat.factories.new_cat_factory import NewCatFactory
 from scripts.cat.names import names
@@ -305,8 +310,8 @@ def _assign_health(created_cat, option_dict):
             created_cat.get_injured(name=condition)
         elif condition in TEMPORARY_CONDITIONS:
             created_cat.get_ill(name=condition)
-        elif condition in PERMANENT:
-            created_cat.get_permanent_condition(
+        elif condition in PERMANENT_CONDITIONS:
+            created_cat.gain_permanent_condition(
                 name=condition,
                 born_with=option_dict["health"].get("must_be_congenital", False),
             )
@@ -325,26 +330,28 @@ def _assign_health(created_cat, option_dict):
         chance = constants.CONFIG["cat_generation"]["base_permanent_condition"] + 10
     if not int(random() * chance):
         possible_conditions = []
-        for condition in PERMANENT:
-            if created_cat.age.is_baby() and PERMANENT[condition]["congenital"] not in [
+        for condition in PERMANENT_CONDITIONS:
+            if created_cat.age.is_baby() and PERMANENT_CONDITIONS[condition][
+                "congenital"
+            ] not in [
                 "always",
                 "sometimes",
             ]:
                 continue
             # next part ensures that a kit won't get a condition that takes too long to reveal
             moons = created_cat.moons
-            leeway = 5 - (PERMANENT[condition]["moons_until"] + 1)
+            leeway = 5 - (PERMANENT_CONDITIONS[condition]["moons_until"] + 1)
             if moons > leeway:
                 continue
             possible_conditions.append(condition)
 
         if possible_conditions:
             chosen_condition = choice(possible_conditions)
-            if PERMANENT[chosen_condition]["congenital"] in [
+            if PERMANENT_CONDITIONS[chosen_condition]["congenital"] in [
                 "always",
                 "sometimes",
             ]:
-                created_cat.get_permanent_condition(chosen_condition, True)
+                created_cat.gain_permanent_condition(chosen_condition, True)
                 if (
                     created_cat.permanent_condition[chosen_condition]["moons_until"]
                     == 0

@@ -20,4 +20,4 @@ with open(
     "r",
     encoding="utf-8",
 ) as read_file:
-    PERMANENT = ujson.loads(read_file.read())
+    PERMANENT_CONDITIONS = ujson.loads(read_file.read())

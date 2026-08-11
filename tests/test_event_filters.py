@@ -2792,9 +2792,9 @@ class TestCatConstraint(unittest.TestCase):
         ill_cat = cat_factory.create_cat()
         ill_cat.get_ill(name="greencough")
         born_para_cat = cat_factory.create_cat()
-        born_para_cat.get_permanent_condition(name="paralyzed", born_with=True)
+        born_para_cat.gain_permanent_condition(name="paralyzed", born_with=True)
         acquired_para_cat = cat_factory.create_cat()
-        acquired_para_cat.get_permanent_condition(name="paralyzed", born_with=False)
+        acquired_para_cat.gain_permanent_condition(name="paralyzed", born_with=False)
 
         # cat must be working and is
         with self.subTest("must work and is working"):

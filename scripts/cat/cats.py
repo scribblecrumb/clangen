@@ -8,7 +8,7 @@ import bisect
 import itertools
 import os.path
 import sys
-from random import choice, randint, sample, random, randrange
+from random import choice, randint, sample, random
 from typing import Dict, List, Any, Union, Callable, Optional, TYPE_CHECKING, Literal
 
 import i18n
@@ -18,7 +18,8 @@ import scripts.game_structure.localization as pronouns
 from scripts.cat import pronouns
 from scripts.cat.conditions.temporary_condition import TemporaryCondition
 
-from scripts.cat.constants import TEMPORARY_CONDITIONS
+from scripts.cat.conditions.permanent_condition import PermanentCondition
+from scripts.cat.constants import TEMPORARY_CONDITIONS, PERMANENT_CONDITIONS
 from scripts.cat.enums import (
     CatAge,
     CatRank,
@@ -50,13 +51,6 @@ from scripts.cat_relations.inheritance2 import inheritance_db
 from scripts.cat_relations.relationship import Relationship
 from scripts.cat_relations.enums import RelType, RelTier, rel_type_tiers
 from scripts.clan_package.settings import get_clan_setting
-from scripts.cat.conditions import (
-    Illness,
-    Injury,
-    PermanentCondition,
-    get_amount_cat_for_one_medic,
-    medicine_cats_can_cover_clan,
-)
 from scripts.events_module.generate_events import GenerateEvents
 from scripts.game_structure import image_cache, constants, game
 from scripts.game_structure.game.save_load import safe_save
@@ -1657,13 +1651,16 @@ class Cat:
             )
         )
 
-        self.handle_condition_side_effect(side_effects=condition_info["side_effects"])
+        self._handle_condition_side_effect(side_effects=condition_info["side_effects"])
 
-    def handle_condition_side_effect(self, side_effects: dict):
+    def _handle_condition_side_effect(self, side_effects: dict[str, float]):
+        """
+        Attempts to give side effect conditions to the cat.
+        """
         for effect, chance in side_effects.items():
             avoided = False
             if random() < chance:
-                # if this is blood loss and we have meddies, then they'll try to stop the bleeding
+                # if this is blood loss, and we have meddies, then they'll try to stop the bleeding
                 if effect == "blood_loss" and find_alive_cats_with_rank(
                     self, [CatRank.MEDICINE_CAT], working=True
                 ):
@@ -1702,75 +1699,63 @@ class Cat:
         elif new_condition == "born without a tail":
             cat.pelt.scars = (*cat.pelt.scars, "NOTAIL")
 
-        self.get_permanent_condition(new_condition, born_with=True)
+        self.gain_permanent_condition(new_condition, born_with=True)
 
-    def get_permanent_condition(self, name, born_with=False, event_triggered=False):
+    def gain_permanent_condition(
+        self, name: str, is_congenital: bool = False, omit_moonskip: bool = False
+    ):
         if self.dead:
             return
-        if name not in PERMANENT:
+        if name not in PERMANENT_CONDITIONS:
             print(
                 self.name,
                 f"WARNING: {name} is not in the permanent conditions collection.",
             )
             return
 
-        if "blind" in self.permanent_condition and name == "failing eyesight":
-            return
-        if "deaf" in self.permanent_condition and name == "partial hearing loss":
+        condition = PERMANENT_CONDITIONS[name]
+
+        if any([con in self.permanent_conditions for con in condition["progression"]]):
+            # if cat already has one of the progressions of the new condition, then we shouldn't give it to them
+            print(
+                f"INFO: {name} was not given to {str(self.name)} as the cat already had one of the progressions of {name}."
+            )
             return
 
+        if is_congenital != condition["can_be_congenital"]:
+            print(
+                f"WARNING: attempted to give {name} as a congenital condition, but {name} is not allowed to be set as congenital."
+            )
+            return
+        if not is_congenital and not condition["can_be_acquired"]:
+            print(
+                f"WARNING: attempted to give {name} as an acquired condition, but {name} is not allowed to be set as acquired."
+            )
+            return
+
+        self.permanent_conditions.append(
+            PermanentCondition(
+                name=name,
+                severity=condition["severity"],
+                is_congenital=is_congenital,
+                moons_until_discovery=condition["moons_until_discovery"]
+                if is_congenital and self.status.rank.is_baby()
+                else -2,
+                mortality=condition["mortality"],
+                immune_system_effect=condition["immune_system_effect"],
+                progression=condition["progression"],
+                risks=condition["risks"],
+            )
+        )
+
+        # APPEARANCE
+        if name == "paralyzed":
+            self.pelt.paralyzed = True
         # remove accessories if need be
         if "NOTAIL" in self.pelt.scars or "HALFTAIL" in self.pelt.scars:
             self.pelt.accessory = tuple(
                 acc for acc in self.pelt.accessory if acc not in Pelt.tail_accessories
             )
-
-        condition = PERMANENT[name]
-        new_condition = False
-        mortality = condition["mortality"][self.age.value]
-
-        if condition["congenital"] == "always":
-            born_with = True
-        moons_until = condition["moons_until"]
-        if born_with and moons_until != 0:
-            moons_until = randint(
-                moons_until - 1, moons_until + 1
-            )  # creating a range in which a condition can present
-            moons_until = max(moons_until, 0)
-
-        if born_with and not self.status.rank.is_baby():
-            moons_until = -2
-        elif born_with is False:
-            moons_until = 0
-
-        if name == "paralyzed":
-            self.pelt.paralyzed = True
-
-        new_perm_condition = PermanentCondition(
-            name=name,
-            severity=condition["severity"],
-            congenital=condition["congenital"],
-            moons_until=moons_until,
-            mortality=mortality,
-            risks=condition["risks"],
-            illness_infectiousness=condition["illness_infectiousness"],
-            event_triggered=event_triggered,
-        )
-
-        if new_perm_condition.name not in self.permanent_condition:
-            self.permanent_condition[new_perm_condition.name] = {
-                "severity": new_perm_condition.severity,
-                "born_with": born_with,
-                "moons_until": new_perm_condition.moons_until,
-                "moon_start": game.clan.age if game.clan else 0,
-                "mortality": new_perm_condition.current_mortality,
-                "illness_infectiousness": new_perm_condition.illness_infectiousness,
-                "risks": new_perm_condition.risks,
-                "complication": None,
-                "event_triggered": new_perm_condition.new,
-            }
-            new_condition = True
-        return new_condition
 
     def can_work(self):
         """returns True if the cat can work, False if the cat cannot work (is dead/outside or has major/severe condition)"""

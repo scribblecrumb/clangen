@@ -22,7 +22,7 @@ from scripts.clan_package.get_clan_cats import get_random_player_clan_cat
 from scripts.clan_package.settings import get_clan_setting
 from scripts.config import get_config
 from scripts.game_structure import game, constants
-from scripts.cat.constants import BACKSTORIES, PERMANENT
+from scripts.cat.constants import BACKSTORIES, PERMANENT_CONDITIONS
 from scripts.events_module.text_adjust import process_text, adjust_list_text
 
 
@@ -711,26 +711,28 @@ def create_new_cat(
             chance = constants.CONFIG["cat_generation"]["base_permanent_condition"] + 10
         if not int(random() * chance):
             possible_conditions = []
-            for condition in PERMANENT:
-                if (kit or litter) and PERMANENT[condition]["congenital"] not in [
+            for condition in PERMANENT_CONDITIONS:
+                if (kit or litter) and PERMANENT_CONDITIONS[condition][
+                    "congenital"
+                ] not in [
                     "always",
                     "sometimes",
                 ]:
                     continue
                 # next part ensures that a kit won't get a condition that takes too long to reveal
                 moons = new_cat.moons
-                leeway = 5 - (PERMANENT[condition]["moons_until"] + 1)
+                leeway = 5 - (PERMANENT_CONDITIONS[condition]["moons_until"] + 1)
                 if moons > leeway:
                     continue
                 possible_conditions.append(condition)
 
             if possible_conditions:
                 chosen_condition = choice(possible_conditions)
-                if PERMANENT[chosen_condition]["congenital"] in [
+                if PERMANENT_CONDITIONS[chosen_condition]["congenital"] in [
                     "always",
                     "sometimes",
                 ]:
-                    new_cat.get_permanent_condition(chosen_condition, True)
+                    new_cat.gain_permanent_condition(chosen_condition, True)
                     if (
                         new_cat.permanent_condition[chosen_condition]["moons_until"]
                         == 0

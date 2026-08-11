@@ -2,7 +2,7 @@ import random
 
 import i18n
 
-from scripts.cat.conditions import (
+from scripts.cat.conditions.conditions import (
     get_amount_cat_for_one_medic,
     medicine_cats_can_cover_clan,
 )

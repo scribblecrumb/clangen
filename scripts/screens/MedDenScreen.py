@@ -23,7 +23,7 @@ from ..clan_package.get_clan_cats import find_alive_cats_with_rank
 from .Screens import Screens
 from .enums import GameScreen
 from ..cat.enums import CatRank
-from scripts.cat.conditions import (
+from scripts.cat.conditions.conditions import (
     get_amount_cat_for_one_medic,
     amount_clanmembers_covered,
 )

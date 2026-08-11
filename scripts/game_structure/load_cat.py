@@ -102,7 +102,7 @@ def json_load():
 
         # this is here to handle paralyzed cats in old saves
         if cat.pelt.paralyzed and "paralyzed" not in cat.permanent_condition:
-            cat.get_permanent_condition("paralyzed")
+            cat.gain_permanent_condition("paralyzed")
         elif "paralyzed" in cat.permanent_condition and not cat.pelt.paralyzed:
             cat.pelt.paralyzed = True
 

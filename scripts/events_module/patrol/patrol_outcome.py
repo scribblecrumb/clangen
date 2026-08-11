@@ -679,7 +679,7 @@ class PatrolOutcome:
                 elif give_injury in ILLNESSES:
                     _cat.get_ill(give_injury, lethal=lethal)
                 elif give_injury in PERMANENT:
-                    _cat.get_permanent_condition(give_injury)
+                    _cat.gain_permanent_condition(give_injury)
                 else:
                     print("WARNING: No Conditions to Give")
                     continue

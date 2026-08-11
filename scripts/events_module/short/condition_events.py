@@ -14,7 +14,7 @@ from scripts.clan_resources.freshkill import (
     MAL_PERCENTAGE,
     STARV_PERCENTAGE,
 )
-from scripts.cat.conditions import (
+from scripts.cat.conditions.conditions import (
     medicine_cats_can_cover_clan,
     get_amount_cat_for_one_medic,
 )
@@ -536,7 +536,7 @@ class Condition_Events:
             perm_condition = condition
 
         if perm_condition is not None:
-            got_condition = cat.get_permanent_condition(perm_condition, born_with)
+            got_condition = cat.gain_permanent_condition(perm_condition, born_with)
 
         if got_condition is True:
             return perm_condition
@@ -1254,7 +1254,7 @@ class Condition_Events:
                             dictionary[condition].update({"complication": complication})
                     break
                 elif new_condition_name in Condition_Events.PERMANENT:
-                    cat.get_permanent_condition(
+                    cat.gain_permanent_condition(
                         new_condition_name, event_triggered=event_triggered
                     )
                     break

@@ -28,7 +28,7 @@ from scripts.cat.save_load import save_cats, add_cat_to_fade_id
 from scripts.cat.skills import SkillPath
 from scripts.clan_package.settings import get_clan_setting, set_clan_setting
 from scripts.clan_resources.freshkill import FRESHKILL_EVENT_ACTIVE
-from scripts.cat.conditions import (
+from scripts.cat.conditions.conditions import (
     medicine_cats_can_cover_clan,
     get_amount_cat_for_one_medic,
 )

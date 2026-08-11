@@ -11,7 +11,7 @@ from scripts.config import get_config
 from scripts.game_structure import constants
 from scripts.game_structure import game
 from scripts.game_structure.localization import load_lang_resource
-from scripts.cat.constants import TEMPORARY_CONDITIONS, INJURIES, PERMANENT
+from scripts.cat.constants import TEMPORARY_CONDITIONS, INJURIES, PERMANENT_CONDITIONS
 from scripts.events_module.text_adjust import event_text_adjust, adjust_list_text
 from collections import defaultdict
 
@@ -232,7 +232,7 @@ class HerbSupply:
             # collate all the source info for conditions
             source_dict = TEMPORARY_CONDITIONS.copy()
             source_dict.update(INJURIES)
-            source_dict.update(PERMANENT)
+            source_dict.update(PERMANENT_CONDITIONS)
 
             for kitty in treatment_cats:
                 self._use_herbs(kitty, source_dict)
