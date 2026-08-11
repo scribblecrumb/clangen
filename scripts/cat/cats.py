@@ -624,13 +624,14 @@ class Cat:
                 text = choice(possible_strings)
                 text = event_text_adjust(Cat, text=text, main_cat=self, random_cat=cat)
 
-                cat.get_ill("grief stricken", event_triggered=True, severity="major")
+                cat.gain_temporary_condition("grief_stricken", omit_moonskip=True, severity="major")
 
             # If major grief fails, but there are still very_high or high values,
             # it can fail to minor grief. If they have a family relation, bypass the roll and guarantee it
             elif (very_high_types or high_types) and (
                 family_relation != "general" or not int(random() * 5)
             ):
+                cat.gain_temporary_condition("grief_stricken", omit_moonskip=True, severity="minor")
                 grief_type = "minor"
 
                 text = CatThought.ON_GRIEF_NO_BODY
@@ -1427,7 +1428,7 @@ class Cat:
 
     def moon_skip_illness(self, illness):
         """handles the moon skip for illness"""
-        if not self.is_ill():
+        if not self.temporary_conditions:
             return True
 
         if self.illnesses[illness]["event_triggered"]:
@@ -1471,7 +1472,7 @@ class Cat:
 
     def moon_skip_injury(self, injury):
         """handles the moon skip for injury"""
-        if not self.is_injured():
+        if not self.temporary_conditions:
             return True
 
         if self.injuries[injury]["event_triggered"] is True:
@@ -1518,7 +1519,7 @@ class Cat:
 
     def moon_skip_permanent_condition(self, condition):
         """handles the moon skip for permanent conditions"""
-        if not self.is_disabled():
+        if not self.permanent_conditions:
             return "skip"
 
         if self.permanent_condition[condition]["event_triggered"]:
@@ -1783,8 +1784,8 @@ class Cat:
         condition_directory = get_save_dir() + "/" + save_id + "/conditions"
         condition_file_path = condition_directory + "/" + self.ID + "_conditions.json"
 
-        if (not self.is_ill() and not self.is_injured() and not self.is_disabled()) or (
-            (self.dead or self.status.is_outsider) and not self.is_disabled()
+        if (not self.temporary_conditions and not self.permanent_conditions) or (
+            (self.dead or self.status.is_outsider) and not self.permanent_conditions
         ):
             if os.path.exists(condition_file_path):
                 os.remove(condition_file_path)
@@ -1792,14 +1793,11 @@ class Cat:
 
         conditions = {}
 
-        if self.is_ill():
-            conditions["illnesses"] = self.illnesses
+        if self.temporary_conditions:
+            conditions["temporary_conditions"] = self.injuries
 
-        if self.is_injured():
-            conditions["injuries"] = self.injuries
-
-        if self.is_disabled():
-            conditions["permanent conditions"] = self.permanent_condition
+        if self.permanent_conditions:
+            conditions["permanent_conditions"] = self.permanent_condition
 
         safe_save(condition_file_path, conditions)
 
