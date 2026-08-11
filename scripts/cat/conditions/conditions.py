@@ -88,7 +88,9 @@ def condition_convert(condition_info: dict) -> dict:
                     "severity": con["severity"],
                     "is_congenital": con["born_with"],
                     "moons_until_discovery": con["moons_until"],
-                    "moon_gained": con["moon_start"] if "moon_start" in con else con.get("moons_with"),
+                    "moon_gained": con["moon_start"]
+                    if "moon_start" in con
+                    else con.get("moons_with"),
                     "mortality": round(1 / con["mortality"], 2)
                     if con["mortality"]
                     else 0.0,
@@ -104,7 +106,7 @@ def condition_convert(condition_info: dict) -> dict:
                 }
                 for risk in con["risks"]:
                     risk_name = risk["name"].replace(" ", "_").replace("-", "_")
-                    if risk_name in new_perm_info["progression"]:
+                    if risk_name in new_perm_info[name]["progression"]:
                         continue
                     new_perm_info[name]["risks"].update(
                         {risk_name: round(1 / risk["chance"], 2)}
@@ -117,12 +119,14 @@ def condition_convert(condition_info: dict) -> dict:
                 new_temp_info[name] = {
                     "severity": con["severity"],
                     "duration": con["duration"],
-                    "moon_gained": con["moon_start"] if "moon_start" in con else con.get("moons_with"),
+                    "moon_gained": con["moon_start"]
+                    if "moon_start" in con
+                    else con.get("moons_with"),
                     "mortality": round(1 / con["mortality"], 2)
                     if con["mortality"]
                     else 0.0,
                     "immune_system_effect": round(
-                        1 / con["illness_infectiousness"][0]["chance"], 2
+                        1 / con["illness_infectiousness"][0].get("lower_by", 5), 2
                     )
                     if con["illness_infectiousness"]
                     else 0.0,
@@ -134,7 +138,7 @@ def condition_convert(condition_info: dict) -> dict:
                 }
                 for risk in con["risks"]:
                     risk_name = risk["name"].replace(" ", "_").replace("-", "_")
-                    if risk_name in new_temp_info["progression"]:
+                    if risk_name in new_temp_info[name]["progression"]:
                         continue
                     new_temp_info[name]["risks"].update(
                         {risk_name: round(1 / risk["chance"], 2)}

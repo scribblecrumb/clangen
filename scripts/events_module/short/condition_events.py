@@ -7,6 +7,7 @@ import ujson
 import logging
 
 from scripts.cat.cats import Cat
+from scripts.cat.constants import TEMPORARY_CONDITIONS, PERMANENT_CONDITIONS
 from scripts.cat.enums import CatAge, CatRank
 from scripts.clan_package.settings import get_clan_setting
 from scripts.clan_resources.freshkill import (
@@ -46,19 +47,6 @@ class Condition_Events:
 
     resource_directory = "resources/dicts/conditions/"
     current_loaded_lang = None
-
-    with open(
-        f"{resource_directory}illnesses.json", "r", encoding="utf-8"
-    ) as read_file:
-        ILLNESSES = ujson.loads(read_file.read())
-
-    with open(f"{resource_directory}injuries.json", "r", encoding="utf-8") as read_file:
-        INJURIES = ujson.loads(read_file.read())
-
-    with open(
-        "resources/dicts/conditions/permanent_conditions.json", "r", encoding="utf-8"
-    ) as read_file:
-        PERMANENT = ujson.loads(read_file.read())
 
     # ---------------------------------------------------------------------------- #
     #                                   STRINGS                                    #
@@ -184,7 +172,7 @@ class Condition_Events:
                     nutrition_info[cat.ID].max_score / 100 * (MAL_PERCENTAGE + 1)
                 )
                 nutrition_info[cat.ID].current_score = round(mal_score, 2)
-                cat.get_ill("malnourished")
+                cat.gain_temporary_condition("malnourished")
 
             types = ["birth_death"]
             game.cur_events_list.append(
@@ -195,7 +183,6 @@ class Condition_Events:
         # heal cat if percentage is high enough and cat is ill
         if (
             cat_nutrition.percentage > MAL_PERCENTAGE
-            and cat.is_ill()
             and "malnourished" in cat.temporary_conditions
         ):
             illness = "malnourished"
@@ -207,12 +194,11 @@ class Condition_Events:
         # heal cat if percentage is high enough and cat is ill
         elif (
             cat_nutrition.percentage > STARV_PERCENTAGE
-            and cat.is_ill()
             and "starving" in cat.temporary_conditions
         ):
             if cat_nutrition.percentage < MAL_PERCENTAGE:
                 if "malnourished" not in cat.temporary_conditions:
-                    cat.get_ill("malnourished")
+                    cat.gain_temporary_condition("malnourished")
                 illness = "starving"
                 heal = True
             else:
@@ -232,10 +218,10 @@ class Condition_Events:
         # handle the gaining/healing illness
         if heal:
             event = random.choice(Condition_Events.ILLNESS_HEALED_STRINGS[illness])
-            cat.illnesses.pop(illness)
+            cat.temporary_conditions.pop(illness)
         elif not heal and illness:
             event = random.choice(Condition_Events.ILLNESS_GOT_STRINGS[illness])
-            cat.get_ill(illness)
+            cat.gain_temporary_condition(illness)
 
         if event:
             event_text = event_text_adjust(Cat, event, main_cat=cat)
@@ -503,8 +489,8 @@ class Condition_Events:
                 perm_condition = random.choice(possible_conditions)
             elif scar is None:
                 try:
-                    if Condition_Events.INJURIES[injury_name] is not None:
-                        conditions = Condition_Events.INJURIES[injury_name][
+                    if TEMPORARY_CONDITIONS[injury_name] is not None:
+                        conditions = TEMPORARY_CONDITIONS[injury_name][
                             "cause_permanent"
                         ]
                         for x in conditions:
@@ -1234,10 +1220,10 @@ class Condition_Events:
                 # we add the condition to this game switch, this is so we can ensure it's skipped over for this moon
                 switch_append_list_value(Switch.skip_conditions, new_condition_name)
                 # here we give the new condition
-                if new_condition_name in Condition_Events.INJURIES:
+                if new_condition_name in TEMPORARY_CONDITIONS:
                     cat.get_injured(new_condition_name, event_triggered=event_triggered)
                     break
-                elif new_condition_name in Condition_Events.ILLNESSES:
+                elif new_condition_name in TEMPORARY_CONDITIONS:
                     cat.get_ill(new_condition_name, event_triggered=event_triggered)
                     if dictionary == cat.illnesses or removed_condition:
                         break
@@ -1253,7 +1239,7 @@ class Condition_Events:
                         else:
                             dictionary[condition].update({"complication": complication})
                     break
-                elif new_condition_name in Condition_Events.PERMANENT:
+                elif new_condition_name in PERMANENT_CONDITIONS:
                     cat.gain_permanent_condition(
                         new_condition_name, event_triggered=event_triggered
                     )

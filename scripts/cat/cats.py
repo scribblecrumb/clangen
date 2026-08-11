@@ -1831,7 +1831,11 @@ class Cat:
         try:
             with open(condition_cat_directory, "r", encoding="utf-8") as read_file:
                 condition_data = ujson.loads(read_file.read())
-                if "permanent conditions" in condition_data:
+                if (
+                    condition_data.get("permanent conditions")
+                    or condition_data.get("illnesses")
+                    or condition_data.get("injuries")
+                ):
                     # presence of this term means this is an old condition file
                     condition_data = condition_convert(condition_data)
 

@@ -10,6 +10,7 @@ from typing import List, Dict, Union, TYPE_CHECKING, Optional, Tuple
 import i18n
 import pygame
 
+from scripts.cat.constants import PERMANENT_CONDITIONS, TEMPORARY_CONDITIONS
 from scripts.cat.personality import Personality
 from scripts.config import get_config
 from scripts.events_module.future.prep_and_trigger import prep_future_event
@@ -32,7 +33,7 @@ from scripts.events_module.event_filters import filter_relationship_type, event_
 from scripts.clan_package.cotc import change_clan_reputation, change_clan_relations
 from scripts.game_structure import game
 from scripts.cat.skills import SkillPath
-from scripts.cat.cats import Cat, ILLNESSES, INJURIES, PERMANENT
+from scripts.cat.cats import Cat
 from scripts.cat.enums import CatRank
 from scripts.cat.pelts import Pelt
 from scripts.cat_relations.relationship import Relationship
@@ -640,7 +641,7 @@ class PatrolOutcome:
             for _tag in injury:
                 if _tag in condition_lists:
                     possible_injuries.extend(condition_lists[_tag])
-                elif _tag in INJURIES or _tag in ILLNESSES or _tag in PERMANENT:
+                elif _tag in TEMPORARY_CONDITIONS or _tag in PERMANENT_CONDITIONS:
                     possible_injuries.append(_tag)
 
             lethal = True
@@ -674,11 +675,11 @@ class PatrolOutcome:
                 ):
                     give_injury = choice(possible_injuries)
 
-                if give_injury in INJURIES:
-                    _cat.get_injured(give_injury, lethal=lethal, potential_scars=scars)
-                elif give_injury in ILLNESSES:
-                    _cat.get_ill(give_injury, lethal=lethal)
-                elif give_injury in PERMANENT:
+                if give_injury in TEMPORARY_CONDITIONS:
+                    _cat.gain_permanent_condition(
+                        give_injury, lethal=lethal, potential_scars=scars
+                    )
+                elif give_injury in PERMANENT_CONDITIONS:
                     _cat.gain_permanent_condition(give_injury)
                 else:
                     print("WARNING: No Conditions to Give")
@@ -979,7 +980,7 @@ class PatrolOutcome:
                         and sub_sub[0].ID in (sub[0].parent1, sub[0].parent2)
                         and not (sub_sub[0].dead or sub_sub[0].status.is_outsider)
                     ):
-                        sub_sub[0].get_injured("recovering from birth")
+                        sub_sub[0].gain_temporary_condition("recovering_from_birth")
                         break  # Break - only one parent ever gives birth
 
         return " ".join(results)

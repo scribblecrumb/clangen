@@ -8,6 +8,7 @@ import pygame_gui
 import ujson
 
 from scripts.cat.cats import Cat, BACKSTORIES
+from scripts.cat.constants import TEMPORARY_CONDITIONS
 from scripts.cat.factories.create_example_cat import create_option_preview_cat
 from scripts.cat.pelts import Pelt
 from scripts.cat.personality import Personality
@@ -156,16 +157,9 @@ class EventEditScreen(Screens):
     fatal_conditions: list = []
     """We need this for death history validity checking. This is a list of all conditions that can kill."""
     for condition in all_possible_injuries:
-        if Condition_Events.INJURIES.get(condition):
-            for age in Condition_Events.INJURIES[condition]["mortality"]:
-                if Condition_Events.INJURIES[condition]["mortality"][age]:
-                    fatal_conditions.append(condition)
-                    break
-                else:
-                    break
-        elif Condition_Events.ILLNESSES.get(condition):
-            for age in Condition_Events.ILLNESSES[condition]["mortality"]:
-                if Condition_Events.ILLNESSES[condition]["mortality"][age]:
+        if TEMPORARY_CONDITIONS.get(condition):
+            for age in TEMPORARY_CONDITIONS[condition]["mortality"]:
+                if TEMPORARY_CONDITIONS[condition]["mortality"][age]:
                     fatal_conditions.append(condition)
                     break
                 else:
