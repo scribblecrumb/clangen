@@ -11,27 +11,15 @@ import pygame
 from scripts.cat.cats import Cat
 from scripts.cat_relations.enums import RelType
 from scripts.cat.enums import CatAge, CatRank, CatCompatibility
-from scripts.clan_package.get_clan_cats import get_living_clan_cat_count
-from scripts.clan_resources.freshkill import FRESHKILL_EVENT_TRIGGER_FACTOR
 from scripts.config import get_config
 from scripts.events_module.consequences import gather_cat_objects
 from scripts.events_module.event_filters import (
-    event_for_tags,
     get_frequency,
     find_new_frequency,
     check_relationship_value,
     get_personality_compatibility,
-    event_for_location,
-    event_for_season,
     event_for_poi,
-    event_for_required_cat_types,
-    event_for_cat,
     check_rel_constraint_groups,
-    event_for_reputation,
-    event_for_clan_relations,
-    event_for_freshkill_supply,
-    event_for_herb_supply,
-    cat_for_event,
 )
 from scripts.events_module.patrol.create_new_cat import updated_create_new_cat
 from scripts.events_module.patrol.generate_patrol_list import (
@@ -40,6 +28,9 @@ from scripts.events_module.patrol.generate_patrol_list import (
 )
 from scripts.events_module.patrol.patrol_event import PatrolEvent
 from scripts.events_module.text_pool_event import handle_consequences
+from scripts.events_module.text_pool_event.check_general_constraints import (
+    passes_general_constraints,
+)
 from scripts.events_module.text_pool_event.find_involved_cats import find_cats
 from scripts.events_module.text_pool_event.text_pool_event import TextPoolEvent
 from scripts.game_structure import constants
@@ -411,7 +402,7 @@ class Patrol:
         ]
         while not chosen_patrol:
             # make sure we still have possible patrols
-            if not patrols_to_test:
+            if not patrols_to_test and not patrol_override:
                 if len(checked_patrols) >= len(possible_patrols):
                     # we have checked all possible patrols and found none possible
                     # hopefully this is because we were checking romance patrols, not normal patrols
@@ -452,14 +443,18 @@ class Patrol:
 
             # CHECK IF CATS FIT
 
-            cats_found, involved_cats = find_cats(
-                interactable_cats=self.involved_cats["patrol_cats"],
+            involved_cats = find_cats(
+                interactable_cats=[
+                    c
+                    for c in self.involved_cats["patrol_cats"]
+                    if c != self.involved_cats["p_l"]
+                ],
                 involved_cats=self.involved_cats,
                 outside_cats=outside_cats,
                 event=test_patrol,
                 other_clan=self.other_clan,
             )
-            if cats_found:
+            if involved_cats:
                 chosen_patrol = test_patrol
                 self.involved_cats = involved_cats
             else:
@@ -478,30 +473,14 @@ class Patrol:
                 print("DEBUG: requested patrol does not meet constraints (patrol type)")
             return False
 
-        # CHECK CAT TYPES
-        if not event_for_required_cat_types(
-            patrol.required_cat_types, self.involved_cats
+        # CHECK GENERAL
+        if not passes_general_constraints(
+            patrol,
+            self.involved_cats["p_l"],
+            self.involved_cats,
+            self.other_clan,
+            is_debug_patrol,
         ):
-            if is_debug_patrol:
-                print("DEBUG: requested patrol does not meet cat type requirements.")
-            return False
-
-        # CHECK TAGS
-        if not event_for_tags(patrol.tags, self.involved_cats["p_l"]):
-            if is_debug_patrol:
-                print("DEBUG: requested patrol does not meet constraints (tags)")
-            return False
-
-        # CHECK LOCATION
-        if not event_for_location(patrol.location):
-            if is_debug_patrol:
-                print("DEBUG: requested patrol does not meet constraints (biome)")
-            return False
-
-        # CHECK SEASON
-        if not event_for_season(patrol.season):
-            if is_debug_patrol:
-                print("DEBUG: requested patrol does not meet constraints (season)")
             return False
 
         # CHECK POI
@@ -526,53 +505,6 @@ class Patrol:
             if not set(patrol.herbs_given).intersection(set(target_herbs)):
                 return False
 
-        return True
-
-    # TODO: remove if works
-    def _patrol_pass_cat_constraints(self, patrol: PatrolEvent) -> bool:
-        temp_involved_cats = self.involved_cats.copy()
-
-        outside_cats = [
-            c
-            for c in Cat.all_cats_list
-            if (c.status.is_other_clancat or c.status.is_outsider) and not c.dead
-        ]
-        for abbr, constraints in patrol.involved_cats.items():
-            # if we need n_c then we pull outside cats
-            if "n_c" in abbr:
-                potential_cats = [
-                    c
-                    for c in outside_cats
-                    if c not in self.new_cats and c not in temp_involved_cats.values()
-                ]
-                random.shuffle(potential_cats)
-            elif "p_l" == abbr:
-                potential_cats = [self.involved_cats["p_l"]]
-            else:
-                potential_cats = [
-                    c for c in self.patrol_cats if c not in temp_involved_cats.values()
-                ]
-
-            possible_cats = cat_for_event(
-                constraint_dict=constraints,
-                possible_cats=potential_cats,
-                tags=patrol.tags,
-                return_list=True,
-                return_id=False,
-            )
-            cats_found, temp_involved_cats = self._find_involved_cats(
-                abbr,
-                possible_cats,
-                patrol.relationship_constraint,
-                cat_constraints=constraints,
-                temp_involved_cats=temp_involved_cats,
-            )
-
-            if not cats_found:
-                return False
-
-        # if we're here, then we must have filled all the needed cats!
-        self.involved_cats.update(temp_involved_cats)
         return True
 
     def _find_allowed_outcomes(
@@ -673,50 +605,10 @@ class Patrol:
         :param outcome_type: the outcome_cats dict that the valid cats should be added to
         """
         # BASICS
-        if not event_for_location(outcome.location):
+        if not passes_general_constraints(
+            outcome, self.involved_cats["p_l"], self.involved_cats
+        ):
             return False
-
-        if not event_for_season(outcome.season):
-            return False
-
-        if not event_for_tags(outcome.tags, self.involved_cats["p_l"]):
-            return False
-
-        if outcome.required_reputation:
-            if not event_for_reputation(outcome.required_reputation.get("outsider")):
-                return False
-
-            if not event_for_clan_relations(
-                outcome.required_reputation.get("other_clan"), self.other_clan
-            ):
-                return False
-
-        if outcome.required_cat_types:
-            if not event_for_required_cat_types(
-                outcome.required_cat_types, self.involved_cats
-            ):
-                return False
-
-        if outcome.supply:
-            clan_size = get_living_clan_cat_count(Cat)
-            for block in outcome.supply:
-                if not block.get("trigger"):
-                    continue
-                if "freshkill" in block["type"]:
-                    if not event_for_freshkill_supply(
-                        game.clan.freshkill_pile,
-                        trigger=block["trigger"],
-                        factor=FRESHKILL_EVENT_TRIGGER_FACTOR,
-                        clan_size=clan_size,
-                    ):
-                        return False
-                else:
-                    if not event_for_herb_supply(
-                        trigger=block["trigger"],
-                        supply_type=block["type"],
-                        clan_size=clan_size,
-                    ):
-                        return False
 
         # CATS
         outside_cats = [
@@ -726,14 +618,14 @@ class Patrol:
         ]
         temp_involved_cats = self.involved_cats.copy()
 
-        cats_found, temp_involved_cats = find_cats(
+        temp_involved_cats = find_cats(
             interactable_cats=temp_involved_cats["patrol_cats"],
             involved_cats=temp_involved_cats,
             outside_cats=outside_cats,
             event=outcome,
             other_clan=self.other_clan,
         )
-        if not cats_found:
+        if not temp_involved_cats:
             return False
 
         # if we're here, then we must have found all our cats!
