@@ -13,7 +13,7 @@ from scripts.cat_relations.enums import RelType
 from scripts.cat_relations.inheritance2 import inheritance_db
 from scripts.cat_relations.relationship import Relationship, create_one_relationship
 from scripts.clan_package.settings import get_clan_setting
-from scripts.cat.microservices.conditions import add_congenital_condition
+from scripts.cat.conditions.conditions import add_congenital_condition
 from scripts.config import get_config
 from scripts.events_module.event_information import EventInformation
 from scripts.events_module.consequences import (

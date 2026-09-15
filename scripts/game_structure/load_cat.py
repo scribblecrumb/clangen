@@ -2,6 +2,7 @@ import logging
 import os
 import ujson
 
+import scripts.cat.conditions.conditions
 from scripts.cat.cats import Cat
 from scripts.cat.save_load import load_faded_cat_ids
 from scripts.cat_relations.inheritance2 import inheritance_db
@@ -99,7 +100,7 @@ def json_load():
 
         # this is here to handle paralyzed cats in old saves
         if cat.pelt.paralyzed and "paralyzed" not in cat.permanent_conditions:
-            cat.gain_permanent_condition("paralyzed")
+            scripts.cat.conditions.conditions.gain_permanent_condition("paralyzed")
         elif "paralyzed" in cat.permanent_conditions and not cat.pelt.paralyzed:
             cat.pelt.paralyzed = True
 
