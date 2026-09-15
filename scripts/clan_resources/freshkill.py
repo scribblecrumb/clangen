@@ -185,7 +185,7 @@ class FreshkillPile:
                 lambda c: c.status.rank
                 in (CatRank.WARRIOR, CatRank.APPRENTICE, CatRank.LEADER, CatRank.DEPUTY)
                 and c.status.alive_in_player_clan
-                and not c.not_working(),
+                and c.can_work(),
                 Cat.all_cats.values(),
             )
         )
@@ -194,7 +194,7 @@ class FreshkillPile:
         if not possible_hunters:
             possible_hunters = list(
                 filter(
-                    lambda c: c.status.alive_in_player_clan and not c.not_working(),
+                    lambda c: c.status.alive_in_player_clan and c.can_work(),
                     Cat.all_cats.values(),
                 )
             )

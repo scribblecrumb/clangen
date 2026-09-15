@@ -359,7 +359,7 @@ class SpriteInspectScreen(Screens):
             manager=MANAGER,
             check=self.override_not_working,
         )
-        if not self.the_cat.not_working():
+        if self.the_cat.can_work():
             self.checkboxes["show_as_healthy"].disable()
 
     def make_one_checkbox(

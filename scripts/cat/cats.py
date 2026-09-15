@@ -16,12 +16,11 @@ import i18n
 import ujson  # type: ignore
 
 import scripts.game_structure.localization as pronouns
+import scripts.game_structure.screen_settings
 from scripts.cat import pronouns
 from scripts.cat.conditions.conditions import condition_convert
-from scripts.cat.conditions.temporary_condition import TemporaryCondition
-
 from scripts.cat.conditions.permanent_condition import PermanentCondition
-from scripts.cat.constants import TEMPORARY_CONDITIONS, PERMANENT_CONDITIONS
+from scripts.cat.conditions.temporary_condition import TemporaryCondition
 from scripts.cat.enums import (
     CatAge,
     CatRank,
@@ -43,32 +42,26 @@ from scripts.cat.names import Name
 from scripts.cat.pelts import Pelt
 from scripts.cat.personality import Personality
 from scripts.cat.skills import CatSkills, SkillPath, scale_progress
+from scripts.cat.sprites.display_sprites import update_sprite, update_mask
 from scripts.cat.status import Status
-from scripts.cat_relations.cat_handle_funcs import init_all_relationships
-from scripts.config import get_config
+from scripts.cat_relations.enums import RelType
 from scripts.cat_relations.inheritance import Inheritance
 from scripts.cat_relations.inheritance2 import inheritance_db
-from scripts.cat_relations.relationship import Relationship, create_one_relationship
-from scripts.cat_relations.enums import RelType, RelTier, rel_type_tiers
+from scripts.cat_relations.relationship import create_one_relationship
 from scripts.clan_package.settings import get_clan_setting
+from scripts.config import get_config
+from scripts.events_module.event_filters import get_personality_compatibility
 from scripts.events_module.generate_events import GenerateEvents
-from scripts.game_structure import image_cache, constants, game
-from scripts.game_structure.game.save_load import safe_save
-from scripts.game_structure.game.settings import game_setting_get
-from scripts.game_structure.game.switches import switch_get_value, Switch
-from scripts.game_structure.localization import load_lang_resource
-from scripts.game_structure.screen_settings import screen
-from scripts.housekeeping.datadir import get_save_dir
-from scripts.cat import microservices
-from scripts.cat.sprites.display_sprites import update_sprite, update_mask
 from scripts.events_module.text_adjust import (
     event_text_adjust,
     leader_ceremony_text_adjust,
 )
-from scripts.events_module.event_filters import get_personality_compatibility
-from scripts.clan_package.get_clan_cats import find_alive_cats_with_rank
-
-import scripts.game_structure.screen_settings
+from scripts.game_structure import image_cache, constants, game
+from scripts.game_structure.game.save_load import safe_save
+from scripts.game_structure.game.switches import switch_get_value, Switch
+from scripts.game_structure.localization import load_lang_resource
+from scripts.game_structure.screen_settings import screen
+from scripts.housekeeping.datadir import get_save_dir
 
 if TYPE_CHECKING:
     import pygame
@@ -495,7 +488,7 @@ class Cat:
         """
         if (
             self.status.is_leader
-            and "pregnant" in self.injuries
+            and "pregnant" in self.temporary_conditions
             and game.clan.leader_lives > 0
         ):
             self.temporary_conditions = [
@@ -1452,11 +1445,8 @@ class Cat:
     #                                  conditions                                  #
     # ---------------------------------------------------------------------------- #
 
-    def not_working(self):
-        """returns True if the cat cannot work, False if the cat can work"""
-        for illness in self.illnesses:
-            if self.illnesses[illness]["severity"] != "minor":
-                return True
+    def can_work(self):
+        """returns True if the cat can work, False if the cat cannot work"""
         return any(
             condition.severity != "minor"
             for condition in self.temporary_conditions + self.permanent_conditions
