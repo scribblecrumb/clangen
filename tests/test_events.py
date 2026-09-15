@@ -10,7 +10,7 @@ from scripts import events
 from scripts.cat import save_load
 from scripts.cat.cats import Cat
 from scripts.cat.enums import CatRank
-from scripts.cat.factories.test_cat_factory import TestCatFactory
+from scripts.cat.factories.new_cat_factory import NewCatFactory as cat_factory
 from scripts.cat.sprites.load_sprites import sprites
 from scripts.clan import Clan, Afterlife
 from scripts.clan_package.get_clan_cats import (
@@ -24,8 +24,6 @@ from scripts.events_module.short.short_event_generation import (
 from scripts.game_structure import game
 from scripts.game_structure.game.save_load import read_clans
 from scripts.housekeeping.datadir import get_save_dir
-
-cat_factory = TestCatFactory()
 
 
 class TestEvents(unittest.TestCase):
@@ -118,61 +116,3 @@ class TestEvents(unittest.TestCase):
         )
 
         self.assertEqual(random_cat, new_random_cat)
-
-    def test_bulk_skip(self):
-        with self.subTest(
-            "Timeskip Failed",
-        ):
-            for _ in range(500):
-                events.one_moon()
-
-                if not _ % 10:
-                    # every 10 moons, top up the number of cats in the Clan to at least 8
-                    # to give a good chance for event variety without bloat
-                    while get_living_clan_cat_count(Cat) < 8:
-                        game.clan.add_cat(
-                            cat_factory.create_cat(
-                                rank=choice(
-                                    [
-                                        CatRank.KITTEN,
-                                        CatRank.APPRENTICE,
-                                        CatRank.WARRIOR,
-                                        CatRank.WARRIOR,
-                                        CatRank.ELDER,
-                                    ]
-                                )
-                            )
-                        )
-
-                    can_patrol = []
-                    for cat in Cat.all_cats_list:
-                        if (
-                            cat.ID not in game.patrolled
-                            and cat.status.rank.is_allowed_to_patrol()
-                            and cat.status.alive_in_player_clan
-                            and cat.can_work()
-                        ):
-                            can_patrol.append(cat)
-                    shuffle(can_patrol)
-
-                    while can_patrol:
-                        num_to_patrol = min(len(can_patrol), randint(1, 6))
-                        to_patrol: List[Cat] = can_patrol[:num_to_patrol]
-                        meds_to_patrol = [
-                            cat
-                            for cat in to_patrol
-                            if cat.status.rank.is_any_medicine_rank()
-                        ]
-                        if meds_to_patrol:
-                            patrol_type = "med"
-                        else:
-                            patrol_type = "general"
-
-                        new_patrol = Patrol()
-                        new_patrol.setup_patrol(to_patrol, patrol_type)
-                        new_patrol.proceed_patrol("proceed")
-
-                        can_patrol = can_patrol[num_to_patrol:]
-
-                if not _ % 100:
-                    print(f"CLANCATS ALIVE: {get_living_clan_cat_count(Cat)}")

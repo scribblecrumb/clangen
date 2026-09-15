@@ -81,7 +81,7 @@ def load_data():
             game.load_events()
         except Exception as e:
             logging.exception("File failed to load")
-            if switch_get_value(Switch.error_message) is None:
+            if not switch_get_value(Switch.error_message):
                 switch_set_value(
                     Switch.error_message, "There was an error loading the cats file!"
                 )
@@ -250,7 +250,6 @@ while 1:
                 MANAGER.print_layer_debug()
             elif event.key == pygame.K_F3:
                 debug_mode.toggle_debug_mode()
-                # debugmode.toggle_console()
             elif event.key == pygame.K_F11:
                 scripts.game_structure.screen_settings.toggle_fullscreen(
                     source_screen=all_screens.screen_dict[

@@ -1,4 +1,3 @@
-import os
 import unittest
 
 import ujson
@@ -6,10 +5,7 @@ import ujson
 from scripts.cat.enums import CatRank
 from scripts.cat.factories.test_cat_factory import TestCatFactory
 
-os.environ["SDL_VIDEODRIVER"] = "dummy"
-os.environ["SDL_AUDIODRIVER"] = "dummy"
-
-from scripts.cat.conditions.conditions import medicine_cats_can_cover_clan
+from scripts.conditions import medicine_cats_can_cover_clan
 
 cat_factory = TestCatFactory()
 

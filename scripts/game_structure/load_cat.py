@@ -17,11 +17,18 @@ from ..cat.factories.load_cat_factory import LoadCatFactory
 from scripts.housekeeping.version import SAVE_VERSION_NUMBER
 from scripts.game_structure import constants
 from scripts.game_structure import game
+from ..cat.personality import Personality
+from ..cat.skills import CatSkills
+from ..cat_relations.cat_handle_funcs import (
+    init_all_relationships,
+    load_relationship_of_cat,
+)
 from ..clan_resources.point_of_interest import (
     clear_pois,
     generate_and_add_new_poi,
     PoiType,
 )
+from ..cat.microservices.conditions import get_permanent_condition
 from ..housekeeping.datadir import get_save_dir
 
 logger = logging.getLogger(__name__)
@@ -33,6 +40,10 @@ def load_cats():
         json_load()
     except FileNotFoundError:
         csv_load(Cat.all_cats)
+    except Exception:
+        Cat.all_cats.clear()
+        Cat.all_cats_list.clear()
+        raise
 
 
 def json_load():
@@ -95,9 +106,9 @@ def json_load():
         # load the relationships
         try:
             if not cat.dead:
-                cat.load_relationship_of_cat()
+                load_relationship_of_cat(cat)
                 if cat.relationships is not None and len(cat.relationships) < 1:
-                    cat.init_all_relationships()
+                    init_all_relationships(cat)
             else:
                 cat.relationships = {}
         except Exception as e:
@@ -201,6 +212,9 @@ def version_convert(version_info):
             for death in c.history.died_by:
                 if death["text"] == "multi_lives":
                     # skip these as changing them will break stuff
+                    continue
+                if death["text"].startswith("m_c lost a life"):
+                    # skip these as it duplicates the existing death text
                     continue
                 death["text"] = (
                     "m_c lost a life when {PRONOUN/m_c/subject} " + death["text"]
