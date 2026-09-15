@@ -5,13 +5,11 @@ import i18n
 
 from scripts.cat.cats import Cat
 from scripts.cat.conditions.conditions import (
-    moon_skip_temporary_condition,
+    update_temporary_condition_state,
     ConditionState,
-    medicine_cats_can_cover_clan,
-    get_amount_cat_for_one_medic,
     gain_temporary_condition,
     gain_permanent_condition,
-    moon_skip_permanent_condition,
+    update_permanent_condition_state,
 )
 from scripts.cat.constants import TEMPORARY_CONDITIONS, PERMANENT_CONDITIONS
 from scripts.cat.enums import CatRank, CatAge
@@ -37,7 +35,7 @@ def handle_temporary_conditions(cat: Cat):
         if condition.omit_moonskip:
             continue
 
-        state = moon_skip_temporary_condition(cat, condition)
+        state = update_temporary_condition_state(cat, condition)
 
         if state == ConditionState.SKIPPED:
             continue
@@ -208,7 +206,7 @@ def handle_permanent_conditions(cat: Cat):
         if condition.omit_moonskip:
             continue
 
-        state = moon_skip_permanent_condition(cat, condition)
+        state = update_permanent_condition_state(cat, condition)
 
         if state == ConditionState.SKIPPED:
             continue

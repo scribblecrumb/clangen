@@ -316,7 +316,7 @@ def add_congenital_condition(cat):
     gain_permanent_condition(cat, new_condition, is_congenital=True)
 
 
-def moon_skip_permanent_condition(cat, condition: PermanentCondition):
+def update_permanent_condition_state(cat, condition: PermanentCondition):
     if condition.omit_moonskip:
         return ConditionState.SKIPPED
 
@@ -338,7 +338,7 @@ def moon_skip_permanent_condition(cat, condition: PermanentCondition):
     return ConditionState.CONTINUING
 
 
-def moon_skip_temporary_condition(cat, condition: TemporaryCondition):
+def update_temporary_condition_state(cat, condition: TemporaryCondition):
     if condition.omit_moonskip:
         return ConditionState.SKIPPED
 

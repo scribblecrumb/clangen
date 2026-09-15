@@ -241,68 +241,65 @@ class Condition_Events:
         event_string = None
         cat_dict = {"m_c": cat}
 
-        if cat.is_ill():
-            event_string, cat_dict = Condition_Events.handle_already_ill(cat)
-        else:
-            # ---------------------------------------------------------------------------- #
-            #                              make cats sick                                  #
-            # ---------------------------------------------------------------------------- #
+        # ---------------------------------------------------------------------------- #
+        #                              make cats sick                                  #
+        # ---------------------------------------------------------------------------- #
 
-            path = (
-                "condition_related.classic_illness_chance"
-                if game.clan.game_mode == "classic"
-                else "condition_related.illness_chance"
+        path = (
+            "condition_related.classic_illness_chance"
+            if game.clan.game_mode == "classic"
+            else "condition_related.illness_chance"
+        )
+        random_number = int(random.random() * get_config(path))
+        if (
+            not cat.dead
+            and not cat.is_ill()
+            and random_number <= 10
+            and not event_string
+        ):
+            # CLAN FOCUS!
+            if get_clan_setting("rest_and_recover"):
+                stopping_chance = constants.CONFIG["focus"]["rest_and_recover"][
+                    "illness_prevent"
+                ]
+                if not int(random.random() * stopping_chance):
+                    return triggered
+            season_dict = get_config(
+                f"condition_related.seasonal_chances.{season.casefold()}"
             )
-            random_number = int(random.random() * get_config(path))
-            if (
-                not cat.dead
-                and not cat.is_ill()
-                and random_number <= 10
-                and not event_string
-            ):
-                # CLAN FOCUS!
-                if get_clan_setting("rest_and_recover"):
-                    stopping_chance = constants.CONFIG["focus"]["rest_and_recover"][
-                        "illness_prevent"
-                    ]
-                    if not int(random.random() * stopping_chance):
-                        return triggered
-                season_dict = get_config(
-                    f"condition_related.seasonal_chances.{season.casefold()}"
+            possible_illnesses = []
+
+            # pick up possible illnesses from the season dict
+            for illness_name in season_dict:
+                possible_illnesses += [illness_name] * season_dict[illness_name]
+
+            # pick a random illness from those possible
+            random_index = int(random.random() * len(possible_illnesses))
+            chosen_illness = possible_illnesses[random_index]
+            # if a non-kitten got kittencough, switch it to whitecough instead
+            if chosen_illness == "kittencough" and not cat.status.rank.is_baby():
+                chosen_illness = "whitecough"
+
+            # create event text
+            try:
+                event_string = random.choice(
+                    Condition_Events.ILLNESS_GOT_STRINGS[chosen_illness]
                 )
-                possible_illnesses = []
+            except KeyError:
+                # try to translate the illness
+                chosen_illness = i18n.t(f"conditions.illnesses.{chosen_illness}")
 
-                # pick up possible illnesses from the season dict
-                for illness_name in season_dict:
-                    possible_illnesses += [illness_name] * season_dict[illness_name]
+                event_string = i18n.t(
+                    "defaults.illness_get_event",
+                    illness=chosen_illness,
+                )
+                # just in case we couldn't translate it
+                event_string.replace("conditions.illnesses.", "")
 
-                # pick a random illness from those possible
-                random_index = int(random.random() * len(possible_illnesses))
-                chosen_illness = possible_illnesses[random_index]
-                # if a non-kitten got kittencough, switch it to whitecough instead
-                if chosen_illness == "kittencough" and not cat.status.rank.is_baby():
-                    chosen_illness = "whitecough"
+            # make em sick
+            gain_temporary_condition(cat, chosen_illness)
 
-                # create event text
-                try:
-                    event_string = random.choice(
-                        Condition_Events.ILLNESS_GOT_STRINGS[chosen_illness]
-                    )
-                except KeyError:
-                    # try to translate the illness
-                    chosen_illness = i18n.t(f"conditions.illnesses.{chosen_illness}")
-
-                    event_string = i18n.t(
-                        "defaults.illness_get_event",
-                        illness=chosen_illness,
-                    )
-                    # just in case we couldn't translate it
-                    event_string.replace("conditions.illnesses.", "")
-
-                # make em sick
-                gain_temporary_condition(cat, chosen_illness)
-
-                event_string = event_text_adjust(Cat, text=event_string, main_cat=cat)
+            event_string = event_text_adjust(Cat, text=event_string, main_cat=cat)
 
         # if an event happened, then add event to cur_event_list and save death if it happened.
         if event_string:
@@ -359,19 +356,6 @@ class Condition_Events:
                 random_cat=random_cat,
             )
 
-        # handle if the current cat is already injured
-        if cat.is_injured():
-            for injury in cat.injuries:
-                if injury == "pregnant" and cat.ID not in game.clan.pregnancy_data:
-                    logger.warning(
-                        "deleted pregnancy condition of %s due to missing pregnancy info.",
-                        cat.ID,
-                    )
-                    del cat.injuries[injury]
-                    return triggered
-                elif injury == "pregnant":
-                    return triggered
-            triggered = Condition_Events.handle_already_injured(cat)
         else:
             # EVENTS
             if (
@@ -420,107 +404,6 @@ class Condition_Events:
                 triggered = False
 
         return triggered
-
-    @staticmethod
-    def handle_permanent_conditions(
-        cat, condition=None, injury_name=None, scar=None, born_with=False
-    ):
-        """
-        this function handles overall the permanent conditions of a cat.
-        returns boolean if event was triggered
-        """
-
-        # dict of possible physical conditions that can be acquired from relevant scars
-        scar_to_condition = {
-            "THREE": ["one bad eye", "failing eyesight"],
-            "FOUR": ["weak leg"],
-            "LEFTEAR": ["partial hearing loss"],
-            "RIGHTEAR": ["partial hearing loss"],
-            "NOLEFTEAR": ["partial hearing loss"],
-            "NORIGHTEAR": ["partial hearing loss"],
-            "NOEAR": ["partial hearing loss", "deaf"],
-            "NOPAW": ["lost a leg"],
-            "NOTAIL": ["lost their tail"],
-            "HALFTAIL": ["lost their tail"],
-            "BRIGHTHEART": ["one bad eye"],
-            "LEFTBLIND": ["one bad eye", "failing eyesight"],
-            "RIGHTBLIND": ["one bad eye", "failing eyesight"],
-            "BOTHBLIND": ["failing eyesight", "blind"],
-            "MANLEG": ["weak leg", "twisted leg"],
-            "RATBITE": ["weak leg"],
-            "LEGBITE": ["weak leg"],
-            "TOETRAP": ["weak leg"],
-            "HINDLEG": ["weak leg"],
-            "THROAT": ["damaged throat"],
-        }
-
-        scarless_conditions = (
-            "weak leg",
-            "paralyzed",
-            "raspy lungs",
-            "wasting disease",
-            "blind",
-            "failing eyesight",
-            "one bad eye",
-            "partial hearing loss",
-            "deaf",
-            "constant joint pain",
-            "constantly dizzy",
-            "recurring shock",
-            "lasting grief",
-            "persistent headaches",
-            "selective mutism",
-            "absent",
-            "crooked jaw",
-        )
-
-        got_condition = False
-        perm_condition = None
-        possible_conditions = []
-
-        if injury_name is not None:
-            if scar is not None and scar in scar_to_condition:
-                possible_conditions = scar_to_condition.get(scar)
-                perm_condition = random.choice(possible_conditions)
-            elif scar is None:
-                try:
-                    if TEMPORARY_CONDITIONS[injury_name] is not None:
-                        conditions = TEMPORARY_CONDITIONS[injury_name][
-                            "cause_permanent"
-                        ]
-                        for x in conditions:
-                            if x in scarless_conditions:
-                                possible_conditions.append(x)
-                        if len(possible_conditions) > 0 and not int(
-                            random.random()
-                            * constants.CONFIG["condition_related"][
-                                "permanent_condition_chance"
-                            ]
-                        ):
-                            perm_condition = random.choice(possible_conditions)
-                        else:
-                            return perm_condition
-                except KeyError:
-                    logger.error(
-                        "%s couldn't be found in injury dict! No permanent condition possible.",
-                        injury_name,
-                    )
-                    return perm_condition
-            else:
-                logger.info(
-                    "%s for %s is either or is not in scar_to_condition dict. Only report if you feel the scar should have resulted in a permanent condition.",
-                    scar,
-                    injury_name,
-                )
-
-        elif condition is not None:
-            perm_condition = condition
-
-        if perm_condition is not None:
-            got_condition = gain_permanent_condition(cat, perm_condition, born_with)
-
-        if got_condition:
-            return perm_condition
 
 
 Condition_Events.rebuild_strings()

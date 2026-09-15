@@ -8,6 +8,10 @@ TODO: Docs
 import logging
 import random
 
+from scripts.cat.conditions.condition_handling import (
+    handle_temporary_conditions,
+    handle_permanent_conditions,
+)
 from scripts.cat.microservices.add_to_clan import add_dependents_to_clan, add_to_clan
 from scripts.cat_relations.cat_handle_funcs import create_relationships_new_cat
 from scripts.config import get_config
@@ -1022,20 +1026,21 @@ def one_moon_cat(cat):
         if cat.dead:
             return
 
-    # prevent injured or sick cats from unrealistic Clan events
+    # CHECK CONDITIONS
     if cat.temporary_conditions:
-        if cat.temporary_conditions:
-            if random.getrandbits(1):
-                triggered_death = Condition_Events.handle_injuries(cat)
-                if not triggered_death:
-                    Condition_Events.handle_illnesses(cat)
-            else:
-                triggered_death = Condition_Events.handle_illnesses(cat)
-                if not triggered_death:
-                    Condition_Events.handle_injuries(cat)
-            Condition_Events.handle_illnesses(cat)
-            Condition_Events.handle_injuries(cat)
-        switch_set_value(Switch.skip_conditions, [])
+        handle_temporary_conditions(cat)
+        if cat.dead:
+            return
+    # GIVE CONDITIONS
+    else:
+        if random.getrandbits(1):
+            triggered_death = Condition_Events.handle_injuries(cat)
+            if not triggered_death:
+                Condition_Events.handle_illnesses(cat)
+        else:
+            triggered_death = Condition_Events.handle_illnesses(cat)
+            if not triggered_death:
+                Condition_Events.handle_injuries(cat)
         if cat.dead:
             return
         handle_outbreaks(cat)
@@ -1051,7 +1056,7 @@ def one_moon_cat(cat):
 
     # check for death/reveal/risks/retire caused by permanent conditions
     if cat.permanent_conditions:
-        Condition_Events.handle_already_disabled(cat)
+        handle_permanent_conditions(cat)
         if cat.dead:
             return
 
