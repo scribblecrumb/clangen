@@ -78,7 +78,6 @@
         "side_effect": {},
         "progression": {},
         "risks": {
-            "yellowcough": 0.017,
             "sore throat": 0.05
         },
         "treatment_strength": {
@@ -200,6 +199,7 @@
     },
     "a_festering_wound": {
         "severity": "severe",
+        "is_complication": true,
         "duration": 3,
         "mortality": {
             "newborn": 1.0,

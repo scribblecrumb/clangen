@@ -32,14 +32,13 @@ from scripts.clan_resources.freshkill import FRESHKILL_EVENT_ACTIVE
 from scripts.cat.conditions.conditions import (
     medicine_cats_can_cover_clan,
     get_amount_cat_for_one_medic,
+    gain_temporary_condition,
 )
-from scripts.cat.microservices.conditions import get_ill, get_injured
 from scripts.events_module.event_information import EventInformation
 from scripts.events_module.ceremony.perform_ceremony import (
     check_for_ceremony,
     trigger_ceremony,
     check_and_promote_deputy,
-    _adult_becomes_mediator,
 )
 
 from scripts.events_module.generate_events import GenerateEvents, generate_events
@@ -226,11 +225,11 @@ def one_moon():
                 shaken_cat_names = []
                 for cat in shaken_cats:
                     shaken_cat_names.append(str(cat.name))
-                    get_injured(
+                    gain_temporary_condition(
                         cat,
                         "shock",
-                        event_triggered=False,
-                        lethal=False,
+                        omit_moonskip=False,
+                        prevent_death=True,
                         severity="minor",
                     )
 
@@ -763,7 +762,7 @@ def handle_focus():
                     for injury, amount in injury_dict.items():
                         possible_injuries.extend([injury] * amount)
                     chosen_injury = random.choice(possible_injuries)
-                    get_injured(cat, chosen_injury)
+                    gain_temporary_condition(cat, chosen_injury)
                     involved_cats["injured"].append(cat.ID)
                 else:
                     chance = constants.CONFIG["focus"]["hoarding"]["illness_chance"]
@@ -773,7 +772,7 @@ def handle_focus():
                         for illness, amount in injury_dict.items():
                             possible_illnesses.extend([illness] * amount)
                         chosen_illness = random.choice(possible_illnesses)
-                        get_ill(cat, chosen_illness)
+                        gain_temporary_condition(cat, chosen_illness)
                         involved_cats["sick"].append(cat.ID)
 
         # if it is raiding, lower the relation to other clans
@@ -1024,8 +1023,8 @@ def one_moon_cat(cat):
             return
 
     # prevent injured or sick cats from unrealistic Clan events
-    if cat.is_ill() or cat.is_injured():
-        if cat.is_ill() and cat.is_injured():
+    if cat.temporary_conditions:
+        if cat.temporary_conditions:
             if random.getrandbits(1):
                 triggered_death = Condition_Events.handle_injuries(cat)
                 if not triggered_death:
@@ -1034,9 +1033,7 @@ def one_moon_cat(cat):
                 triggered_death = Condition_Events.handle_illnesses(cat)
                 if not triggered_death:
                     Condition_Events.handle_injuries(cat)
-        elif cat.is_ill():
             Condition_Events.handle_illnesses(cat)
-        else:
             Condition_Events.handle_injuries(cat)
         switch_set_value(Switch.skip_conditions, [])
         if cat.dead:
@@ -1053,7 +1050,7 @@ def one_moon_cat(cat):
     cat.skills.progress_skill(cat)  # This must be done after ceremonies.
 
     # check for death/reveal/risks/retire caused by permanent conditions
-    if cat.is_disabled():
+    if cat.permanent_conditions:
         Condition_Events.handle_already_disabled(cat)
         if cat.dead:
             return
@@ -1069,7 +1066,7 @@ def one_moon_cat(cat):
         relation_events.handle_relationships(cat)
 
     # now we make sure ill and injured cats don't get interactions they shouldn't
-    if cat.is_ill() or cat.is_injured():
+    if cat.temporary_conditions:
         return
 
     invite_new_cats(cat)
@@ -1804,8 +1801,8 @@ def handle_outbreaks(cat):
             for sick_meowmeow in infected_cats:
                 infected_names.append(str(sick_meowmeow.name))
                 involved_cats.append(sick_meowmeow.ID)
-                get_ill(
-                    sick_meowmeow, illness, event_triggered=True
+                gain_temporary_condition(
+                    sick_meowmeow, condition, omit_moonskip=True
                 )  # SPREAD THE GERMS >:)
 
             # TODO: hardcoded text events, not good, need to consider how to convert

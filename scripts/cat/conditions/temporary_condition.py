@@ -16,6 +16,7 @@ class TemporaryCondition:
     current_complication: Optional[str]
     scar_pool_override: list[str]
 
+    is_complication: bool = False
     omit_moonskip: bool = False
 
     def __eq__(self, other):

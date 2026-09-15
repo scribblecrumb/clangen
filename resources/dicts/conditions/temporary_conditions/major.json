@@ -34,6 +34,7 @@
     },
     "an_infected_wound": {
         "severity": "major",
+        "is_complication": true,
         "duration": 3,
         "mortality": {
             "newborn": 0.33,

@@ -359,6 +359,7 @@ def moon_skip_temporary_condition(cat, condition: TemporaryCondition):
     else:
         return ConditionState.CONTINUE
 
+
 def _progress_mortality(cat, condition):
     if condition.mortality and random() <= condition.mortality:
         if cat.status.is_leader:
@@ -367,6 +368,7 @@ def _progress_mortality(cat, condition):
         return ConditionState.FATAL
 
     return ConditionState.CONTINUE
+
 
 class ConditionState(Enum):
     REVEAL = auto()
