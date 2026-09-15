@@ -997,5 +997,45 @@
                 "dandelion"
             ]
         }
+    },
+    "venom_sickness": {
+        "severity": "major",
+        "duration": 3,
+        "mortality": {
+            "newborn": 0.5,
+            "kitten": 0.5,
+            "adolescent": 0.15,
+            "young adult": 0.20,
+            "adult": 0.20,
+            "senior adult": 0.15,
+            "senior": 0.10
+        },
+        "infectiousness": 0,
+        "immune_system_effect": 0.2,
+        "side_effect": {
+            "shock": 0.1
+        },
+        "progression": {
+            "failing eyesight": 0.2,
+            "constantly dizzy": 0.2
+        },
+        "risks": {
+            "an infected wound": 0.2,
+            "seizure": 0.4
+        },
+        "treatment_strength": {
+            "1": [
+                "juniper",
+                "dandelion"
+            ],
+            "2": [
+                "oak_leaves",
+                "marigold"
+            ],
+            "3": [
+                "poppy"
+
+            ]
+        }
     }
 }

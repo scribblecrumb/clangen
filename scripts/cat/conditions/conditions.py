@@ -8,8 +8,6 @@ TODO: Docs
 from scripts.cat.constants import TEMPORARY_CONDITIONS, PERMANENT_CONDITIONS
 from scripts.cat.enums import CatRank
 
-# pylint: enable=line-too-long
-
 from scripts.cat.skills import SkillPath
 
 
