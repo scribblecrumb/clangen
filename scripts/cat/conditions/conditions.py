@@ -318,7 +318,7 @@ def add_congenital_condition(cat):
 
 def moon_skip_permanent_condition(cat, condition: PermanentCondition):
     if condition.omit_moonskip:
-        return ConditionState.SKIP
+        return ConditionState.SKIPPED
 
     # handling congenital countdown
     if condition.is_congenital:
@@ -327,20 +327,20 @@ def moon_skip_permanent_condition(cat, condition: PermanentCondition):
 
             if condition.moons_until_discovery == -1:
                 condition.moon_gained = game.clan.age
-                return ConditionState.REVEAL
+                return ConditionState.REVEALED
             else:
-                return ConditionState.SKIP
+                return ConditionState.SKIPPED
 
     mortality = _progress_mortality(cat, condition)
     if mortality == ConditionState.FATAL:
         return ConditionState.FATAL
 
-    return ConditionState.CONTINUE
+    return ConditionState.CONTINUING
 
 
 def moon_skip_temporary_condition(cat, condition: TemporaryCondition):
     if condition.omit_moonskip:
-        return ConditionState.SKIP
+        return ConditionState.SKIPPED
 
     mortality = _progress_mortality(cat, condition)
     if mortality == ConditionState.FATAL:
@@ -353,11 +353,11 @@ def moon_skip_temporary_condition(cat, condition: TemporaryCondition):
     if condition.duration <= 0:
         if condition.current_complication:
             condition.duration = 1
-            return ConditionState.CONTINUE
+            return ConditionState.CONTINUING
         else:
             return ConditionState.HEALED
     else:
-        return ConditionState.CONTINUE
+        return ConditionState.CONTINUING
 
 
 def _progress_mortality(cat, condition):
@@ -367,12 +367,12 @@ def _progress_mortality(cat, condition):
         cat.die()
         return ConditionState.FATAL
 
-    return ConditionState.CONTINUE
+    return ConditionState.CONTINUING
 
 
 class ConditionState(Enum):
-    REVEAL = auto()
-    SKIP = auto()
-    CONTINUE = auto()
+    REVEALED = auto()
+    SKIPPED = auto()
+    CONTINUING = auto()
     FATAL = auto()
     HEALED = auto()

@@ -1,44 +1,34 @@
+import logging
 import random
-from copy import deepcopy
 from typing import Dict, List
 
 import i18n
-import ujson
-import logging
 
 from scripts.cat.cats import Cat
-from scripts.cat.constants import TEMPORARY_CONDITIONS, PERMANENT_CONDITIONS
-from scripts.cat.enums import CatAge, CatRank
+from scripts.cat.conditions.conditions import (
+    gain_temporary_condition,
+    gain_permanent_condition,
+)
+from scripts.cat.constants import TEMPORARY_CONDITIONS
+from scripts.cat.enums import CatRank
 from scripts.clan_package.settings import get_clan_setting
 from scripts.clan_resources.freshkill import (
     FRESHKILL_ACTIVE,
     MAL_PERCENTAGE,
     STARV_PERCENTAGE,
 )
-from scripts.cat.conditions.conditions import (
-    medicine_cats_can_cover_clan,
-    get_amount_cat_for_one_medic,
-)
-from scripts.cat.microservices.conditions import (
-    get_ill,
-    get_injured,
-    get_permanent_condition,
-)
 from scripts.config import get_config
-from scripts.events_module.event_information import EventInformation
 from scripts.events_module.consequences import check_stolen_vitality
-from scripts.events_module.short.scar_events import Scar_Events
+from scripts.events_module.event_information import EventInformation
 from scripts.events_module.short.short_event_generation import create_short_event
+from scripts.events_module.text_adjust import event_text_adjust, get_leader_life_notice
 from scripts.game_structure import constants
+from scripts.game_structure import game
 from scripts.game_structure.game.switches import (
     Switch,
     switch_get_value,
-    switch_append_list_value,
 )
-from scripts.game_structure import game
 from scripts.game_structure.localization import load_lang_resource
-from scripts.events_module.text_adjust import event_text_adjust, get_leader_life_notice
-from scripts.clan_package.get_clan_cats import find_alive_cats_with_rank
 
 logger = logging.getLogger(__name__)
 
@@ -202,8 +192,8 @@ class Condition_Events:
             and "starving" in cat.temporary_conditions
         ):
             if cat_nutrition.percentage < MAL_PERCENTAGE:
-                if "malnourished" not in cat.illnesses:
-                    get_ill(cat, "malnourished")
+                if "malnourished" not in cat.temporary_conditions:
+                    gain_temporary_condition(cat, "malnourished")
                 illness = "starving"
                 heal = True
             else:
@@ -226,7 +216,7 @@ class Condition_Events:
             cat.temporary_conditions.pop(illness)
         elif not heal and illness:
             event = random.choice(Condition_Events.ILLNESS_GOT_STRINGS[illness])
-            get_ill(cat, illness)
+            gain_temporary_condition(cat, illness)
 
         if event:
             event_text = event_text_adjust(Cat, event, main_cat=cat)
@@ -310,7 +300,7 @@ class Condition_Events:
                     event_string.replace("conditions.illnesses.", "")
 
                 # make em sick
-                get_ill(cat, chosen_illness)
+                gain_temporary_condition(cat, chosen_illness)
 
                 event_string = event_text_adjust(Cat, text=event_string, main_cat=cat)
 
@@ -527,254 +517,10 @@ class Condition_Events:
             perm_condition = condition
 
         if perm_condition is not None:
-            got_condition = get_permanent_condition(cat, perm_condition, born_with)
+            got_condition = gain_permanent_condition(cat, perm_condition, born_with)
 
         if got_condition:
             return perm_condition
-
-    # ---------------------------------------------------------------------------- #
-    #                               helper functions                               #
-    # ---------------------------------------------------------------------------- #
-
-    @staticmethod
-    def get_valid_string_from_list(event_list: list[str], cat: Cat) -> str:
-        med_cats = find_alive_cats_with_rank(
-            Cat, [CatRank.MEDICINE_CAT, CatRank.MEDICINE_APPRENTICE], working=True
-        )
-
-        allowed_events = []
-        for event in event_list:
-            if "r_c" in event:
-                if med_cats:
-                    allowed_events.append(event)
-            else:
-                allowed_events.append(event)
-
-        return event_text_adjust(
-            Cat,
-            random.choice(allowed_events),
-            main_cat=cat,
-            random_cat=random.choice(med_cats) if med_cats else None,
-        )
-
-    @staticmethod
-    def handle_already_disabled(cat):
-        """
-        this function handles what happens if the cat already has a permanent condition.
-        Returns: boolean (if something happened) and the event_string
-        """
-        triggered = False
-        event_types = ["health"]
-
-        event_list = []
-
-        Condition_Events.rebuild_strings()
-
-        condition_progression = {
-            "one bad eye": "failing eyesight",
-            "failing eyesight": "blind",
-            "partial hearing loss": "deaf",
-        }
-
-        cat_dict = {"m_c": cat}
-
-        conditions = deepcopy(cat.permanent_condition)
-        for condition in conditions:
-            # checking if the cat has a congenital condition to reveal and handling duration and death
-            prev_lives = game.clan.leader_lives
-            state = cat.moon_skip_permanent_condition(condition)
-
-            # if cat is dead, break
-            if cat.dead or game.clan.leader_lives < prev_lives:
-                triggered = True
-                event_types.append("birth_death")
-                translated_condition = i18n.t(
-                    f"conditions.permanent_conditions.{condition}"
-                )
-                event = i18n.t(
-                    "defaults.complications_death_event", condition=translated_condition
-                )
-                if cat.status.is_leader and game.clan.leader_lives >= 1:
-                    event = i18n.t(
-                        "defaults.complications_death_event_leader",
-                        condition=translated_condition,
-                    )
-                    if extra_text := check_stolen_vitality(cat, 1):
-                        event += " " + extra_text
-
-                event_list.append(event)
-
-                # add to death history
-                cat.history.add_death(
-                    death_text=i18n.t(
-                        "defaults.complications_death_history",
-                        condition=translated_condition,
-                    )
-                )
-
-                game.herb_events_list.append(event)
-                break
-
-            # skipping for whatever reason
-            if state == "skip":
-                continue
-
-            # revealing perm condition
-            if state == "reveal":
-                # gather potential event strings for gotten risk
-                possible_string_list = (
-                    Condition_Events.CONGENITAL_CONDITION_GOT_STRINGS[condition]
-                )
-
-                # choose event string and ensure Clan's med cat number aligns with event text
-                random_index = int(random.random() * len(possible_string_list))
-                med_list = find_alive_cats_with_rank(
-                    Cat,
-                    [CatRank.MEDICINE_CAT, CatRank.MEDICINE_APPRENTICE],
-                    working=True,
-                    sort=True,
-                )
-                med_cat = None
-                has_parents = False
-                if cat.parent1 is not None and cat.parent2 is not None:
-                    # Check if the parent is in Cat.all_cats. If not, they are faded are dead.
-
-                    # If they have a med parent, this will be flicked to True in the next couple lines.
-                    med_parent = False
-                    if cat.parent1 in Cat.all_cats:
-                        parent1_dead = Cat.all_cats[cat.parent1].dead
-                        if Cat.all_cats[cat.parent1].status.rank.is_any_medicine_rank():
-                            med_parent = True
-                    else:
-                        parent1_dead = True
-
-                    if cat.parent2 in Cat.all_cats:
-                        parent2_dead = Cat.all_cats[cat.parent2].dead
-                        if Cat.all_cats[cat.parent2].status.rank.is_any_medicine_rank():
-                            med_parent = True
-                    else:
-                        parent2_dead = True
-
-                    if not parent1_dead or not parent2_dead and not med_parent:
-                        has_parents = True
-
-                if len(med_list) == 0 or not has_parents:
-                    if random_index == 0:
-                        random_index = 1
-                    else:
-                        med_cat = None
-                else:
-                    med_cat = random.choice(med_list)
-                    if med_cat == cat:
-                        random_index = 1
-                        med_cat = None
-                event = possible_string_list[random_index]
-                event = event_text_adjust(
-                    Cat, event, main_cat=cat, random_cat=med_cat
-                )  # adjust the text
-                event_list.append(event)
-                if med_cat:
-                    cat_dict["r_c"] = med_cat
-                continue
-
-            # give risks
-            Condition_Events.give_risks(
-                cat,
-                event_list,
-                cat_dict,
-                condition,
-                condition_progression,
-                conditions,
-                cat.permanent_condition,
-            )
-
-        Condition_Events.determine_retirement(cat, triggered)
-
-        if len(event_list) > 0:
-            event_string = " ".join(event_list)
-            game.cur_events_list.append(
-                EventInformation(event_string, event_types, cat_dict=cat_dict)
-            )
-        return
-
-    @staticmethod
-    def determine_retirement(cat, triggered):
-        if get_clan_setting("retirement") or cat.no_retire:
-            return
-
-        if (
-            not triggered
-            and not cat.dead
-            and cat.status.rank in (CatRank.APPRENTICE, CatRank.WARRIOR)
-        ):
-            for condition in cat.permanent_condition:
-                if cat.permanent_condition[condition]["severity"] not in (
-                    "major",
-                    "severe",
-                ):
-                    continue
-
-                if cat.permanent_condition[condition]["severity"] == "severe":
-                    # Higher chances for "severe". These are meant to be nearly 100% without
-                    # being 100%
-                    retire_chances = {
-                        CatAge.NEWBORN: 0,
-                        CatAge.KITTEN: 0,
-                        CatAge.ADOLESCENT: 50,  # This is high so instances where a cat retires the same moon they become an apprentice is rare
-                        CatAge.YOUNG_ADULT: 10,
-                        CatAge.ADULT: 5,
-                        CatAge.SENIOR_ADULT: 5,
-                        CatAge.SENIOR: 5,
-                    }
-                else:
-                    retire_chances = {
-                        CatAge.NEWBORN: 0,
-                        CatAge.KITTEN: 0,
-                        CatAge.ADOLESCENT: 100,
-                        CatAge.YOUNG_ADULT: 80,
-                        CatAge.ADULT: 70,
-                        CatAge.SENIOR_ADULT: 50,
-                        CatAge.SENIOR: 10,
-                    }
-
-                chance = int(retire_chances.get(cat.age))
-                if not int(random.random() * chance):
-                    retire_involved = [cat.ID]
-                    cat_dict = {"m_c": cat}
-                    if cat.age == CatAge.ADOLESCENT:
-                        event = i18n.t(
-                            "hardcoded.condition_retire_adolescent", name=cat.name
-                        )
-                    elif game.clan.leader is not None:
-                        if (
-                            game.clan.leader.status.alive_in_player_clan
-                            and cat.moons < 120
-                        ):
-                            retire_involved.append(game.clan.leader.ID)
-                            event = i18n.t("hardcoded.condition_retire_normal")
-                        else:
-                            event = i18n.t("hardcoded.condition_retire_no_leader")
-                    else:
-                        event = i18n.t("hardcoded.condition_retire_no_leader")
-
-                    if cat.age == CatAge.ADOLESCENT:
-                        event += i18n.t(
-                            "hardcoded.condition_retire_adolescent_ceremony",
-                            clan=game.clan.name,
-                            newname=cat.name.prefix + cat.name.suffix,
-                        )
-
-                    cat.retire_cat()
-                    # Don't add this to the condition event list: instead make it its own event, a ceremony.
-                    game.cur_events_list.append(
-                        EventInformation(
-                            event_text_adjust(Cat, event, main_cat=cat),
-                            ["ceremony"],
-                            retire_involved,
-                            cat_dict=cat_dict,
-                        )
-                    )
-
 
 
 Condition_Events.rebuild_strings()
