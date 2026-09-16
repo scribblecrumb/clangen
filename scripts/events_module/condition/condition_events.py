@@ -125,7 +125,7 @@ def handle_temporary_conditions(cat: Cat):
             continue
 
         elif state == ConditionState.CONTINUING:
-            additional_events, conditions_to_remove  = _check_risks_and_progressions(
+            additional_events, conditions_to_remove = _check_risks_and_progressions(
                 cat, condition, conditions_to_remove
             )
 
@@ -195,7 +195,7 @@ def handle_permanent_conditions(cat: Cat):
             pass
 
         elif state == ConditionState.CONTINUING:
-            additional_events, conditions_to_remove  = _check_risks_and_progressions(
+            additional_events, conditions_to_remove = _check_risks_and_progressions(
                 cat, condition, conditions_to_remove
             )
 
@@ -213,7 +213,9 @@ def handle_permanent_conditions(cat: Cat):
 
 
 def _check_risks_and_progressions(
-    cat: Cat, condition: TemporaryCondition | PermanentCondition, conditions_to_remove: list[TemporaryCondition | PermanentCondition]
+    cat: Cat,
+    condition: TemporaryCondition | PermanentCondition,
+    conditions_to_remove: list[TemporaryCondition | PermanentCondition],
 ) -> tuple[list[EventInformation], list[TemporaryCondition | PermanentCondition]]:
     """
     Checks if the condition should apply a risk or progress into a new condition

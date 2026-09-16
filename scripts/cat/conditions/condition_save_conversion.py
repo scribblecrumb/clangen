@@ -5,6 +5,7 @@ def condition_convert(condition_info: dict) -> dict:
     """
     Needs to happen during cat object creation. `version_convert()` happens afterward, so this func is necessary to preempt it.
     """
+    #TODO: wrote this early on and haven't revisited
     new_info = {}
 
     for condition_type, conditions in condition_info.items():
