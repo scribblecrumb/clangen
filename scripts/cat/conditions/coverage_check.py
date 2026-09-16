@@ -1,6 +1,7 @@
 from scripts.cat.enums import CatRank
 
 from scripts.cat.skills import SkillPath
+from scripts.config import get_config
 from scripts.game_structure import game
 
 
@@ -58,7 +59,7 @@ def get_amount_cat_for_one_medic(clan):
     """
     Returns the amount of cats a single medicine cat can treat
     """
-    amount = 10
+    amount = get_config("condition_related.medcats.medcat_base_capacity")
     if clan and clan.game_mode == "classic":
         # just hope nobody has clans with more than 1,000,000 cats in classic
         amount = 1000000

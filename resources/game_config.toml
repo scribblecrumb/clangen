@@ -715,7 +715,7 @@ dev_tools = false
   # SUBTRACTS from the denominator so higher = more likely to get injured
   war_injury_modifier = 225
 
-  [medcats]
+  [condition_related.medcats]
     # base number of cats each medcat can care for, before skill/experience modifiers
     medcat_base_capacity = 10
 

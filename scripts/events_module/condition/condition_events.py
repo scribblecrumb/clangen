@@ -14,6 +14,7 @@ from scripts.cat.conditions.condition_state import (
     update_permanent_condition_state,
     update_temporary_condition_state,
 )
+from scripts.cat.conditions.permanent_condition import PermanentCondition
 from scripts.cat.conditions.temporary_condition import TemporaryCondition
 from scripts.cat.constants import TEMPORARY_CONDITIONS, PERMANENT_CONDITIONS
 from scripts.cat.enums import CatRank, CatAge
@@ -34,8 +35,10 @@ logger = logging.getLogger(__name__)
 
 
 def handle_temporary_conditions(cat: Cat):
+    """
+    Checks on the temporary conditions of the cat: updating their state and applying any relevant changes to both the condition and the cat
+    """
     conditions_to_remove = []
-
     event_list = []
 
     for condition in cat.temporary_conditions.copy():
@@ -122,7 +125,7 @@ def handle_temporary_conditions(cat: Cat):
             continue
 
         elif state == ConditionState.CONTINUING:
-            conditions_to_remove, additional_events = _check_risks_and_progressions(
+            additional_events, conditions_to_remove  = _check_risks_and_progressions(
                 cat, condition, conditions_to_remove
             )
 
@@ -137,6 +140,9 @@ def handle_temporary_conditions(cat: Cat):
 
 
 def handle_permanent_conditions(cat: Cat):
+    """
+    Checks on the permanent conditions of the cat: updating their state and applying any relevant changes to both the condition and the cat
+    """
     event_list: list[EventInformation] = []
     conditions_to_remove = []
 
@@ -189,7 +195,7 @@ def handle_permanent_conditions(cat: Cat):
             pass
 
         elif state == ConditionState.CONTINUING:
-            conditions_to_remove, additional_events = _check_risks_and_progressions(
+            additional_events, conditions_to_remove  = _check_risks_and_progressions(
                 cat, condition, conditions_to_remove
             )
 
@@ -207,8 +213,15 @@ def handle_permanent_conditions(cat: Cat):
 
 
 def _check_risks_and_progressions(
-    cat, condition, conditions_to_remove
-) -> tuple[list, list]:
+    cat: Cat, condition: TemporaryCondition | PermanentCondition, conditions_to_remove: list[TemporaryCondition | PermanentCondition]
+) -> tuple[list[EventInformation], list[TemporaryCondition | PermanentCondition]]:
+    """
+    Checks if the condition should apply a risk or progress into a new condition
+    :param cat: The cat that the condition belongs to
+    :param condition: The condition to check
+    :param conditions_to_remove: The current list of conditions being removed. This will be modified within this function and returned.
+    :return: A tuple of two lists: A list of new events created, and a list of conditions to remove
+    """
     current_temp_conditions = {c.name for c in cat.temporary_conditions}
     current_perm_conditions = {c.name for c in cat.permanent_conditions}
     event_list = []
@@ -242,11 +255,11 @@ def _check_risks_and_progressions(
                 # TODO: get a fallback
                 logger.warning(
                     "%s couldn't be found in the healed strings dict! placeholder used.",
-                    condition,
+                    condition.name,
                 )
 
                 # try to translate the string
-                con_name = i18n.t(f"conditions.temporary_conditions.{condition}")
+                con_name = i18n.t(f"conditions.temporary_conditions.{condition.name}")
                 con_name.replace("conditions.temporary_conditions.", "")
                 event = i18n.t("defaults.injury_healed_event", injury=con_name)
 
@@ -261,6 +274,7 @@ def _check_risks_and_progressions(
             gain_temporary_condition(cat, risk)
 
             continue
+
     # CHECK PROGRESSIONS
     for progression, chance in condition.progression.items():
         if progression in cat.temporary_conditions + cat.permanent_conditions:
@@ -316,11 +330,11 @@ def _check_risks_and_progressions(
                 # TODO: get a fallback
                 logger.warning(
                     "%s couldn't be found in the healed strings dict! placeholder used.",
-                    condition,
+                    condition.name,
                 )
 
                 # try to translate the string
-                con_name = i18n.t(f"conditions.temporary_conditions.{condition}")
+                con_name = i18n.t(f"conditions.temporary_conditions.{condition.name}")
                 con_name.replace("conditions.temporary_conditions.", "")
                 event = i18n.t("defaults.injury_healed_event", injury=con_name)
 
@@ -337,10 +351,13 @@ def _check_risks_and_progressions(
             event_list.append(event)
             conditions_to_remove.append(condition)
 
-    return conditions_to_remove
+    return event_list, conditions_to_remove
 
 
 def _determine_retirement(cat):
+    """
+    Checks if the cat should retire due to a condition
+    """
     # TODO: need cleanup
     if get_clan_setting("retirement") or cat.no_retire:
         return
@@ -418,6 +435,14 @@ def _attempt_scarring(
     possible_scars: list,
     guarantee_scar: bool = False,
 ) -> Optional[str]:
+    """
+    Attempts to give the cat a scar based on the condition
+    :param cat: Cat receiving a scar
+    :param condition: Condition giving a scar
+    :param possible_scars: List of possible scars to give
+    :param guarantee_scar: If true, scar will happen regardless of RNG. However, this cannot override other blockers, such as the cat's existing scar count.
+    :return: Event text for the scar
+    """
     if not condition.possible_scars or len(cat.pelt.scars) >= 4:
         return None
 
@@ -504,7 +529,9 @@ def _attempt_scarring(
 
 def generate_condition_event(main_cat: Cat, path: str) -> EventInformation:
     """
-    Actually generate and execute condition event
+    Generates and executes condition event
+    :param main_cat: The cat connected to the condition
+    :param path: The path to the required condition events
     """
     possible_events = load_text_pool_events(path)
     involved_cats = {"m_c": main_cat}

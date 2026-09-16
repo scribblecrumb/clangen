@@ -1,6 +1,6 @@
 import itertools
 from random import random, choice
-from typing import Optional
+from typing import Optional, Literal
 
 import i18n
 
@@ -18,11 +18,17 @@ def gain_temporary_condition(
     name: str,
     omit_moonskip: bool = False,
     prevent_death: bool = False,
-    severity: Optional[str] = None,
+    severity: Optional[Literal["minor", "major", "severe"]] = None,
     scar_pool_override: Optional[list[str]] = None,
 ):
     """
-    Add a temp condition to the cat
+    Add a temporary condition
+    :param cat: The cat gaining the condition
+    :param name: The name of the condition
+    :param omit_moonskip: If true, the next moonskip check will be skipped for this condition
+    :param prevent_death: if true, the cat will not be able to die, even if this condition typically can
+    :param severity: override the condition's typical severity with the given one
+    :param scar_pool_override: override the condition's typical scar pool with the given list
     """
     if cat.dead:
         return
@@ -91,6 +97,14 @@ def gain_permanent_condition(
     set_moons_until=None,
     omit_moonskip: bool = False,
 ):
+    """
+    Add a permanent condition
+    :param cat: The cat gaining the condition
+    :param name: The name of the condition
+    :param is_congenital: If true, condition will be marked as present at birth
+    :param set_moons_until: Overrides the typical "moons_until" of a congenital condition
+    :param omit_moonskip: If true, the next moonskip check will be skipped for this condition
+    """
     if cat.dead:
         return
     if name not in PERMANENT_CONDITIONS:
@@ -147,6 +161,9 @@ def gain_permanent_condition(
 
 
 def add_congenital_condition(cat):
+    """
+    Adds a random congenital condition to the cat
+    """
     possible_conditions = []
 
     for condition in PERMANENT_CONDITIONS:
@@ -155,10 +172,5 @@ def add_congenital_condition(cat):
             possible_conditions.append(condition)
 
     new_condition = choice(possible_conditions)
-
-    if new_condition == "born without a leg":
-        cat.pelt.scars = (*cat.pelt.scars, "NOPAW")
-    elif new_condition == "born without a tail":
-        cat.pelt.scars = (*cat.pelt.scars, "NOTAIL")
 
     gain_permanent_condition(cat, new_condition, is_congenital=True)
