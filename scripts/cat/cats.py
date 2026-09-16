@@ -1409,6 +1409,30 @@ class Cat:
                 e,
             )
 
+    def remove_condition(self, name: str):
+        """
+        If the cat has a condition matching the given name, then that condition will be removed
+        """
+        condition = [c for c in self.temporary_conditions if c.name == name]
+        if condition:
+            self.temporary_conditions.remove(condition[0])
+        condition = [c for c in self.permanent_conditions if c.name == name]
+        if condition:
+            self.permanent_conditions.remove(condition[0])
+
+    def get_condition(
+        self, name: str
+    ) -> TemporaryCondition | PermanentCondition | None:
+        """
+        If the cat has a condition matching the given name, then that condition will be removed
+        """
+        condition = [
+            c
+            for c in self.temporary_conditions + self.permanent_conditions
+            if c.name == name
+        ]
+        return condition[0] if condition else None
+
     # ---------------------------------------------------------------------------- #
     #                                    mentor                                    #
     # ---------------------------------------------------------------------------- #

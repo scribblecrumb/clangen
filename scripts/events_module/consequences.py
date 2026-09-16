@@ -5,6 +5,7 @@ from typing import Optional, List, Union, Type
 import i18n
 
 from scripts.cat.cats import Cat
+from scripts.cat.conditions.gain_conditions import gain_permanent_condition
 from scripts.cat.enums import (
     CatRank,
     CatAge,
@@ -14,9 +15,7 @@ from scripts.cat.enums import (
     CatThought,
 )
 from scripts.cat.factories.new_cat_factory import NewCatFactory
-from scripts.cat.factories.enums import CatType
 from scripts.cat.microservices.add_to_clan import add_to_clan, add_dependents_to_clan
-from scripts.cat.microservices.conditions import get_permanent_condition
 from scripts.cat.names import Name
 from scripts.cat_relations.cat_handle_funcs import create_relationships_new_cat
 from scripts.cat_relations.enums import RelType
@@ -752,21 +751,14 @@ def create_new_cat(
                     "always",
                     "sometimes",
                 ]:
-                    get_permanent_condition(new_cat, chosen_condition, True)
-                    if (
-                        new_cat.permanent_condition[chosen_condition]["moons_until"]
-                        == 0
-                    ):
-                        new_cat.permanent_condition[chosen_condition][
-                            "moons_until"
-                        ] = -2
-
-                # assign scars
-
-                if chosen_condition in ("lost a leg", "born without a leg"):
-                    new_cat.pelt.scars = (*new_cat.pelt.scars, "NOPAW")
-                elif chosen_condition in ("lost their tail", "born without a tail"):
-                    new_cat.pelt.scars = (*new_cat.pelt.scars, "NOTAIL")
+                    gain_permanent_condition(
+                        new_cat,
+                        chosen_condition,
+                        is_congenital=True,
+                        set_moons_until=-2
+                        if PERMANENT_CONDITIONS[chosen_condition]["moons_until"] == 0
+                        else None,
+                    )
 
         # KILL >:D only if we're sposed to tho
         if not alive:

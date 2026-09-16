@@ -90,7 +90,11 @@ def _handle_condition_side_effect(cat, side_effects: dict[str, float]):
 
 
 def gain_permanent_condition(
-    cat, name: str, is_congenital: bool = False, omit_moonskip: bool = False
+    cat,
+    name: str,
+    is_congenital: bool = False,
+    set_moons_until=None,
+    omit_moonskip: bool = False,
 ):
     if cat.dead:
         return
@@ -121,31 +125,25 @@ def gain_permanent_condition(
         )
         return
 
-    cat.permanent_conditions.append(
-        PermanentCondition(
-            name=name,
-            severity=condition["severity"],
-            is_congenital=is_congenital,
-            moons_until_discovery=condition["moons_until_discovery"]
-            if is_congenital and cat.status.rank.is_baby()
-            else -2,
-            moon_gained=game.clan.age if game.clan else 0,
-            mortality=condition["mortality"],
-            immune_system_effect=condition["immune_system_effect"],
-            progression=condition["progression"],
-            risks=condition["risks"],
-            omit_moonskip=omit_moonskip,
-            current_complication=None,
-        )
+    new_condition = PermanentCondition(
+        **condition,
+        moon_gained=game.clan.age if game.clan else 0,
+        omit_moonskip=omit_moonskip,
+        current_complication=None,
     )
+    if set_moons_until:
+        new_condition.moons_until = set_moons_until
+
+    cat.permanent_conditions.append(new_condition)
 
     # APPEARANCE
     if name == "paralyzed":
         cat.pelt.paralyzed = True
-    if name == "born without a leg":
-        cat.pelt.scars = (*cat.pelt.scars, "NOPAW")
-    elif name == "born without a tail":
-        cat.pelt.scars = (*cat.pelt.scars, "NOTAIL")
+
+    if new_condition.requires_scar:
+        new_scar = choice(new_condition.possible_scars)
+        cat.pelt.scars = (*cat.pelt.scars, new_scar)
+
     # remove accessories if need be
     if "NOTAIL" in cat.pelt.scars or "HALFTAIL" in cat.pelt.scars:
         cat.pelt.accessory = tuple(

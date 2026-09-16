@@ -8,6 +8,7 @@ from scripts.cat.cats import Cat
 from scripts.cat.save_load import load_faded_cat_ids
 from scripts.cat_relations.inheritance2 import inheritance_db
 from scripts.cat.save_load import get_faded_ids
+from ..cat.conditions.gain_conditions import gain_permanent_condition
 from ..cat.enums import CatGroup, CatRank
 from scripts.game_structure.game.switches import (
     switch_get_value,
@@ -27,7 +28,6 @@ from ..clan_resources.point_of_interest import (
     generate_and_add_new_poi,
     PoiType,
 )
-from ..cat.microservices.conditions import get_permanent_condition
 from ..housekeeping.datadir import get_save_dir
 
 logger = logging.getLogger(__name__)
@@ -98,7 +98,7 @@ def json_load():
 
         # this is here to handle paralyzed cats in old saves
         if cat.pelt.paralyzed and "paralyzed" not in cat.permanent_conditions:
-            scripts.cat.conditions.gain_conditions.gain_permanent_condition("paralyzed")
+            gain_permanent_condition(cat, "paralyzed")
         elif "paralyzed" in cat.permanent_conditions and not cat.pelt.paralyzed:
             cat.pelt.paralyzed = True
 

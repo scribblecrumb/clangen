@@ -6,7 +6,11 @@ from typing import Union, Literal
 import i18n
 
 from scripts.cat.cats import Cat
-from scripts.cat.constants import PERMANENT, ILLNESSES, INJURIES
+from scripts.cat.conditions.gain_conditions import (
+    gain_temporary_condition,
+    gain_permanent_condition,
+)
+from scripts.cat.constants import TEMPORARY_CONDITIONS, PERMANENT_CONDITIONS
 from scripts.cat.enums import CatRank, CatThought, CatStanding, CatGroup
 from scripts.cat.microservices.add_to_clan import add_to_clan, add_dependents_to_clan
 from scripts.cat.pelts import Pelt
@@ -18,11 +22,6 @@ from scripts.clan_resources.freshkill import (
     ADDITIONAL_PREY,
     HUNTER_BONUS,
     HUNTER_EXP_BONUS,
-)
-from scripts.cat.microservices.conditions import (
-    get_ill,
-    get_injured,
-    get_permanent_condition,
 )
 from scripts.config import get_config
 from scripts.events_module.consequences import unpack_rel_block, check_stolen_vitality
@@ -473,7 +472,7 @@ def _handle_conditions(
         for tag in block["condition"]:
             if tag in condition_groups:
                 possible_conditions.extend(condition_groups[tag])
-            elif tag in INJURIES or tag in ILLNESSES or tag in PERMANENT:
+            elif tag in TEMPORARY_CONDITIONS + PERMANENT_CONDITIONS:
                 possible_conditions.append(tag)
 
         if not possible_conditions:
@@ -481,7 +480,7 @@ def _handle_conditions(
                 f"Something went wrong with outcome: {event}. None of the given conditions were valid."
             )
 
-        lethal = block.get("non_lethal", False)
+        non_lethal = block.get("non_lethal", False)
         scars = block.get("scar_pool_override", [])
 
         for c in cat_list:
@@ -502,12 +501,15 @@ def _handle_conditions(
             )
             chosen_condition = choice(list(conditions_for_cat))
 
-            if chosen_condition in INJURIES:
-                get_injured(c, chosen_condition, lethal=lethal, potential_scars=scars)
-            elif chosen_condition in ILLNESSES:
-                get_ill(c, chosen_condition, lethal=lethal)
+            if chosen_condition in TEMPORARY_CONDITIONS:
+                gain_temporary_condition(
+                    c,
+                    chosen_condition,
+                    prevent_death=non_lethal,
+                    scar_pool_override=scars,
+                )
             else:
-                get_permanent_condition(c, chosen_condition)
+                gain_permanent_condition(c, chosen_condition)
 
             no_results = block.get("no_results", False)
 
