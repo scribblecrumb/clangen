@@ -31,7 +31,6 @@ def handle_temporary_conditions(cat: Cat):
     conditions_to_remove = []
 
     event_list = []
-    cat_dict = {"m_c": cat}
 
     for condition in cat.temporary_conditions.copy():
         if condition.omit_moonskip:
