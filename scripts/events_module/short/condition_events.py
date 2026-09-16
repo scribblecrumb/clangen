@@ -60,37 +60,7 @@ class Condition_Events:
             return
 
         resources = [
-            (
-                "PERM_CONDITION_RISK_STRINGS",
-                "risk_strings/permanent_condition_risk_strings.json",
-            ),
-            ("ILLNESS_RISK_STRINGS", "risk_strings/illness_risk_strings.json"),
-            ("INJURY_RISK_STRINGS", "risk_strings/injuries_risk_strings.json"),
-            (
-                "CONGENITAL_CONDITION_GOT_STRINGS",
-                "condition_got_strings/gain_congenital_condition_strings.json",
-            ),
-            (
-                "PERMANENT_CONDITION_GOT_STRINGS",
-                "condition_got_strings/gain_permanent_condition_strings.json",
-            ),
             ("ILLNESS_GOT_STRINGS", "condition_got_strings/gain_illness_strings.json"),
-            (
-                "ILLNESS_HEALED_STRINGS",
-                "healed_and_death_strings/illness_healed_strings.json",
-            ),
-            (
-                "INJURY_HEALED_STRINGS",
-                "healed_and_death_strings/injury_healed_strings.json",
-            ),
-            (
-                "INJURY_DEATH_STRINGS",
-                "healed_and_death_strings/injury_death_strings.json",
-            ),
-            (
-                "ILLNESS_DEATH_STRINGS",
-                "healed_and_death_strings/illness_death_strings.json",
-            ),
         ]
 
         for class_property, file in resources:
@@ -400,6 +370,3 @@ class Condition_Events:
                 triggered = False
 
         return triggered
-
-
-Condition_Events.rebuild_strings()

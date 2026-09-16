@@ -39,17 +39,12 @@ def gain_temporary_condition(
 
     cat.temporary_conditions.append(
         TemporaryCondition(
-            name=name,
+            **condition_info,
             severity=severity if severity else condition_info["severity"],
-            duration=condition_info["duration"],
             mortality=condition_info["mortality"][cat.age]
             if not prevent_death
             else 0.0,
             moon_gained=game.clan.age if game.clan else 0,
-            infectiousness=condition_info["infectiousness"],
-            immune_system_effect=condition_info["immune_system_effect"],
-            progression=condition_info["progression"],
-            risks=condition_info["risks"],
             current_complication=None,
             scar_pool_override=scar_pool_override,
             omit_moonskip=omit_moonskip,

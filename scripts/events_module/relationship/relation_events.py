@@ -4,7 +4,6 @@ from typing import Optional
 
 from scripts.cat_relations.enums import RelType
 from scripts.cat_relations.relationship import create_one_relationship
-from scripts.cat.microservices.conditions import contact_with_ill_cat
 from scripts.config import get_config
 from scripts.game_structure import constants
 from scripts.events_module.relationship import (

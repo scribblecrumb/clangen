@@ -16,7 +16,6 @@ import i18n
 import ujson  # type: ignore
 
 import scripts.game_structure.localization as pronouns
-import scripts.game_structure.screen_settings
 from scripts.cat import pronouns
 from scripts.cat.conditions.condition_save_conversion import condition_convert
 from scripts.cat.conditions.permanent_condition import PermanentCondition

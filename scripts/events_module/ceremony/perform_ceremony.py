@@ -5,13 +5,10 @@ from math import floor
 import i18n
 
 from scripts.cat.cats import cat_class, Cat
+from scripts.cat.conditions.coverage_check import medicine_cats_can_cover_clan
 from scripts.cat.enums import CatRank, CatAge
 from scripts.cat.skills import SkillPath
 from scripts.clan_package.settings import get_clan_setting
-from scripts.conditions import (
-    medicine_cats_can_cover_clan,
-    get_amount_cat_for_one_medic,
-)
 from scripts.config import get_config
 from scripts.events_module.ceremony.generate_normal_ceremony import create_ceremony
 from scripts.events_module.event_information import EventInformation
@@ -243,7 +240,7 @@ def _is_suitable_mediator_app(main_cat: Cat) -> bool:
         "thoughtful",
     ]:
         chance = int(chance / 1.5)
-    if main_cat.is_disabled():
+    if main_cat.permanent_conditions:
         chance = int(chance / 2)
     if chance == 0:
         chance = 1
@@ -283,10 +280,7 @@ def _is_suitable_medcat_app(cat) -> bool:
     logger.debug("Current number of medcat apps: %d", num_med_apps)
 
     # check if the Clan has sufficient med cats
-    enough_working_meds = medicine_cats_can_cover_clan(
-        Cat.all_cats.values(),
-        amount_per_med=get_amount_cat_for_one_medic(game.clan),
-    )
+    enough_working_meds = medicine_cats_can_cover_clan(Cat.all_cats.values())
 
     if (
         floor(num_med_apps / max(1, (len(med_cat_list) - num_med_apps)))

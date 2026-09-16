@@ -293,9 +293,7 @@ def one_moon():
 
     if game.clan.game_mode in ("expanded", "cruel_season"):
         amount_per_med = get_amount_cat_for_one_medic(game.clan)
-        med_fulfilled = medicine_cats_can_cover_clan(
-            Cat.all_cats.values(), amount_per_med
-        )
+        med_fulfilled = medicine_cats_can_cover_clan(Cat.all_cats.values())
 
         if not med_fulfilled:
             string = i18n.t("defaults.warn_low_medcats")
