@@ -322,7 +322,9 @@ class Cat:
             # kits are auto-accepted
             elif self.age in (CatAge.KITTEN, CatAge.NEWBORN):
                 self.history.add_afterlife_acceptance(
-                    game.clan.instructor.status.group,
+                    game.clan.instructor.status.group
+                    if game.clan
+                    else CatGroup.STARCLAN,
                     is_kit=True,
                 )
             else:
@@ -773,6 +775,21 @@ class Cat:
             else:
                 clanname = switch_get_value(Switch.clan_list)[0]
         except IndexError:
+            print("History failed to load, no Clan in switches?")
+            self._history = History(
+                beginning={},
+                mentor_influence={},
+                app_ceremony={},
+                lead_ceremony=None,
+                possible_history={},
+                died_by=[],
+                scar_events=[],
+                murder={},
+                cat=self,
+            )
+            return
+
+        except KeyError:
             print("History failed to load, no Clan in switches?")
             self._history = History(
                 beginning={},

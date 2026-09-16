@@ -120,7 +120,7 @@
         "side_effect": {},
         "progression": {},
         "risks": {
-            "running nose": 0.1,
+            "running_nose": 0.1,
             "yellowcough": 0.02,
             "redcough": 0.017
         },

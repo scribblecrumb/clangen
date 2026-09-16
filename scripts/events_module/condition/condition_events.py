@@ -33,6 +33,10 @@ from scripts.game_structure.localization import load_lang_resource
 
 logger = logging.getLogger(__name__)
 
+# these are only for use by tests!!!!!
+force_progression = ""
+force_risk = ""
+
 
 def handle_temporary_conditions(cat: Cat, forced_state: ConditionState = None):
     """
@@ -58,7 +62,7 @@ def handle_temporary_conditions(cat: Cat, forced_state: ConditionState = None):
         elif state == ConditionState.FATAL:
             try:
                 event = generate_condition_event(
-                    main_cat=cat, path=f"conditions/death_strings/{condition.name}"
+                    main_cat=cat, path=f"conditions/death_strings/{condition.name}.json"
                 )
 
             except KeyError:
@@ -90,13 +94,16 @@ def handle_temporary_conditions(cat: Cat, forced_state: ConditionState = None):
 
         elif state == ConditionState.HEALED:
             event = _attempt_scarring(
-                cat, condition, possible_scars=condition_extra_info["possible_scars"]
+                cat,
+                condition,
+                possible_scars=condition_extra_info.get("possible_scars", []),
             )
 
             if not event:
                 try:
                     event = generate_condition_event(
-                        main_cat=cat, path=f"conditions/healed_strings/{condition.name}"
+                        main_cat=cat,
+                        path=f"conditions/healed_strings/{condition.name}.json",
                     )
                 except KeyError:
                     logger.warning(
@@ -115,6 +122,13 @@ def handle_temporary_conditions(cat: Cat, forced_state: ConditionState = None):
                         ["health"],
                         [cat.ID],
                     )
+            else:
+                # if nothing else happened, make the scar event into EventInformation
+                event = EventInformation(
+                    event,
+                    ["health"],
+                    [cat.ID],
+                )
 
             game.herb_events_list.append(event.text)
 
@@ -138,7 +152,7 @@ def handle_temporary_conditions(cat: Cat, forced_state: ConditionState = None):
                 event_list.extend(additional_events)
 
     for c in conditions_to_remove:
-        cat.temporary_conditions.remove(c)
+        cat.remove_condition(c.name)
 
     if event_list:
         game.cur_events_list.extend(event_list)
@@ -229,24 +243,32 @@ def _check_risks_and_progressions(
     :param conditions_to_remove: The current list of conditions being removed. This will be modified within this function and returned.
     :return: A tuple of two lists: A list of new events created, and a list of conditions to remove
     """
-    current_temp_conditions = {c.name for c in cat.temporary_conditions}
-    current_perm_conditions = {c.name for c in cat.permanent_conditions}
+    current_conditions = {
+        c.name for c in cat.temporary_conditions + cat.permanent_conditions
+    }
     event_list = []
+
+    full_condition_dict = TEMPORARY_CONDITIONS.copy()
+    full_condition_dict.update(PERMANENT_CONDITIONS)
+
     # CHECK RISKS
     for risk, chance in condition.risks.items():
         if risk in cat.temporary_conditions:
             # don't double up
             continue
 
-        risk_progressions = TEMPORARY_CONDITIONS[risk]["progression"].keys()
-        if set(risk_progressions).intersection(current_temp_conditions):
-            # don't give them a condition that they already have a progression of
+        # check for force_progression too, cus we don't want to do any risks if we need to progress instead
+        if force_risk and risk != force_risk or force_progression:
             continue
 
-        if chance and random() <= chance:
+        # don't give them a condition that they already have a progression of
+        if _condition_overlaps(current_conditions, risk):
+            continue
+
+        if (chance and random() <= chance) or force_risk:
             # set the risk chance back down to make it less likely it occurs again
             # for complications this is set to 0 to avoid annoying loops
-            if TEMPORARY_CONDITIONS[risk].get("is_complication", False):
+            if full_condition_dict[risk].get("is_complication", False):
                 condition.risks[risk] = 0.0
                 # mark the current condition as having this complication
                 condition.current_complication = risk
@@ -280,7 +302,7 @@ def _check_risks_and_progressions(
             event_list.append(event)
             gain_temporary_condition(cat, risk)
 
-            continue
+            return event_list, conditions_to_remove
 
     # CHECK PROGRESSIONS
     for progression, chance in condition.progression.items():
@@ -288,31 +310,25 @@ def _check_risks_and_progressions(
             # don't double up
             continue
 
-        # don't give them a condition that they already have a progression of
-        if progression in TEMPORARY_CONDITIONS:
-            further_progressions = TEMPORARY_CONDITIONS[progression][
-                "progression"
-            ].keys()
-            if set(further_progressions).intersection(current_temp_conditions):
-                continue
-        elif progression in PERMANENT_CONDITIONS:
-            further_progressions = PERMANENT_CONDITIONS[progression][
-                "progression"
-            ].keys()
-            if set(further_progressions).intersection(current_perm_conditions):
-                continue
+        if force_progression and progression != force_progression:
+            continue
 
-        if chance and random() <= chance:
+        # don't give them a condition that they already have a progression of
+        if _condition_overlaps(current_conditions, progression):
+            continue
+
+        if (chance and random() <= chance) or force_progression:
             scar_event = None
             if progression in TEMPORARY_CONDITIONS:
                 gain_temporary_condition(cat, progression)
             elif progression in PERMANENT_CONDITIONS:
-                if condition in TEMPORARY_CONDITIONS:
-                    requires_scar = PERMANENT_CONDITIONS[progression]["requires_scar"]
-                    scar_pool = (
-                        TEMPORARY_CONDITIONS[condition.name]["possible_scars"]
-                        + PERMANENT_CONDITIONS[progression]["possible_scars"]
+                if condition.name in TEMPORARY_CONDITIONS:
+                    requires_scar = PERMANENT_CONDITIONS[progression].get(
+                        "requires_scar", False
                     )
+                    scar_pool = TEMPORARY_CONDITIONS[condition.name].get(
+                        "possible_scars", []
+                    ) + PERMANENT_CONDITIONS[progression].get("possible_scars", [])
                     # if the condition is going from temp to perm, try to give a scar
                     scar_event = _attempt_scarring(
                         cat,
@@ -358,7 +374,33 @@ def _check_risks_and_progressions(
             event_list.append(event)
             conditions_to_remove.append(condition)
 
+            return event_list, conditions_to_remove
+
     return event_list, conditions_to_remove
+
+
+def _condition_overlaps(current_conditions, new_condition):
+    """
+    Checks if given condition overlaps with the progressions of the current conditions.
+    """
+    all_conditions = TEMPORARY_CONDITIONS.copy()
+    all_conditions.update(PERMANENT_CONDITIONS)
+
+    if new_condition in all_conditions:
+        further_progressions = list(all_conditions[new_condition]["progression"].keys())
+        while further_progressions:
+            if set(further_progressions).intersection(current_conditions):
+                return True
+            else:
+                progression_list = further_progressions.copy()
+                further_progressions = []
+                for p in progression_list:
+                    if p in all_conditions:
+                        further_progressions.extend(
+                            all_conditions[p]["progression"].keys()
+                        )
+
+    return False
 
 
 def _determine_retirement(cat):
@@ -457,7 +499,7 @@ def _attempt_scarring(
     if guarantee_scar:
         chance = 1
     else:
-        moons_with = game.clan.age - condition.moon_gained
+        moons_with = (game.clan.age if game.clan else 0) - condition.moon_gained
         chance = max(5 - moons_with, 1)
 
     if not int(random() * chance):

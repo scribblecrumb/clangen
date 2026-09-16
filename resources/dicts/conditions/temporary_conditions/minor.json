@@ -307,7 +307,7 @@
         "immune_system_effect": 0,
         "side_effect": {},
         "progression": {
-            "paritial_hearing_loss": 0.2
+            "partial_hearing_loss": 0.2
         },
         "risks": {
             "an_infected_wound": 0.04

@@ -171,7 +171,7 @@
         "side_effect": {},
         "progression": {},
         "risks": {
-            "running nose": 0.05
+            "running_nose": 0.05
         },
         "treatment_strength": {
             "1": [

@@ -598,7 +598,7 @@
             "lost_their_tail": 0.2
         },
         "risks": {
-            "running nose": 0.25
+            "running_nose": 0.25
         },
         "treatment_strength": {
             "1": [
@@ -673,7 +673,7 @@
             "raspy_lungs": 0.2
         },
         "risks": {
-            "running nose": 0.1,
+            "running_nose": 0.1,
             "whitecough": 0.05
         },
         "treatment_strength": {
@@ -838,7 +838,7 @@
             "one_bad_eye": 0.2,
             "blind": 0.2,
             "constantly_dizzy": 0.2,
-            "paritial_hearing_loss": 0.2,
+            "partial_hearing_loss": 0.2,
             "persistent_headaches": 0.2,
             "absent": 0.2
         },

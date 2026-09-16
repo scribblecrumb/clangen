@@ -111,9 +111,10 @@
         "infectiousness": 2,
         "immune_system_effect": 0,
         "side_effect": {},
-        "progression": {},
+        "progression": {
+            "whitecough": 0.1
+        },
         "risks": {
-            "whitecough": 0.1,
             "sore_throat": 0.05
         },
         "treatment_strength": {
@@ -213,9 +214,10 @@
         "infectiousness": 0,
         "immune_system_effect": 0,
         "side_effect": {},
-        "progression": {},
-        "risks": {
+        "progression": {
             "strange_lump": 0.013
+        },
+        "risks": {
         },
         "treatment_strength": {
             "1": [
