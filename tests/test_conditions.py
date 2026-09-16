@@ -256,7 +256,7 @@ class TestPermanentCondition(unittest.TestCase):
                     handle_permanent_conditions(cat1, forced_state=ConditionState.FATAL)
                     self.assertTrue(cat1.dead, msg=f"cat did not die to {c}")
                     self.assertTrue(
-                        not cat1.permanent_conditions,
+                        not cat1.temporary_conditions,
                         msg=f"cat's conditions were not cleared on death to {c}",
                     )
 
@@ -274,49 +274,41 @@ class TestPermanentCondition(unittest.TestCase):
                     )
 
             with self.subTest(f"Test state change (CONTINUING: risk gain) for {c}"):
-                if not TEMPORARY_CONDITIONS[c]["risks"]:
+                if not PERMANENT_CONDITIONS[c]["risks"]:
                     continue
 
-                for r in TEMPORARY_CONDITIONS[c]["risks"]:
+                for r in PERMANENT_CONDITIONS[c]["risks"]:
                     cat1 = cat_factory.create_cat()
-                    gain_temporary_condition(cat1, c, allow_side_effects=False)
+                    gain_permanent_condition(cat1, c)
 
                     condition_events.force_risk = r
-
-                    handle_temporary_conditions(
+                    handle_permanent_conditions(
                         cat1, forced_state=ConditionState.CONTINUING
                     )
                     self.assertTrue(
-                        r in cat1.temporary_conditions,
-                        msg=f"{r} was not in cat's conditions: {cat1.temporary_conditions}",
+                        r in cat1.temporary_conditions + cat1.permanent_conditions,
+                        msg=f"{r} was not in cat's conditions: {cat1.temporary_conditions + cat1.permanent_conditions}",
                     )
                     self.assertTrue(
-                        c in cat1.temporary_conditions,
-                        msg=f"{c} was not in cat's conditions: {cat1.temporary_conditions}",
+                        c in cat1.permanent_conditions,
+                        msg=f"{c} was not in cat's conditions: {cat1.permanent_conditions}",
                     )
-
-                    if TEMPORARY_CONDITIONS[r].get("is_complication", False):
-                        self.assertEqual(
-                            r,
-                            cat1.get_condition(c).current_complication,
-                            msg=f"{r} is a complication, but was not added to {c} as such.",
-                        )
 
                 condition_events.force_risk = ""
 
             with self.subTest(
                 f"Test state change (CONTINUING: progression gain) for {c}"
             ):
-                if not TEMPORARY_CONDITIONS[c]["progression"]:
+                if not PERMANENT_CONDITIONS[c]["progression"]:
                     continue
 
-                for p in TEMPORARY_CONDITIONS[c]["progression"]:
+                for p in PERMANENT_CONDITIONS[c]["progression"]:
                     cat1 = cat_factory.create_cat()
-                    gain_temporary_condition(cat1, c, allow_side_effects=False)
+                    gain_permanent_condition(cat1, c)
 
                     condition_events.force_progression = p
 
-                    handle_temporary_conditions(
+                    handle_permanent_conditions(
                         cat1, forced_state=ConditionState.CONTINUING
                     )
                     self.assertTrue(

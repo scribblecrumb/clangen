@@ -122,9 +122,9 @@
         "mortality": {},
         "immune_system_effect": 0,
         "side_effect": {},
-        "progression": {},
+        "progression": {
+            "deaf": 0.013},
         "risks": {
-            "deaf": 0.013
         },
         "treatment_strength": {
             "1": [],

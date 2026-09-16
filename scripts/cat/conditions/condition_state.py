@@ -28,7 +28,7 @@ def update_permanent_condition_state(condition: PermanentCondition) -> Condition
             condition.moons_until_discovery -= 1
 
             if condition.moons_until_discovery == -1:
-                condition.moon_gained = game.clan.age
+                condition.moon_gained = game.clan.age if game.clan else 0
                 return ConditionState.REVEALED
             else:
                 return ConditionState.SKIPPED

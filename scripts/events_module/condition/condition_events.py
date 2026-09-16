@@ -129,7 +129,7 @@ def handle_temporary_conditions(cat: Cat, forced_state: ConditionState = None):
         game.cur_events_list.extend(event_list)
 
 
-def handle_permanent_conditions(cat: Cat):
+def handle_permanent_conditions(cat: Cat, forced_state: ConditionState = None):
     """
     Checks on the permanent conditions of the cat: updating their state and applying any relevant changes to both the condition and the cat
     """
@@ -140,7 +140,10 @@ def handle_permanent_conditions(cat: Cat):
         if condition.omit_moonskip:
             continue
 
-        state = update_permanent_condition_state(condition)
+        if forced_state:
+            state = forced_state
+        else:
+            state = update_permanent_condition_state(condition)
 
         if state == ConditionState.SKIPPED:
             continue
@@ -150,8 +153,12 @@ def handle_permanent_conditions(cat: Cat):
             break
 
         elif state == ConditionState.REVEALED:
-            # TODO: get strings
-            pass
+            event_list.append(
+                generate_condition_event(
+                    main_cat=cat,
+                    path=f"conditions/reveal_condition_strings/{condition.name}.json",
+                )
+            )
 
         elif state == ConditionState.CONTINUING:
             additional_events, conditions_to_remove = _check_risks_and_progressions(
@@ -218,7 +225,9 @@ def _check_risks_and_progressions(
     :return: A tuple of two lists: A list of new events created, and a list of conditions to remove
     """
     current_conditions = {
-        c.name for c in cat.temporary_conditions + cat.permanent_conditions
+        c.name
+        for c in cat.temporary_conditions + cat.permanent_conditions
+        if c != condition
     }
     event_list = []
 
@@ -274,7 +283,10 @@ def _check_risks_and_progressions(
                 )
 
             event_list.append(event)
-            gain_temporary_condition(cat, risk)
+            if risk in TEMPORARY_CONDITIONS:
+                gain_temporary_condition(cat, risk)
+            else:
+                gain_permanent_condition(cat, risk, is_congenital=False)
 
             return event_list, conditions_to_remove
 

@@ -137,17 +137,14 @@ def gain_permanent_condition(
         )
         return
     if not is_congenital and not condition["can_be_acquired"]:
-        print(
-            f"WARNING: attempted to give {name} as an acquired condition, but {name} is not allowed to be set as acquired."
-        )
-        return
+        is_congenital = True
 
     new_condition = PermanentCondition(
         name=name,
         severity=condition["severity"],
         is_congenital=is_congenital,
         moons_until_discovery=set_moons_until
-        if set_moons_until
+        if set_moons_until is not None
         else condition["moons_until_discovery"],
         moon_gained=game.clan.age if game.clan else 0,
         mortality=condition["mortality"].get(cat.age, 0.0),
