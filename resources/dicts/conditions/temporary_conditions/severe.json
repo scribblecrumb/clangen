@@ -470,7 +470,7 @@
             ]
         },
         "possible_scars": [
-             "TOETRAP", "MANLEG", "FOUR"
+            "TOETRAP", "MANLEG", "FOUR"
         ]
     },
     "mangled_tail": {

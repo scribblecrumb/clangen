@@ -327,7 +327,7 @@
             ]
         },
         "possible_scars": [
-             "LEFTEAR", "RIGHTEAR", "NOLEFTEAR", "NORIGHTEAR"
+            "LEFTEAR", "RIGHTEAR", "NOLEFTEAR", "NORIGHTEAR"
         ]
     },
     "bee_sting": {

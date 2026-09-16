@@ -6,7 +6,6 @@
         "moons_until_discovery": 0,
         "mortality": {},
         "immune_system_effect": 0,
-        "side_effect": {},
         "progression": {},
         "risks": {
             "an_infected_wound": 0.017,
@@ -37,7 +36,6 @@
         "moons_until_discovery": 95,
         "mortality": {},
         "immune_system_effect": 0,
-        "side_effect": {},
         "progression": {},
         "risks": {
             "joint_pain": 0.033,

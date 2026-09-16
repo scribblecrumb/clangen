@@ -7,7 +7,6 @@
         "moons_until_discovery": 3,
         "mortality": {},
         "immune_system_effect": 0,
-        "side_effect": {},
         "progression": {},
         "risks": {
             "sore": 0.05,
@@ -38,7 +37,6 @@
         "moons_until_discovery": 0,
         "mortality": {},
         "immune_system_effect": 0,
-        "side_effect": {},
         "progression": {},
         "risks": {
             "an_infected_wound": 0.014,
@@ -67,7 +65,6 @@
         "moons_until_discovery": 0,
         "mortality": {},
         "immune_system_effect": 0,
-        "side_effect": {},
         "progression": {},
         "risks": {},
         "treatment_strength": {
@@ -94,7 +91,6 @@
             "senior": 0.03
         },
         "immune_system_effect": 0,
-        "side_effect": {},
         "progression": {},
         "risks": {
             "whitecough": 0.05,
@@ -121,9 +117,9 @@
         "moons_until_discovery": 2,
         "mortality": {},
         "immune_system_effect": 0,
-        "side_effect": {},
         "progression": {
-            "deaf": 0.013},
+            "deaf": 0.013
+        },
         "risks": {
         },
         "treatment_strength": {
@@ -142,7 +138,6 @@
         "moons_until_discovery": 2,
         "mortality": {},
         "immune_system_effect": 0,
-        "side_effect": {},
         "progression": {},
         "risks": {
             "joint_pain": 0.1
@@ -168,7 +163,6 @@
         "moons_until_discovery": 2,
         "mortality": {},
         "immune_system_effect": 0,
-        "side_effect": {},
         "progression": {},
         "risks": {
             "running_nose": 0.05
@@ -188,7 +182,6 @@
         "moons_until_discovery": 0,
         "mortality": {},
         "immune_system_effect": 0,
-        "side_effect": {},
         "progression": {},
         "risks": {
             "grief_stricken": 0.02,
@@ -214,7 +207,6 @@
         "moons_until_discovery": 4,
         "mortality": {},
         "immune_system_effect": 0,
-        "side_effect": {},
         "progression": {},
         "risks": {},
         "treatment_strength": {
@@ -234,7 +226,6 @@
         "moons_until_discovery": 4,
         "mortality": {},
         "immune_system_effect": 0,
-        "side_effect": {},
         "progression": {},
         "risks": {
             "sore_throat": 0.033
