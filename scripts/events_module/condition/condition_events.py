@@ -60,36 +60,7 @@ def handle_temporary_conditions(cat: Cat, forced_state: ConditionState = None):
             continue
 
         elif state == ConditionState.FATAL:
-            try:
-                event = generate_condition_event(
-                    main_cat=cat, path=f"conditions/death_strings/{condition.name}.json"
-                )
-
-            except KeyError:
-                logging.warning(
-                    "%s does not have an condition death string, placeholder used.",
-                    condition.name,
-                )
-
-                event = i18n.t("defaults.injury_death_event")
-                event = event_text_adjust(Cat, event, main_cat=cat)
-
-                # add life loss message
-                if cat.status.is_leader:
-                    processed_text = event + " " + get_leader_life_notice(str(cat.name))
-                    if extra_text := check_stolen_vitality(cat, 1):
-                        processed_text += " " + extra_text
-
-                event = EventInformation(
-                    event,
-                    ["health", "birth_death"],
-                    [cat.ID],
-                )
-
-            # clear event list first to make sure any heal or risk events from other injuries are not shown
-            event_list.clear()
-            event_list.append(event)
-            game.herb_events_list.append(event.text)
+            event_list = _apply_fatality(cat, condition, event_list)
             break
 
         elif state == ConditionState.HEALED:
@@ -175,38 +146,7 @@ def handle_permanent_conditions(cat: Cat):
             continue
 
         elif state == ConditionState.FATAL:
-            try:
-                possible_string_list = load_lang_resource(
-                    "healed_and_death_strings/permanent_death_strings.json"
-                )[condition.name]
-                event = choice(possible_string_list)
-
-                # first string in the list is always appropriate for history text
-                history_text = possible_string_list[0]
-            except KeyError:
-                logging.warning(
-                    "%s does not have an condition death string, placeholder used.",
-                    condition.name,
-                )
-
-                event = i18n.t("defaults.injury_death_event")
-                history_text = i18n.t("defaults.injury_death_history")
-
-            event = event_text_adjust(Cat, event, main_cat=cat)
-
-            # add life loss message
-            if cat.status.is_leader:
-                event = event + " " + get_leader_life_notice(str(cat.name))
-                if extra_text := check_stolen_vitality(cat, 1):
-                    event += " " + extra_text
-
-            # add death to history
-            cat.history.add_death(condition=condition, death_text=history_text.strip())
-
-            # clear event list first to make sure any heal or risk events from other injuries are not shown
-            event_list.clear()
-            event_list.append(event)
-            game.herb_events_list.append(event)
+            event_list = _apply_fatality(cat, condition, event_list)
             break
 
         elif state == ConditionState.REVEALED:
@@ -229,6 +169,40 @@ def handle_permanent_conditions(cat: Cat):
 
     if not cat.dead:
         _determine_retirement(cat)
+
+
+def _apply_fatality(cat, condition, event_list) -> list:
+    try:
+        event = generate_condition_event(
+            main_cat=cat, path=f"conditions/death_strings/{condition.name}.json"
+        )
+
+    except KeyError:
+        logging.warning(
+            "%s does not have an condition death string, placeholder used.",
+            condition.name,
+        )
+
+        event = i18n.t("defaults.injury_death_event")
+        event = event_text_adjust(Cat, event, main_cat=cat)
+
+        # add life loss message
+        if cat.status.is_leader:
+            processed_text = event + " " + get_leader_life_notice(str(cat.name))
+            if extra_text := check_stolen_vitality(cat, 1):
+                processed_text += " " + extra_text
+
+        event = EventInformation(
+            event,
+            ["health", "birth_death"],
+            [cat.ID],
+        )
+    # clear event list first to make sure any heal or risk events from other injuries are not shown
+    event_list.clear()
+    event_list.append(event)
+    game.herb_events_list.append(event.text)
+
+    return event_list
 
 
 def _check_risks_and_progressions(
