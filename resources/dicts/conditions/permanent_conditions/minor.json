@@ -11,7 +11,7 @@
         "progression": {},
         "risks": {
             "sore": 0.05,
-            "joint pain": 0.025
+            "joint_pain": 0.025
         },
         "treatment_strength": {
             "1": [
@@ -41,8 +41,8 @@
         "side_effect": {},
         "progression": {},
         "risks": {
-            "an infected wound": 0.014,
-            "phantom pain": 0.1
+            "an_infected_wound": 0.014,
+            "phantom_pain": 0.1
         },
         "treatment_strength": {
             "1": [
@@ -98,7 +98,7 @@
         "progression": {},
         "risks": {
             "whitecough": 0.05,
-            "breathless fit": 0.1
+            "breathless_fit": 0.1
         },
         "treatment_strength": {
             "1": [
@@ -145,7 +145,7 @@
         "side_effect": {},
         "progression": {},
         "risks": {
-            "joint pain": 0.1
+            "joint_pain": 0.1
         },
         "treatment_strength": {
             "1": [
@@ -191,7 +191,7 @@
         "side_effect": {},
         "progression": {},
         "risks": {
-            "grief stricken": 0.02,
+            "grief_stricken": 0.02,
             "absent": 0.02
         },
         "treatment_strength": {
@@ -237,7 +237,7 @@
         "side_effect": {},
         "progression": {},
         "risks": {
-            "sore throat": 0.033
+            "sore_throat": 0.033
         },
         "treatment_strength": {
             "1": [

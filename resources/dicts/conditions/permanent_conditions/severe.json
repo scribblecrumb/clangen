@@ -9,10 +9,10 @@
         "side_effect": {},
         "progression": {},
         "risks": {
-            "an infected wound": 0.017,
-            "torn pelt": 0.033,
+            "an_infected_wound": 0.017,
+            "torn_pelt": 0.033,
             "sore": 0.05,
-            "joint pain": 0.05
+            "joint_pain": 0.05
         },
         "treatment_strength": {
             "1": [
@@ -40,9 +40,9 @@
         "side_effect": {},
         "progression": {},
         "risks": {
-            "joint pain": 0.033,
-            "torn pelt": 0.025,
-            "selective mutism": 0.004
+            "joint_pain": 0.033,
+            "torn_pelt": 0.025,
+            "selective_mutism": 0.004
         },
         "treatment_strength": {
             "1": [

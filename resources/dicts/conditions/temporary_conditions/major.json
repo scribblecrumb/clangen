@@ -49,7 +49,7 @@
         "immune_system_effect": 0,
         "side_effect": {},
         "progression": {
-            "a festering wound": 0.1
+            "a_festering_wound": 0.1
         },
         "risks": {},
         "treatment_strength": {
@@ -84,7 +84,7 @@
             "greencough": 0.056
         },
         "risks": {
-            "sore throat": 0.05
+            "sore_throat": 0.05
         },
         "treatment_strength": {
             "1": [
@@ -122,7 +122,7 @@
             "redcough": 0.013
         },
         "risks": {
-            "sore throat": 0.05
+            "sore_throat": 0.05
         },
         "treatment_strength": {
             "1": [
@@ -145,7 +145,7 @@
         "immune_system_effect": 0,
         "side_effect": {},
         "progression": {
-            "heat stroke": 0.2
+            "heat_stroke": 0.2
         },
         "risks": {},
         "treatment_strength": {
@@ -187,11 +187,11 @@
         "immune_system_effect": 0,
         "side_effect": {},
         "progression": {
-            "lasting grief": 0.01,
-            "selective mutism": 0.007
+            "lasting_grief": 0.01,
+            "selective_mutism": 0.007
         },
         "risks": {
-            "constant nightmares": 0.067
+            "constant_nightmares": 0.067
         },
         "treatment_strength": {
             "1": [
@@ -252,13 +252,13 @@
         "infectiousness": 0,
         "immune_system_effect": 0,
         "side_effect": {
-            "torn pelt": 0.2,
+            "torn_pelt": 0.2,
             "torn ear": 0.2,
-            "blood loss": 0.2
+            "blood_loss": 0.2
         },
         "progression": {},
         "risks": {
-            "an infected wound": 0.2
+            "an_infected_wound": 0.2
         },
         "treatment_strength": {
             "1": [
@@ -309,12 +309,12 @@
         "infectiousness": 0,
         "immune_system_effect": 0,
         "side_effect": {
-            "torn pelt": 0.2,
-            "blood loss": 0.2
+            "torn_pelt": 0.2,
+            "blood_loss": 0.2
         },
         "progression": {},
         "risks": {
-            "an infected wound": 0.2
+            "an_infected_wound": 0.2
         },
         "treatment_strength": {
             "1": [
@@ -352,12 +352,12 @@
         "infectiousness": 0,
         "immune_system_effect": 0,
         "side_effect": {
-            "torn pelt": 0.2,
-            "blood loss": 0.2
+            "torn_pelt": 0.2,
+            "blood_loss": 0.2
         },
         "progression": {},
         "risks": {
-            "an infected wound": 0.2
+            "an_infected_wound": 0.2
         },
         "treatment_strength": {
             "1": [
@@ -395,12 +395,12 @@
         "infectiousness": 0,
         "immune_system_effect": 0,
         "side_effect": {
-            "torn pelt": 0.2,
-            "blood loss": 0.2
+            "torn_pelt": 0.2,
+            "blood_loss": 0.2
         },
         "progression": {},
         "risks": {
-            "an infected wound": 0.2
+            "an_infected_wound": 0.2
         },
         "treatment_strength": {
             "1": [
@@ -439,7 +439,7 @@
         },
         "progression": {},
         "risks": {
-            "an infected wound": 0.2
+            "an_infected_wound": 0.2
         },
         "treatment_strength": {
             "1": [
@@ -478,12 +478,12 @@
         "infectiousness": 0,
         "immune_system_effect": 0.33,
         "side_effect": {
-            "torn pelt": 0.2
+            "torn_pelt": 0.2
         },
         "progression": {},
         "risks": {
-            "an infected wound": 0.2,
-            "a festering wound": 0.2
+            "an_infected_wound": 0.2,
+            "a_festering_wound": 0.2
         },
         "treatment_strength": {
             "1": [
@@ -516,10 +516,10 @@
         "side_effect": {
             "bruises": 0.2,
             "sore": 0.2,
-            "joint pain": 0.2
+            "joint_pain": 0.2
         },
         "progression": {
-            "constant joint pain": 0.2
+            "constant_joint_pain": 0.2
         },
         "risks": {},
         "treatment_strength": {
@@ -594,8 +594,8 @@
         "immune_system_effect": 0.17,
         "side_effect": {},
         "progression": {
-            "lost a leg": 0.2,
-            "lost their tail": 0.2
+            "lost_a_leg": 0.2,
+            "lost_their_tail": 0.2
         },
         "risks": {
             "running nose": 0.25
@@ -634,11 +634,11 @@
         "infectiousness": 0,
         "immune_system_effect": 0,
         "side_effect": {
-            "blood loss": 0.2
+            "blood_loss": 0.2
         },
         "progression": {},
         "risks": {
-            "an infected wound": 0.067
+            "an_infected_wound": 0.067
         },
         "treatment_strength": {
             "1": [
@@ -670,7 +670,7 @@
         "immune_system_effect": 0.2,
         "side_effect": {},
         "progression": {
-            "raspy lungs": 0.2
+            "raspy_lungs": 0.2
         },
         "risks": {
             "running nose": 0.1,
@@ -708,7 +708,7 @@
         "side_effect": {},
         "progression": {},
         "risks": {
-            "an infected wound": 0.04
+            "an_infected_wound": 0.04
         },
         "treatment_strength": {
             "1": [
@@ -745,7 +745,7 @@
         "immune_system_effect": 0,
         "side_effect": {},
         "progression": {
-            "lingering shock": 0.067
+            "lingering_shock": 0.067
         },
         "risks": {},
         "treatment_strength": {
@@ -768,9 +768,9 @@
         "immune_system_effect": 0,
         "side_effect": {},
         "progression": {
-            "recurring shock": 0.2,
+            "recurring_shock": 0.2,
             "absent": 0.2,
-            "selective mutism": 0.2
+            "selective_mutism": 0.2
         },
         "risks": {},
         "treatment_strength": {
@@ -800,12 +800,12 @@
         "infectiousness": 0,
         "immune_system_effect": 0,
         "side_effect": {
-            "heat exhaustion": 0.2
+            "heat_exhaustion": 0.2
         },
         "progression": {},
         "risks": {
-            "heat exhaustion": 0.1,
-            "sore throat": 0.1
+            "heat_exhaustion": 0.1,
+            "sore_throat": 0.1
         },
         "treatment_strength": {
             "1": [
@@ -834,17 +834,17 @@
         "immune_system_effect": 0,
         "side_effect": {},
         "progression": {
-            "failing eyesight": 0.2,
-            "one bad eye": 0.2,
+            "failing_eyesight": 0.2,
+            "one_bad_eye": 0.2,
             "blind": 0.2,
-            "constantly dizzy": 0.2,
-            "partial hearing loss": 0.2,
-            "persistent headaches": 0.2,
+            "constantly_dizzy": 0.2,
+            "paritial_hearing_loss": 0.2,
+            "persistent_headaches": 0.2,
             "absent": 0.2
         },
         "risks": {
             "headache": 0.05,
-            "severe headache": 0.05
+            "severe_headache": 0.05
         },
         "treatment_strength": {
             "1": [
@@ -974,11 +974,11 @@
         "infectiousness": 0,
         "immune_system_effect": 0,
         "side_effect": {
-            "torn pelt": 0.2
+            "torn_pelt": 0.2
         },
         "progression": {},
         "risks": {
-            "an infected wound": 0.2
+            "an_infected_wound": 0.2
         },
         "treatment_strength": {
             "1": [
@@ -1019,11 +1019,11 @@
             "shock": 0.1
         },
         "progression": {
-            "failing eyesight": 0.2,
-            "constantly dizzy": 0.2
+            "failing_eyesight": 0.2,
+            "constantly_dizzy": 0.2
         },
         "risks": {
-            "an infected wound": 0.2,
+            "an_infected_wound": 0.2,
             "seizure": 0.4
         },
         "treatment_strength": {

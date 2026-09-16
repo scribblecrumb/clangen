@@ -8,7 +8,7 @@
         "side_effect": {},
         "progression": {},
         "risks": {
-            "torn pelt": 0.05
+            "torn_pelt": 0.05
         },
         "treatment_strength": {
             "1": [
@@ -29,7 +29,7 @@
             "whitecough": 0.067
         },
         "risks": {
-            "sore throat": 0.05
+            "sore_throat": 0.05
         },
         "treatment_strength": {
             "1": [
@@ -91,8 +91,8 @@
         "side_effect": {},
         "progression": {},
         "risks": {
-            "an infected wound": 0.033,
-            "tick fever": 0.02
+            "an_infected_wound": 0.033,
+            "tick_fever": 0.02
         },
         "treatment_strength": {
             "1": [
@@ -188,7 +188,7 @@
         "side_effect": {},
         "progression": {},
         "risks": {
-            "an infected wound": 0.05
+            "an_infected_wound": 0.05
         },
         "treatment_strength": {
             "1": [
@@ -236,7 +236,7 @@
         "side_effect": {},
         "progression": {},
         "risks": {
-            "an infected wound": 0.033
+            "an_infected_wound": 0.033
         },
         "treatment_strength": {
             "1": [
@@ -259,7 +259,7 @@
         "side_effect": {},
         "progression": {},
         "risks": {
-            "an infected wound": 0.025
+            "an_infected_wound": 0.025
         },
         "treatment_strength": {
             "1": [
@@ -282,7 +282,7 @@
         "side_effect": {},
         "progression": {},
         "risks": {
-            "an infected wound": 0.04
+            "an_infected_wound": 0.04
         },
         "treatment_strength": {
             "1": [
@@ -307,10 +307,10 @@
         "immune_system_effect": 0,
         "side_effect": {},
         "progression": {
-            "partial hearing loss": 0.2
+            "paritial_hearing_loss": 0.2
         },
         "risks": {
-            "an infected wound": 0.04
+            "an_infected_wound": 0.04
         },
         "treatment_strength": {
             "1": [
@@ -388,7 +388,7 @@
         "immune_system_effect": 0,
         "side_effect": {},
         "progression": {
-            "damaged throat": 0.2
+            "damaged_throat": 0.2
         },
         "risks": {},
         "treatment_strength": {

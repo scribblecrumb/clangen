@@ -16,7 +16,7 @@
         "side_effect": {},
         "progression": {},
         "risks": {
-            "severe headache": 0.02
+            "severe_headache": 0.02
         },
         "treatment_strength": {
             "1": [
@@ -78,7 +78,7 @@
         "side_effect": {},
         "progression": {},
         "risks": {
-            "sore throat": 0.05
+            "sore_throat": 0.05
         },
         "treatment_strength": {
             "1": [
@@ -114,7 +114,7 @@
         "progression": {},
         "risks": {
             "whitecough": 0.1,
-            "sore throat": 0.05
+            "sore_throat": 0.05
         },
         "treatment_strength": {
             "1": [
@@ -215,7 +215,7 @@
         "side_effect": {},
         "progression": {},
         "risks": {
-            "strange lump": 0.013
+            "strange_lump": 0.013
         },
         "treatment_strength": {
             "1": [
@@ -294,16 +294,16 @@
         "infectiousness": 0,
         "immune_system_effect": 0,
         "side_effect": {
-            "blood loss": 0.2,
+            "blood_loss": 0.2,
             "scrapes": 0.2,
             "bruises": 0.2
         },
         "progression": {
-            "crooked jaw": 0.2,
-            "damaged throat": 0.2
+            "crooked_jaw": 0.2,
+            "damaged_throat": 0.2
         },
         "risks": {
-            "an infected wound": 0.2
+            "an_infected_wound": 0.2
         },
         "treatment_strength": {
             "1": [
@@ -341,18 +341,18 @@
         "infectiousness": 0,
         "immune_system_effect": 0,
         "side_effect": {
-            "torn pelt": 0.2,
-            "mangled leg": 0.2,
-            "blood loss": 0.2,
+            "torn_pelt": 0.2,
+            "mangled_leg": 0.2,
+            "blood_loss": 0.2,
             "scrapes": 0.2,
             "bruises": 0.2
         },
         "progression": {
-            "weak leg": 0.2,
-            "twisted leg": 0.2
+            "weak_leg": 0.2,
+            "twisted_leg": 0.2
         },
         "risks": {
-            "an infected wound": 0.2
+            "an_infected_wound": 0.2
         },
         "treatment_strength": {
             "1": [
@@ -392,11 +392,11 @@
         "side_effect": {},
         "progression": {
             "blind": 0.2,
-            "one bad eye": 0.2,
-            "failing eyesight": 0.2
+            "one_bad_eye": 0.2,
+            "failing_eyesight": 0.2
         },
         "risks": {
-            "an infected wound": 0.25
+            "an_infected_wound": 0.25
         },
         "treatment_strength": {
             "1": [
@@ -434,20 +434,20 @@
         "infectiousness": 0,
         "immune_system_effect": 0,
         "side_effect": {
-            "torn pelt": 0.2,
-            "broken bone": 0.2,
-            "dislocated joint": 0.2,
-            "blood loss": 0.2,
+            "torn_pelt": 0.2,
+            "broken_bone": 0.2,
+            "dislocated_joint": 0.2,
+            "blood_loss": 0.2,
             "scrapes": 0.2,
             "bruises": 0.2
         },
         "progression": {
-            "lost a leg": 0.2,
-            "weak leg": 0.2,
-            "twisted leg": 0.2
+            "lost_a_leg": 0.2,
+            "weak_leg": 0.2,
+            "twisted_leg": 0.2
         },
         "risks": {
-            "an infected wound": 0.2
+            "an_infected_wound": 0.2
         },
         "treatment_strength": {
             "1": [
@@ -486,14 +486,14 @@
         "infectiousness": 0,
         "immune_system_effect": 0,
         "side_effect": {
-            "torn pelt": 0.2,
-            "blood loss": 0.2
+            "torn_pelt": 0.2,
+            "blood_loss": 0.2
         },
         "progression": {
-            "lost their tail": 0.2
+            "lost_their_tail": 0.2
         },
         "risks": {
-            "an infected wound": 0.2
+            "an_infected_wound": 0.2
         },
         "treatment_strength": {
             "1": [
@@ -533,11 +533,11 @@
         "immune_system_effect": 0,
         "side_effect": {},
         "progression": {
-            "lost their tail": 0.2,
-            "lost a leg": 0.2
+            "lost_their_tail": 0.2,
+            "lost_a_leg": 0.2
         },
         "risks": {
-            "an infected wound": 0.067
+            "an_infected_wound": 0.067
         },
         "treatment_strength": {
             "1": [
@@ -580,7 +580,7 @@
             "paralyzed": 0.2
         },
         "risks": {
-            "an infected wound": 0.1
+            "an_infected_wound": 0.1
         },
         "treatment_strength": {
             "1": [

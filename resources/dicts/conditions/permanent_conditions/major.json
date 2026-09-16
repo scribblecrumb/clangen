@@ -26,8 +26,8 @@
         "side_effect": {},
         "progression": {},
         "risks": {
-            "an infected wound": 0.014,
-            "phantom pain": 0.05,
+            "an_infected_wound": 0.014,
+            "phantom_pain": 0.05,
             "sore": 0.05
         },
         "treatment_strength": {
@@ -59,7 +59,7 @@
         "progression": {},
         "risks": {
             "sore": 0.05,
-            "joint pain": 0.025
+            "joint_pain": 0.025
         },
         "treatment_strength": {
             "1": [
@@ -89,7 +89,7 @@
         "progression": {},
         "risks": {
             "sore": 0.05,
-            "joint pain": 0.025
+            "joint_pain": 0.025
         },
         "treatment_strength": {
             "1": [
@@ -201,7 +201,7 @@
         "side_effect": {},
         "progression": {},
         "risks": {
-            "failing eyesight": 0.013
+            "failing_eyesight": 0.013
         },
         "treatment_strength": {
             "1": [],
@@ -307,8 +307,8 @@
         "side_effect": {},
         "progression": {},
         "risks": {
-            "constant nightmares": 0.05,
-            "selective mutism": 0.004
+            "constant_nightmares": 0.05,
+            "selective_mutism": 0.004
         },
         "treatment_strength": {
             "1": [
@@ -332,7 +332,7 @@
         "side_effect": {},
         "progression": {},
         "risks": {
-            "severe headache": 0.05,
+            "severe_headache": 0.05,
             "headache": 0.05
         },
         "treatment_strength": {
