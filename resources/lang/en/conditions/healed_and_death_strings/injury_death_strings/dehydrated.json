@@ -1,0 +1,11 @@
+[
+    {
+        "event_id": "dehydrated0",
+        "strings": [
+            "m_c died from dehydration."
+        ],
+        "involved_cats": {
+            "m_c": {}
+        }
+    }
+]

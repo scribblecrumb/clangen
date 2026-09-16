@@ -1,0 +1,12 @@
+[
+    {
+        "event_id": "seizure0",
+        "strings": [
+            "m_c died from a seizure.",
+            "m_c died during a seizure."
+        ],
+        "involved_cats": {
+            "m_c": {}
+        }
+    }
+]
