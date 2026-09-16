@@ -15,7 +15,10 @@ class ConditionState(Enum):
     HEALED = auto()
 
 
-def update_permanent_condition_state(cat, condition: PermanentCondition):
+def update_permanent_condition_state(condition: PermanentCondition) -> ConditionState:
+    """
+    Checks the status of given permanent condition, updates it's state, and returns the new state
+    """
     if condition.omit_moonskip:
         return ConditionState.SKIPPED
 
@@ -30,18 +33,21 @@ def update_permanent_condition_state(cat, condition: PermanentCondition):
             else:
                 return ConditionState.SKIPPED
 
-    mortality = _progress_mortality(cat, condition)
+    mortality = _progress_mortality(condition)
     if mortality == ConditionState.FATAL:
         return ConditionState.FATAL
 
     return ConditionState.CONTINUING
 
 
-def update_temporary_condition_state(cat, condition: TemporaryCondition):
+def update_temporary_condition_state(condition: TemporaryCondition):
+    """
+    Checks the status of given temporary condition, updates it's state, and returns the new state
+    """
     if condition.omit_moonskip:
         return ConditionState.SKIPPED
 
-    mortality = _progress_mortality(cat, condition)
+    mortality = _progress_mortality(condition)
     if mortality == ConditionState.FATAL:
         return ConditionState.FATAL
 
@@ -59,11 +65,12 @@ def update_temporary_condition_state(cat, condition: TemporaryCondition):
         return ConditionState.CONTINUING
 
 
-def _progress_mortality(cat, condition):
+def _progress_mortality(condition) -> ConditionState:
+    """
+    Checks the conditions mortality state
+    """
     if condition.mortality and random() <= condition.mortality:
-        if cat.status.is_leader:
-            game.clan.leader_lives -= 1
-        cat.die()
+        # actual death is handled later by event outcomes
         return ConditionState.FATAL
 
     return ConditionState.CONTINUING

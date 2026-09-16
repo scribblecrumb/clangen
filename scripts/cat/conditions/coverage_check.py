@@ -4,9 +4,9 @@ from scripts.cat.skills import SkillPath
 from scripts.game_structure import game
 
 
-def amount_clanmembers_covered(all_cats) -> int:
+def amount_of_clan_covered_total(all_cats) -> int:
     """
-    number of clan members the meds can treat
+    number of clan members the meds in total can treat
     """
 
     medicine_cats = [
@@ -51,11 +51,13 @@ def medicine_cats_can_cover_clan(all_cats) -> bool:
     whether the player has enough meds for the whole clan
     """
     relevant_cats = [c for c in all_cats if c.status.alive_in_player_clan]
-    return amount_clanmembers_covered(all_cats) >= len(relevant_cats)
+    return amount_of_clan_covered_total(all_cats) >= len(relevant_cats)
 
 
 def get_amount_cat_for_one_medic(clan):
-    """Returns the amount of cats one medicine cat can treat"""
+    """
+    Returns the amount of cats a single medicine cat can treat
+    """
     amount = 10
     if clan and clan.game_mode == "classic":
         # just hope nobody has clans with more than 1,000,000 cats in classic

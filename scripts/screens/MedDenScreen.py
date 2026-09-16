@@ -25,7 +25,7 @@ from .enums import GameScreen
 from ..cat.enums import CatRank
 from scripts.cat.conditions.coverage_check import (
     get_amount_cat_for_one_medic,
-    amount_clanmembers_covered,
+    amount_of_clan_covered_total,
 )
 from ..game_structure.game.switches import switch_set_value, Switch
 from ..game_structure.screen_settings import MANAGER
@@ -323,7 +323,7 @@ class MedDenScreen(Screens):
             med_messages = []
 
             amount_per_med = get_amount_cat_for_one_medic(game.clan)
-            number = amount_clanmembers_covered(Cat.all_cats.values())
+            number = amount_of_clan_covered_total(Cat.all_cats.values())
 
             meds_cover = i18n.t(
                 "screens.med_den.meds_cover", clansize=number, count=len(self.meds)

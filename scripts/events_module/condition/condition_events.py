@@ -42,7 +42,7 @@ def handle_temporary_conditions(cat: Cat):
         if condition.omit_moonskip:
             continue
 
-        state = update_temporary_condition_state(cat, condition)
+        state = update_temporary_condition_state(condition)
 
         if state == ConditionState.SKIPPED:
             continue
@@ -144,7 +144,7 @@ def handle_permanent_conditions(cat: Cat):
         if condition.omit_moonskip:
             continue
 
-        state = update_permanent_condition_state(cat, condition)
+        state = update_permanent_condition_state(condition)
 
         if state == ConditionState.SKIPPED:
             continue
