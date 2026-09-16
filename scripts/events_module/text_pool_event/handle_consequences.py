@@ -472,7 +472,7 @@ def _handle_conditions(
         for tag in block["condition"]:
             if tag in condition_groups:
                 possible_conditions.extend(condition_groups[tag])
-            elif tag in TEMPORARY_CONDITIONS + PERMANENT_CONDITIONS:
+            elif tag in TEMPORARY_CONDITIONS or tag in PERMANENT_CONDITIONS:
                 possible_conditions.append(tag)
 
         if not possible_conditions:
@@ -484,11 +484,7 @@ def _handle_conditions(
         scars = block.get("scar_pool_override", [])
 
         for c in cat_list:
-            current_conditions = (
-                list(c.injuries.keys())
-                + list(c.illnesses.keys())
-                + list(c.permanent_condition.keys())
-            )
+            current_conditions = c.temporary_conditions + c.permanent_conditions
 
             if set(possible_conditions).issubset(current_conditions):
                 print(

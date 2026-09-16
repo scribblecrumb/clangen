@@ -2,10 +2,10 @@ import unittest
 
 import ujson
 
+from scripts.cat.conditions.coverage_check import medicine_cats_can_cover_clan
+from scripts.cat.conditions.gain_conditions import gain_temporary_condition
 from scripts.cat.enums import CatRank
 from scripts.cat.factories.test_cat_factory import TestCatFactory
-
-from scripts.conditions import medicine_cats_can_cover_clan
 
 cat_factory = TestCatFactory()
 
@@ -24,7 +24,7 @@ class TestsMedCondition(unittest.TestCase):
         )
 
         all_cats = [cat1, med]
-        self.assertTrue(medicine_cats_can_cover_clan(all_cats, 15))
+        self.assertTrue(medicine_cats_can_cover_clan(all_cats))
 
     def test_fulfilled_many_cats(self):
         cat1 = cat_factory.create_cat(
@@ -60,7 +60,7 @@ class TestsMedCondition(unittest.TestCase):
         )
 
         all_cats = [cat1, cat2, cat3, cat4, med1, med2]
-        self.assertTrue(medicine_cats_can_cover_clan(all_cats, 2))
+        self.assertTrue(medicine_cats_can_cover_clan(all_cats))
 
     def test_injured_fulfilled(self):
         cat1 = cat_factory.create_cat(
@@ -74,10 +74,10 @@ class TestsMedCondition(unittest.TestCase):
             status_dict={"rank": CatRank.MEDICINE_CAT},
             disable_random=True,
         )
-        med.injuries["small cut"] = {"severity": "minor"}
+        gain_temporary_condition(med, "small_cut")
 
         all_cats = [cat1, med]
-        self.assertTrue(medicine_cats_can_cover_clan(all_cats, 15))
+        self.assertTrue(medicine_cats_can_cover_clan(all_cats))
 
     def test_illness_fulfilled(self):
         cat1 = cat_factory.create_cat(
@@ -91,25 +91,25 @@ class TestsMedCondition(unittest.TestCase):
             status_dict={"rank": CatRank.MEDICINE_CAT},
             disable_random=True,
         )
-        med.illnesses["running nose"] = {"severity": "minor"}
+        gain_temporary_condition(med, "running_nose")
 
         all_cats = [cat1, med]
-        self.assertTrue(medicine_cats_can_cover_clan(all_cats, 15))
+        self.assertTrue(medicine_cats_can_cover_clan(all_cats))
 
 
-class TestsIllnesses(unittest.TestCase):
+class TestTemporaryCondition(unittest.TestCase):
     def load_resources(self):
         resource_directory = "resources/dicts/conditions/"
 
-        with open(f"{resource_directory}Illnesses.json", "r") as read_file:
-            illnesses = ujson.loads(read_file.read())
-        return illnesses
+        with open(f"{resource_directory}temporary_conditions.json", "r") as read_file:
+            conditions = ujson.loads(read_file.read())
+        return conditions
 
 
-class TestInjury(unittest.TestCase):
+class TestPermanentCondition(unittest.TestCase):
     def load_resources(self):
         resource_directory = "resources/dicts/conditions/"
 
-        with open(f"{resource_directory}Injuries.json", "r") as read_file:
-            injuries = ujson.loads(read_file.read())
-        return injuries
+        with open(f"{resource_directory}permanent_conditions.json", "r") as read_file:
+            conditions = ujson.loads(read_file.read())
+        return conditions

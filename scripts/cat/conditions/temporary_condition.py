@@ -19,7 +19,5 @@ class TemporaryCondition:
     is_complication: bool = False
     omit_moonskip: bool = False
 
-    possible_scars: list = field(default_factory=list)
-
     def __eq__(self, other):
         return other == self.name

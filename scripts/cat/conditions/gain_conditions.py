@@ -43,21 +43,27 @@ def gain_temporary_condition(
 
     condition_info = TEMPORARY_CONDITIONS[name]
 
-    cat.temporary_conditions.append(
-        TemporaryCondition(
-            **condition_info,
-            severity=severity if severity else condition_info["severity"],
-            mortality=condition_info["mortality"][cat.age]
-            if not prevent_death
-            else 0.0,
-            moon_gained=game.clan.age if game.clan else 0,
-            current_complication=None,
-            scar_pool_override=scar_pool_override,
-            omit_moonskip=omit_moonskip,
-        )
+    new_condition = TemporaryCondition(
+        name=name,
+        severity=severity if severity else condition_info["severity"],
+        duration=condition_info["duration"],
+        mortality=condition_info["mortality"].get(cat.age, 0.0)
+        if not prevent_death
+        else 0.0,
+        moon_gained=game.clan.age if game.clan else 0,
+        infectiousness=condition_info["infectiousness"],
+        immune_system_effect=condition_info["immune_system_effect"],
+        progression=condition_info["progression"],
+        risks=condition_info["risks"],
+        current_complication=None,
+        scar_pool_override=scar_pool_override,
+        omit_moonskip=omit_moonskip,
     )
 
-    _handle_condition_side_effect(cat, side_effects=condition_info["side_effects"])
+    cat.temporary_conditions.append(new_condition)
+
+    if condition_info.get("side_effect"):
+        _handle_condition_side_effect(cat, side_effects=condition_info["side_effect"])
 
 
 def _handle_condition_side_effect(cat, side_effects: dict[str, float]):
@@ -123,7 +129,7 @@ def gain_permanent_condition(
         )
         return
 
-    if is_congenital != condition["can_be_congenital"]:
+    if is_congenital and not condition["can_be_congenital"]:
         print(
             f"WARNING: attempted to give {name} as a congenital condition, but {name} is not allowed to be set as congenital."
         )
@@ -135,13 +141,20 @@ def gain_permanent_condition(
         return
 
     new_condition = PermanentCondition(
-        **condition,
+        name=name,
+        severity=condition["severity"],
+        is_congenital=is_congenital,
+        moons_until_discovery=set_moons_until
+        if set_moons_until
+        else condition["moons_until_discovery"],
         moon_gained=game.clan.age if game.clan else 0,
+        mortality=condition["mortality"].get(cat.age, 0.0),
+        immune_system_effect=condition["immune_system_effect"],
+        progression=condition["progression"],
+        risks=condition["risks"],
         omit_moonskip=omit_moonskip,
         current_complication=None,
     )
-    if set_moons_until:
-        new_condition.moons_until = set_moons_until
 
     cat.permanent_conditions.append(new_condition)
 
@@ -149,8 +162,8 @@ def gain_permanent_condition(
     if name == "paralyzed":
         cat.pelt.paralyzed = True
 
-    if new_condition.requires_scar:
-        new_scar = choice(new_condition.possible_scars)
+    if condition.get("requires_scar"):
+        new_scar = choice(condition["possible_scars"])
         cat.pelt.scars = (*cat.pelt.scars, new_scar)
 
     # remove accessories if need be

@@ -45,6 +45,8 @@ def handle_temporary_conditions(cat: Cat):
         if condition.omit_moonskip:
             continue
 
+        condition_extra_info = TEMPORARY_CONDITIONS[condition.name]
+
         state = update_temporary_condition_state(condition)
 
         if state == ConditionState.SKIPPED:
@@ -85,7 +87,7 @@ def handle_temporary_conditions(cat: Cat):
 
         elif state == ConditionState.HEALED:
             event = _attempt_scarring(
-                cat, condition, possible_scars=condition.possible_scars
+                cat, condition, possible_scars=condition_extra_info["possible_scars"]
             )
 
             if not event:
@@ -305,7 +307,7 @@ def _check_risks_and_progressions(
                 if condition in TEMPORARY_CONDITIONS:
                     requires_scar = PERMANENT_CONDITIONS[progression]["requires_scar"]
                     scar_pool = (
-                        condition.possible_scars
+                        TEMPORARY_CONDITIONS[condition.name]["possible_scars"]
                         + PERMANENT_CONDITIONS[progression]["possible_scars"]
                     )
                     # if the condition is going from temp to perm, try to give a scar
@@ -445,7 +447,7 @@ def _attempt_scarring(
     :param guarantee_scar: If true, scar will happen regardless of RNG. However, this cannot override other blockers, such as the cat's existing scar count.
     :return: Event text for the scar
     """
-    if not condition.possible_scars or len(cat.pelt.scars) >= 4:
+    if not possible_scars or len(cat.pelt.scars) >= 4:
         return None
 
     # scar chance increased by num of moons with the condition
