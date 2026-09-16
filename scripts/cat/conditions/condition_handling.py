@@ -97,8 +97,8 @@ def handle_temporary_conditions(cat: Cat):
                     )
 
                     # try to translate the string
-                    new_injury = i18n.t(f"conditions.injuries.{condition}")
-                    new_injury.replace("conditions.injuries.", "")
+                    new_injury = i18n.t(f"conditions.temporary_conditions.{condition}")
+                    new_injury.replace("conditions.temporary_conditions.", "")
 
                     event = i18n.t("defaults.injury_healed_event", injury=new_injury)
 
@@ -426,7 +426,7 @@ def _attempt_scarring(
     cat.history.add_scar(
         i18n.t(
             "cat.history.scar_from_injury",
-            injury_name=i18n.t(f"conditions.injuries.{condition.name}"),
+            injury_name=i18n.t(f"conditions.temporary_conditions.{condition.name}"),
         ),
         condition=condition.name,
     )
@@ -478,5 +478,5 @@ def _attempt_scarring(
 
     return i18n.t(
         choice(scar_gain_strings),
-        injury=i18n.t(f"conditions.injuries.{condition.name}"),
+        injury=i18n.t(f"conditions.temporary_conditions.{condition.name}"),
     )
