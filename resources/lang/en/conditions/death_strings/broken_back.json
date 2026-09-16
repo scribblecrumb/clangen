@@ -6,6 +6,14 @@
         ],
         "involved_cats": {
             "m_c": {}
-        }
+        },
+        "death": [
+            {
+                "cats": [
+                    "m_c"
+                ],
+                "history": "m_c couldn't survive {PRONOUN/m_c/poss} broken back."
+            }
+        ]
     }
 ]

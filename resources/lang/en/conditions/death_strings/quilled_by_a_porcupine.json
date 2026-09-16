@@ -6,6 +6,14 @@
         ],
         "involved_cats": {
             "m_c": {}
-        }
+        },
+        "death": [
+            {
+                "cats": [
+                    "m_c"
+                ],
+                "history": "m_c died from {PRONOUN/m_c/poss} wounds after being quilled by a porcupine."
+            }
+        ]
     }
 ]

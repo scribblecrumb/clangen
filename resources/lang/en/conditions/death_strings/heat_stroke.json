@@ -6,7 +6,15 @@
         ],
         "involved_cats": {
             "m_c": {}
-        }
+        },
+        "death": [
+            {
+                "cats": [
+                    "m_c"
+                ],
+                "history": "m_c died of heat stroke."
+            }
+        ]
     },
     {
         "event_id": "heat_stroke1",
@@ -15,6 +23,14 @@
         ],
         "involved_cats": {
             "m_c": {}
-        }
+        },
+        "death": [
+            {
+                "cats": [
+                    "m_c"
+                ],
+                "history": "m_c's case of heat stroke has killed {PRONOUN/m_c/object}."
+            }
+        ]
     }
 ]

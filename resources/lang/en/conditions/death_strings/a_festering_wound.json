@@ -8,6 +8,14 @@
         ],
         "involved_cats": {
             "m_c": {}
-        }
+        },
+        "death": [
+            {
+                "cats": [
+                    "m_c"
+                ],
+                "history": "m_c has died from a festering wound."
+            }
+        ]
     }
 ]
