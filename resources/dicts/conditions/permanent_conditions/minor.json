@@ -6,7 +6,7 @@
         "requires_scar": false,
         "moons_until_discovery": 3,
         "mortality": {},
-        "immune_system_effect": 0,
+        "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
             "sore": 0.05,
@@ -36,7 +36,7 @@
         "requires_scar": true,
         "moons_until_discovery": 0,
         "mortality": {},
-        "immune_system_effect": 0,
+        "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
             "an_infected_wound": 0.014,
@@ -64,7 +64,7 @@
         "requires_scar": true,
         "moons_until_discovery": 0,
         "mortality": {},
-        "immune_system_effect": 0,
+        "immune_system_effect": 0.0,
         "progression": {},
         "risks": {},
         "treatment_strength": {
@@ -90,7 +90,7 @@
             "senior adult": 0.02,
             "senior": 0.03
         },
-        "immune_system_effect": 0,
+        "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
             "whitecough": 0.05,
@@ -116,7 +116,7 @@
         "requires_scar": false,
         "moons_until_discovery": 2,
         "mortality": {},
-        "immune_system_effect": 0,
+        "immune_system_effect": 0.0,
         "progression": {
             "deaf": 0.013
         },
@@ -137,7 +137,7 @@
         "can_be_acquired": true,
         "moons_until_discovery": 2,
         "mortality": {},
-        "immune_system_effect": 0,
+        "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
             "joint_pain": 0.1
@@ -162,7 +162,7 @@
         "can_be_acquired": false,
         "moons_until_discovery": 2,
         "mortality": {},
-        "immune_system_effect": 0,
+        "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
             "running_nose": 0.05
@@ -181,7 +181,7 @@
         "can_be_acquired": true,
         "moons_until_discovery": 0,
         "mortality": {},
-        "immune_system_effect": 0,
+        "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
             "grief_stricken": 0.02,
@@ -206,7 +206,7 @@
         "can_be_acquired": true,
         "moons_until_discovery": 4,
         "mortality": {},
-        "immune_system_effect": 0,
+        "immune_system_effect": 0.0,
         "progression": {},
         "risks": {},
         "treatment_strength": {
@@ -225,7 +225,7 @@
         "requires_scar": true,
         "moons_until_discovery": 4,
         "mortality": {},
-        "immune_system_effect": 0,
+        "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
             "sore_throat": 0.033

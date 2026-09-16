@@ -5,7 +5,7 @@
         "can_be_acquired": true,
         "moons_until_discovery": 0,
         "mortality": {},
-        "immune_system_effect": 0,
+        "immune_system_effect": 0.0,
         "progression": {},
         "risks": {},
         "treatment_strength": {
@@ -21,7 +21,7 @@
         "requires_scar": true,
         "moons_until_discovery": 0,
         "mortality": {},
-        "immune_system_effect": 0,
+        "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
             "an_infected_wound": 0.014,
@@ -52,7 +52,7 @@
         "requires_scar": true,
         "moons_until_discovery": 0,
         "mortality": {},
-        "immune_system_effect": 0,
+        "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
             "sore": 0.05,
@@ -81,7 +81,7 @@
         "requires_scar": true,
         "moons_until_discovery": 1,
         "mortality": {},
-        "immune_system_effect": 0,
+        "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
             "sore": 0.05,
@@ -171,7 +171,7 @@
         "requires_scar": false,
         "moons_until_discovery": 1,
         "mortality": {},
-        "immune_system_effect": 0,
+        "immune_system_effect": 0.0,
         "progression": {},
         "risks": {},
         "treatment_strength": {
@@ -190,7 +190,7 @@
         "requires_scar": false,
         "moons_until_discovery": 2,
         "mortality": {},
-        "immune_system_effect": 0,
+        "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
             "failing_eyesight": 0.013
@@ -211,7 +211,7 @@
         "requires_scar": false,
         "moons_until_discovery": 3,
         "mortality": {},
-        "immune_system_effect": 0,
+        "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
             "blind": 0.02
@@ -232,7 +232,7 @@
         "requires_scar": false,
         "moons_until_discovery": 1,
         "mortality": {},
-        "immune_system_effect": 0,
+        "immune_system_effect": 0.0,
         "progression": {},
         "risks": {},
         "treatment_strength": {
@@ -250,7 +250,7 @@
         "can_be_acquired": true,
         "moons_until_discovery": 3,
         "mortality": {},
-        "immune_system_effect": 0,
+        "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
             "seizure": 0.1
@@ -274,7 +274,7 @@
         "can_be_acquired": true,
         "moons_until_discovery": 0,
         "mortality": {},
-        "immune_system_effect": 0,
+        "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
             "headache": 0.05
@@ -291,7 +291,7 @@
         "can_be_acquired": true,
         "moons_until_discovery": 0,
         "mortality": {},
-        "immune_system_effect": 0,
+        "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
             "constant_nightmares": 0.05,
@@ -315,7 +315,7 @@
         "can_be_acquired": true,
         "moons_until_discovery": 4,
         "mortality": {},
-        "immune_system_effect": 0,
+        "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
             "severe_headache": 0.05,

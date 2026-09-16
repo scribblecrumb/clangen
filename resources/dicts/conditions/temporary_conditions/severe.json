@@ -11,8 +11,8 @@
             "senior adult": 0.05,
             "senior": 0.2
         },
-        "infectiousness": 0,
-        "immune_system_effect": 0,
+        "infectiousness": 0.0,
+        "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {},
         "risks": {
@@ -43,8 +43,8 @@
             "senior adult": 0.05,
             "senior": 0.2
         },
-        "infectiousness": 0,
-        "immune_system_effect": 0,
+        "infectiousness": 0.0,
+        "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {},
         "risks": {},
@@ -73,8 +73,8 @@
             "senior adult": 0.12,
             "senior": 0.33
         },
-        "infectiousness": 3,
-        "immune_system_effect": 0,
+        "infectiousness": 0.3,
+        "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {},
         "risks": {
@@ -108,8 +108,8 @@
             "senior adult": 0,
             "senior": 0.2
         },
-        "infectiousness": 2,
-        "immune_system_effect": 0,
+        "infectiousness": 0.2,
+        "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {
             "whitecough": 0.1
@@ -146,8 +146,8 @@
             "senior adult": 0.5,
             "senior": 1.0
         },
-        "infectiousness": 0,
-        "immune_system_effect": 0,
+        "infectiousness": 0.0,
+        "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {},
         "risks": {},
@@ -177,8 +177,8 @@
             "senior adult": 0.5,
             "senior": 1.0
         },
-        "infectiousness": 0,
-        "immune_system_effect": 0,
+        "infectiousness": 0.0,
+        "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {},
         "risks": {},
@@ -211,8 +211,8 @@
             "senior adult": 0.2,
             "senior": 0.5
         },
-        "infectiousness": 0,
-        "immune_system_effect": 0,
+        "infectiousness": 0.0,
+        "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {
             "strange_lump": 0.013
@@ -247,8 +247,8 @@
             "senior adult": 0.12,
             "senior": 0.33
         },
-        "infectiousness": 0,
-        "immune_system_effect": 0,
+        "infectiousness": 0.0,
+        "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {},
         "risks": {},
@@ -268,8 +268,8 @@
         "severity": "severe",
         "duration": 100,
         "mortality": {},
-        "infectiousness": 0,
-        "immune_system_effect": 0,
+        "infectiousness": 0.0,
+        "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {},
         "risks": {},
@@ -293,8 +293,8 @@
             "senior adult": 0.02,
             "senior": 0.1
         },
-        "infectiousness": 0,
-        "immune_system_effect": 0,
+        "infectiousness": 0.0,
+        "immune_system_effect": 0.0,
         "side_effect": {
             "blood_loss": 0.2,
             "scrapes": 0.2,
@@ -340,8 +340,8 @@
             "senior adult": 0.02,
             "senior": 0.07
         },
-        "infectiousness": 0,
-        "immune_system_effect": 0,
+        "infectiousness": 0.0,
+        "immune_system_effect": 0.0,
         "side_effect": {
             "torn_pelt": 0.2,
             "mangled_leg": 0.2,
@@ -389,8 +389,8 @@
             "senior adult": 0.01,
             "senior": 0.02
         },
-        "infectiousness": 0,
-        "immune_system_effect": 0,
+        "infectiousness": 0.0,
+        "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {
             "blind": 0.2,
@@ -433,8 +433,8 @@
             "senior adult": 0.02,
             "senior": 0.07
         },
-        "infectiousness": 0,
-        "immune_system_effect": 0,
+        "infectiousness": 0.0,
+        "immune_system_effect": 0.0,
         "side_effect": {
             "torn_pelt": 0.2,
             "broken_bone": 0.2,
@@ -485,8 +485,8 @@
             "senior adult": 0.02,
             "senior": 0.07
         },
-        "infectiousness": 0,
-        "immune_system_effect": 0,
+        "infectiousness": 0.0,
+        "immune_system_effect": 0.0,
         "side_effect": {
             "torn_pelt": 0.2,
             "blood_loss": 0.2
@@ -531,8 +531,8 @@
             "senior adult": 0.03,
             "senior": 0.1
         },
-        "infectiousness": 0,
-        "immune_system_effect": 0,
+        "infectiousness": 0.0,
+        "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {
             "lost_their_tail": 0.2,
@@ -575,8 +575,8 @@
             "senior adult": 0.04,
             "senior": 0.1
         },
-        "infectiousness": 0,
-        "immune_system_effect": 0,
+        "infectiousness": 0.0,
+        "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {
             "paralyzed": 0.2
