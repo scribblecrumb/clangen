@@ -276,7 +276,23 @@
                 "poppy",
                 "goldenrod"
             ]
-        }
+        },
+        "possible_scars": [
+            "ONE",
+            "TWO",
+            "SNOUT",
+            "TAILSCAR",
+            "CHEEK",
+            "SIDE",
+            "THROAT",
+            "TAILBASE",
+            "BELLY",
+            "FACE",
+            "BRIDGE",
+            "HINDLEG",
+            "BACK",
+            "SCRATCHSIDE"
+        ]
     },
     "bite_wound": {
         "severity": "major",
@@ -316,7 +332,10 @@
                 "poppy",
                 "goldenrod"
             ]
-        }
+        },
+        "possible_scars": [
+            "LEGBITE", "NECKBITE", "TAILSCAR", "BRIGHTHEART"
+        ]
     },
     "cat_bite": {
         "severity": "major",
@@ -356,7 +375,10 @@
                 "poppy",
                 "goldenrod"
             ]
-        }
+        },
+        "possible_scars": [
+            "CATBITE", "CATBITETWO"
+        ]
     },
     "beak_bite": {
         "severity": "major",
@@ -436,7 +458,10 @@
                 "goldenrod",
                 "dandelion"
             ]
-        }
+        },
+        "possible_scars": [
+            "SNAKE", "SNAKETWO"
+        ]
     },
     "rat_bite": {
         "severity": "major",
@@ -477,7 +502,10 @@
                 "goldenrod",
                 "burdock"
             ]
-        }
+        },
+        "possible_scars": [
+            "RATBITE", "TOE"
+        ]
     },
     "dislocated_joint": {
         "severity": "major",
@@ -585,7 +613,19 @@
                 "dandelion",
                 "juniper"
             ]
-        }
+        },
+        "possible_scars": [
+            "HALFTAIL",
+            "NOTAIL",
+            "NOPAW",
+            "NOLEFTEAR",
+            "NORIGHTEAR",
+            "NOEAR",
+            "FROSTFACE",
+            "FROSTTAIL",
+            "FROSTMITT",
+            "FROSTSOCK"
+        ]
     },
     "recovering_from_birth": {
         "severity": "major",
@@ -819,47 +859,6 @@
             ]
         }
     },
-    "damaged_eyes": {
-        "severity": "major",
-        "duration": 6,
-        "mortality": {
-            "newborn": 0.03,
-            "kitten": 0.03,
-            "adolescent": 0.02,
-            "young adult": 0.01,
-            "adult": 0.01,
-            "senior adult": 0.01,
-            "senior": 0.02
-        },
-        "infectiousness": 0,
-        "immune_system_effect": 0,
-        "side_effect": {},
-        "progression": {
-            "blind": 0.2,
-            "one bad eye": 0.2,
-            "failing eyesight": 0.2
-        },
-        "risks": {
-            "an infected wound": 0.25
-        },
-        "treatment_strength": {
-            "1": [
-                "cobwebs",
-                "marigold",
-                "oak_leaves",
-                "ragwort"
-            ],
-            "2": [
-                "juniper",
-                "wild_garlic"
-            ],
-            "3": [
-                "moss",
-                "goldenrod",
-                "poppy"
-            ]
-        }
-    },
     "poisoned": {
         "severity": "major",
         "duration": 2,
@@ -997,7 +996,10 @@
                 "wild_garlic",
                 "dandelion"
             ]
-        }
+        },
+        "possible_scars": [
+            "QUILLCHUNK", "QUILLSCRATCH", "QUILLSIDE"
+        ]
     },
     "venom_sickness": {
         "severity": "major",
@@ -1035,7 +1037,6 @@
             ],
             "3": [
                 "poppy"
-
             ]
         }
     }

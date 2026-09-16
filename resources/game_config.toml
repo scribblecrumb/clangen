@@ -576,6 +576,20 @@ dev_tools = false
   lineart_color_sc = [47, 51, 64]
   lineart_color_df = [30, 8, 11]
 
+  # determines which scars can't show up with other scars
+  # if cat has the key scar, then the value scars will no longer be allowed
+  [cat_sprites.scar_conflicts]
+    NOPAW = ["TOETRAP", "RATBITE", "FROSTSOCK"]
+    NOTAIL = ["HALFTAIL", "TAILBASE", "TAILSCAR", "MANTAIL", "BURNTAIL", "FROSTTAIL"]
+    HALFTAIL = ["TAILSCAR", "MANTAIL", "FROSTTAIL"]
+    BRIGHTHEART = ["RIGHTBLIND", "BOTHBLIND"]
+    BOTHBLIND = ["THREE", "RIGHTBLIND", "LEFTBLIND", "BOTHBLIND", "BRIGHTHEART"]
+    NOEAR = ["LEFTEAR", "RIGHTEAR", "NOLEFTEAR", "NORIGHTEAR", "FROSTFACE"]
+    MANTAIL = ["BURNTAIL", "FROSTTAIL"]
+    BURNTAIL = ["MANTAIL", "FROSTTAIL"]
+    NOLEFT = ["LEFTEAR"]
+    NORIGHT = ["RIGHTEAR"]
+
 [thought_generation]
   # the ID of the thoughts to ensure
   debug_ensure_thought_id = ""

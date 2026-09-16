@@ -1,5 +1,6 @@
 import logging
 from random import choice, random
+from typing import Optional
 
 import i18n
 
@@ -11,13 +12,14 @@ from scripts.cat.conditions.conditions import (
     gain_permanent_condition,
     update_permanent_condition_state,
 )
+from scripts.cat.conditions.temporary_condition import TemporaryCondition
 from scripts.cat.constants import TEMPORARY_CONDITIONS, PERMANENT_CONDITIONS
 from scripts.cat.enums import CatRank, CatAge
 from scripts.clan_package.get_clan_cats import find_alive_cats_with_rank
 from scripts.clan_package.settings import get_clan_setting
+from scripts.config import get_config
 from scripts.events_module.consequences import check_stolen_vitality
 from scripts.events_module.event_information import EventInformation
-from scripts.events_module.short.scar_events import Scar_Events
 from scripts.events_module.text_adjust import event_text_adjust, get_leader_life_notice
 from scripts.game_structure import game
 from scripts.game_structure.localization import load_lang_resource
@@ -76,11 +78,13 @@ def handle_temporary_conditions(cat: Cat):
             break
 
         elif state == ConditionState.HEALED:
-            event, scar_given = Scar_Events.handle_scars(cat, condition)
+            event = _attempt_scarring(
+                cat, condition, possible_scars=condition.possible_scars
+            )
 
-            if not scar_given:
+            if not event:
                 try:
-                    event = get_valid_string_from_list(
+                    event = _get_valid_string_from_list(
                         load_lang_resource(
                             "healed_and_death_strings/injury_healed_strings.json"
                         )[condition.name],
@@ -135,68 +139,6 @@ def handle_temporary_conditions(cat: Cat):
         )
 
 
-def _check_risks_and_progressions(cat, condition, conditions_to_remove):
-    current_temp_conditions = {c.name for c in cat.temporary_conditions}
-    current_perm_conditions = {c.name for c in cat.permanent_conditions}
-    # CHECK RISKS
-    for risk, chance in condition.risks.items():
-        if risk in cat.temporary_conditions:
-            # don't double up
-            continue
-
-        risk_progressions = TEMPORARY_CONDITIONS[risk]["progression"].keys()
-        if set(risk_progressions).intersection(current_temp_conditions):
-            # don't give them a condition that they already have a progression of
-            continue
-
-        if chance and random() <= chance:
-            # set the risk chance back down to make it less likely it occurs again
-            # for complications this is set to 0 to avoid annoying loops
-            if TEMPORARY_CONDITIONS[risk].get("is_complication", False):
-                condition.risks[risk] = 0.0
-                # mark the current condition as having this complication
-                condition.current_complication = risk
-            else:
-                condition.risks[risk] = 0.05
-
-            # TODO: gather event strings
-
-            gain_temporary_condition(cat, risk)
-
-            continue
-    # CHECK PROGRESSIONS
-    for progression, chance in condition.progression.items():
-        if progression in cat.temporary_conditions + cat.permanent_conditions:
-            # don't double up
-            continue
-
-        # don't give them a condition that they already have a progression of
-        if progression in TEMPORARY_CONDITIONS:
-            further_progressions = TEMPORARY_CONDITIONS[progression][
-                "progression"
-            ].keys()
-            if set(further_progressions).intersection(current_temp_conditions):
-                continue
-        elif progression in PERMANENT_CONDITIONS:
-            further_progressions = PERMANENT_CONDITIONS[progression][
-                "progression"
-            ].keys()
-            if set(further_progressions).intersection(current_perm_conditions):
-                continue
-
-        if chance and random() <= chance:
-            # TODO: gather event strings
-
-            if progression in TEMPORARY_CONDITIONS:
-                gain_temporary_condition(cat, progression)
-            elif progression in PERMANENT_CONDITIONS:
-                gain_permanent_condition(cat, progression)
-
-            conditions_to_remove.append(condition)
-
-    return conditions_to_remove
-
-
 def handle_permanent_conditions(cat: Cat):
     event_list = []
     conditions_to_remove = []
@@ -210,6 +152,7 @@ def handle_permanent_conditions(cat: Cat):
 
         if state == ConditionState.SKIPPED:
             continue
+
         elif state == ConditionState.FATAL:
             try:
                 possible_string_list = load_lang_resource(
@@ -271,10 +214,93 @@ def handle_permanent_conditions(cat: Cat):
         )
 
     if not cat.dead:
-        determine_retirement(cat)
+        _determine_retirement(cat)
 
 
-def get_valid_string_from_list(event_list: list[str], cat: Cat) -> str:
+def _check_risks_and_progressions(cat, condition, conditions_to_remove):
+    current_temp_conditions = {c.name for c in cat.temporary_conditions}
+    current_perm_conditions = {c.name for c in cat.permanent_conditions}
+    # CHECK RISKS
+    for risk, chance in condition.risks.items():
+        if risk in cat.temporary_conditions:
+            # don't double up
+            continue
+
+        risk_progressions = TEMPORARY_CONDITIONS[risk]["progression"].keys()
+        if set(risk_progressions).intersection(current_temp_conditions):
+            # don't give them a condition that they already have a progression of
+            continue
+
+        if chance and random() <= chance:
+            # set the risk chance back down to make it less likely it occurs again
+            # for complications this is set to 0 to avoid annoying loops
+            if TEMPORARY_CONDITIONS[risk].get("is_complication", False):
+                condition.risks[risk] = 0.0
+                # mark the current condition as having this complication
+                condition.current_complication = risk
+            else:
+                condition.risks[risk] = 0.05
+
+            # TODO: gather event strings
+
+            gain_temporary_condition(cat, risk)
+
+            continue
+    # CHECK PROGRESSIONS
+    for progression, chance in condition.progression.items():
+        if progression in cat.temporary_conditions + cat.permanent_conditions:
+            # don't double up
+            continue
+
+        # don't give them a condition that they already have a progression of
+        if progression in TEMPORARY_CONDITIONS:
+            further_progressions = TEMPORARY_CONDITIONS[progression][
+                "progression"
+            ].keys()
+            if set(further_progressions).intersection(current_temp_conditions):
+                continue
+        elif progression in PERMANENT_CONDITIONS:
+            further_progressions = PERMANENT_CONDITIONS[progression][
+                "progression"
+            ].keys()
+            if set(further_progressions).intersection(current_perm_conditions):
+                continue
+
+        if chance and random() <= chance:
+            # TODO: gather event strings
+
+            if progression in TEMPORARY_CONDITIONS:
+                gain_temporary_condition(cat, progression)
+            elif progression in PERMANENT_CONDITIONS:
+                if condition in TEMPORARY_CONDITIONS:
+                    requires_scar = PERMANENT_CONDITIONS[progression]["requires_scar"]
+                    scar_pool = (
+                        condition.possible_scars
+                        + PERMANENT_CONDITIONS[progression]["possible_scars"]
+                    )
+                    # if the condition is going from temp to perm, try to give a scar
+                    event = _attempt_scarring(
+                        cat,
+                        condition,
+                        possible_scars=scar_pool,
+                        guarantee_scar=requires_scar,
+                    )
+
+                    if requires_scar and not event:
+                        # if the cat couldn't be scarred for some reason, but the condition required it
+                        # then we're gonna continue before we can give the condition
+                        continue
+
+                    event = event_text_adjust(Cat, event, main_cat=cat)
+
+                gain_permanent_condition(cat, progression)
+
+            conditions_to_remove.append(condition)
+
+    return conditions_to_remove
+
+
+def _get_valid_string_from_list(event_list: list[str], cat: Cat) -> str:
     med_cats = find_alive_cats_with_rank(
         Cat, [CatRank.MEDICINE_CAT, CatRank.MEDICINE_APPRENTICE], working=True
     )
@@ -295,7 +321,7 @@ def get_valid_string_from_list(event_list: list[str], cat: Cat) -> str:
     )
 
 
-def determine_retirement(cat):
+def _determine_retirement(cat):
     # TODO: need cleanup
     if get_clan_setting("retirement") or cat.no_retire:
         return
@@ -365,3 +391,92 @@ def determine_retirement(cat):
                         cat_dict=cat_dict,
                     )
                 )
+
+
+def _attempt_scarring(
+    cat: Cat,
+    condition: TemporaryCondition,
+    possible_scars: list,
+    guarantee_scar: bool = False,
+) -> Optional[str]:
+    if not condition.possible_scars or len(cat.pelt.scars) >= 4:
+        return None
+
+    # scar chance increased by num of moons with the condition
+    if guarantee_scar:
+        chance = 1
+    else:
+        moons_with = game.clan.age - condition.moon_gained
+        chance = max(5 - moons_with, 1)
+
+    if not int(random() * chance):
+        scar_pool = possible_scars
+        scar_conflicts = get_config("cat_sprites.scar_conflicts")
+
+        for scar, conflicts in scar_conflicts.items():
+            if scar in cat.pelt.scars:
+                scar_pool = [i for i in scar_pool if i not in conflicts]
+
+        if not scar_pool:
+            return None
+    else:
+        return None
+
+    # If we've reached this point, we can move forward with giving history.
+    cat.history.add_scar(
+        i18n.t(
+            "cat.history.scar_from_injury",
+            injury_name=i18n.t(f"conditions.injuries.{condition.name}"),
+        ),
+        condition=condition.name,
+    )
+
+    # pick the scar
+    scar = choice(scar_pool)
+
+    # remove acc if need be
+    if scar in ("NOTAIL", "HALFTAIL"):
+        cat.pelt.accessory = tuple(
+            acc
+            for acc in cat.pelt.accessory
+            if acc
+            not in (
+                "RED FEATHERS",
+                "BLUE FEATHERS",
+                "JAY FEATHERS",
+                "GULL FEATHERS",
+                "SPARROW FEATHERS",
+                "CLOVER",
+                "DAISY",
+            )
+        )
+
+    # combining left/right variations into the both version
+    if "NOLEFTEAR" in cat.pelt.scars and scar == "NORIGHTEAR":
+        cat.pelt.scars = tuple(scar for scar in cat.pelt.scars if scar != "NOLEFTEAR")
+        scar = "NOEAR"
+    elif "NORIGHTEAR" in cat.pelt.scars and scar == "NOLEFTEAR":
+        cat.pelt.scars = tuple(scar for scar in cat.pelt.scars if scar != "NORIGHTEAR")
+        scar = "NOEAR"
+
+    if "RIGHTBLIND" in cat.pelt.scars and scar == "LEFTBLIND":
+        cat.pelt.scars = tuple(scar for scar in cat.pelt.scars if scar != "RIGHTBLIND")
+        scar = "BOTHBLIND"
+    elif "LEFTBLIND" in cat.pelt.scars and scar == "RIGHTBLIND":
+        cat.pelt.scars = tuple(scar for scar in cat.pelt.scars if scar != "LEFTBLIND")
+        scar = "BOTHBLIND"
+
+    # give scar to cat
+    cat.pelt.scars = (*cat.pelt.scars, scar)
+
+    # find string
+    scar_gain_strings = [
+        "hardcoded.scar_event0",
+        "hardcoded.scar_event1",
+        "hardcoded.scar_event2",
+    ]
+
+    return i18n.t(
+        choice(scar_gain_strings),
+        injury=i18n.t(f"conditions.injuries.{condition.name}"),
+    )

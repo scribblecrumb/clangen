@@ -321,7 +321,10 @@
                 "poppy",
                 "goldenrod"
             ]
-        }
+        },
+        "possible_scars": [
+            "SNOUT", "CHEEK", "BRIDGE", "BEAKCHEEK"
+        ]
     },
     "broken_bone": {
         "severity": "severe",
@@ -367,7 +370,54 @@
                 "poppy",
                 "goldenrod"
             ]
-        }
+        },
+        "possible_scars": [
+            "MANLEG", "TOETRAP", "FOUR"
+        ]
+    },
+    "damaged_eyes": {
+        "severity": "severe",
+        "duration": 6,
+        "mortality": {
+            "newborn": 0.03,
+            "kitten": 0.03,
+            "adolescent": 0.02,
+            "young adult": 0.01,
+            "adult": 0.01,
+            "senior adult": 0.01,
+            "senior": 0.02
+        },
+        "infectiousness": 0,
+        "immune_system_effect": 0,
+        "side_effect": {},
+        "progression": {
+            "blind": 0.2,
+            "one bad eye": 0.2,
+            "failing eyesight": 0.2
+        },
+        "risks": {
+            "an infected wound": 0.25
+        },
+        "treatment_strength": {
+            "1": [
+                "cobwebs",
+                "marigold",
+                "oak_leaves",
+                "ragwort"
+            ],
+            "2": [
+                "juniper",
+                "wild_garlic"
+            ],
+            "3": [
+                "moss",
+                "goldenrod",
+                "poppy"
+            ]
+        },
+        "possible_scars": [
+            "THREE", "RIGHTBLIND", "LEFTBLIND", "BOTHBLIND"
+        ]
     },
     "mangled_leg": {
         "severity": "severe",
@@ -416,7 +466,10 @@
                 "poppy",
                 "goldenrod"
             ]
-        }
+        },
+        "possible_scars": [
+             "TOETRAP", "MANLEG", "FOUR"
+        ]
     },
     "mangled_tail": {
         "severity": "severe",
@@ -459,7 +512,10 @@
                 "poppy",
                 "goldenrod"
             ]
-        }
+        },
+        "possible_scars": [
+            "TAILSCAR", "TAILBASE", "MANTAIL"
+        ]
     },
     "severe_burn": {
         "severity": "severe",
@@ -500,7 +556,10 @@
                 "goldenrod",
                 "honey"
             ]
-        }
+        },
+        "possible_scars": [
+            "BRIGHTHEART", "BURNPAWS", "BURNTAIL", "BURNBELLY", "BURNRUMP"
+        ]
     },
     "broken_back": {
         "severity": "severe",
@@ -536,6 +595,9 @@
                 "poppy",
                 "burdock"
             ]
-        }
+        },
+        "possible_scars": [
+            "TWO", "TAILBASE", "BACK"
+        ]
     }
 }

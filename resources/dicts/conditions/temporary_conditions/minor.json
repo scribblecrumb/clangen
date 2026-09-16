@@ -325,7 +325,10 @@
                 "goldenrod",
                 "oak_leaves"
             ]
-        }
+        },
+        "possible_scars": [
+             "LEFTEAR", "RIGHTEAR", "NOLEFTEAR", "NORIGHTEAR"
+        ]
     },
     "bee_sting": {
         "severity": "minor",

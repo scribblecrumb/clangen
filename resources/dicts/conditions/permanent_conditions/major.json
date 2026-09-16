@@ -19,6 +19,7 @@
         "severity": "major",
         "can_be_congenital": false,
         "can_be_acquired": true,
+        "requires_scar": true,
         "moons_until_discovery": 0,
         "mortality": {},
         "immune_system_effect": 0,
@@ -41,12 +42,16 @@
             "3": [
                 "dandelion"
             ]
-        }
+        },
+        "possible_scars": [
+            "NOPAW"
+        ]
     },
     "born_without_a_leg": {
         "severity": "major",
         "can_be_congenital": true,
         "can_be_acquired": false,
+        "requires_scar": true,
         "moons_until_discovery": 0,
         "mortality": {},
         "immune_system_effect": 0,
@@ -67,12 +72,16 @@
             "3": [
                 "juniper"
             ]
-        }
+        },
+        "possible_scars": [
+            "NOPAW"
+        ]
     },
     "twisted_leg": {
         "severity": "major",
         "can_be_congenital": true,
         "can_be_acquired": true,
+        "requires_scar": true,
         "moons_until_discovery": 1,
         "mortality": {},
         "immune_system_effect": 0,
@@ -96,7 +105,10 @@
                 "poppy",
                 "thyme"
             ]
-        }
+        },
+        "possible_scars": [
+            "MANLEG"
+        ]
     },
     "wasting_disease": {
         "severity": "major",
@@ -162,6 +174,7 @@
         "severity": "major",
         "can_be_congenital": true,
         "can_be_acquired": true,
+        "requires_scar": false,
         "moons_until_discovery": 1,
         "mortality": {},
         "immune_system_effect": 0,
@@ -172,12 +185,16 @@
             "1": [],
             "2": [],
             "3": []
-        }
+        },
+        "possible_scars": [
+            "BOTHBLIND"
+        ]
     },
     "one_bad_eye": {
         "severity": "major",
         "can_be_congenital": true,
         "can_be_acquired": true,
+        "requires_scar": false,
         "moons_until_discovery": 2,
         "mortality": {},
         "immune_system_effect": 0,
@@ -190,12 +207,16 @@
             "1": [],
             "2": [],
             "3": []
-        }
+        },
+        "possible_scars": [
+            "THREE", "BRIGHTHEART", "LEFTBLIND", "RIGHTBLIND"
+        ]
     },
     "failing_eyesight": {
         "severity": "major",
         "can_be_congenital": true,
         "can_be_acquired": true,
+        "requires_scar": false,
         "moons_until_discovery": 3,
         "mortality": {},
         "immune_system_effect": 0,
@@ -208,12 +229,16 @@
             "1": [],
             "2": [],
             "3": []
-        }
+        },
+        "possible_scars": [
+            "THREE", "LEFTBLIND", "RIGHTBLIND", "BOTHBLIND"
+        ]
     },
     "deaf": {
         "severity": "major",
         "can_be_congenital": true,
         "can_be_acquired": true,
+        "requires_scar": false,
         "moons_until_discovery": 1,
         "mortality": {},
         "immune_system_effect": 0,
@@ -224,7 +249,10 @@
             "1": [],
             "2": [],
             "3": []
-        }
+        },
+        "possible_scars": [
+            "NOEAR"
+        ]
     },
     "seizure_prone": {
         "severity": "major",
