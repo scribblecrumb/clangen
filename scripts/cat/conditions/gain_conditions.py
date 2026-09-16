@@ -20,6 +20,7 @@ def gain_temporary_condition(
     prevent_death: bool = False,
     severity: Optional[Literal["minor", "major", "severe"]] = None,
     scar_pool_override: Optional[list[str]] = None,
+    allow_side_effects: bool = True,
 ):
     """
     Add a temporary condition
@@ -29,6 +30,7 @@ def gain_temporary_condition(
     :param prevent_death: if true, the cat will not be able to die, even if this condition typically can
     :param severity: override the condition's typical severity with the given one
     :param scar_pool_override: override the condition's typical scar pool with the given list
+    :param allow_side_effects: If true, the condition can apply additional conditions as side effects
     """
     if cat.dead:
         return
@@ -62,7 +64,7 @@ def gain_temporary_condition(
 
     cat.temporary_conditions.append(new_condition)
 
-    if condition_info.get("side_effect"):
+    if allow_side_effects and condition_info.get("side_effect"):
         _handle_condition_side_effect(cat, side_effects=condition_info["side_effect"])
 
 

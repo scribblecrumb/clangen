@@ -1,11 +1,15 @@
 import unittest
 
-import ujson
-
+from scripts.cat.conditions.condition_state import ConditionState
 from scripts.cat.conditions.coverage_check import medicine_cats_can_cover_clan
-from scripts.cat.conditions.gain_conditions import gain_temporary_condition
+from scripts.cat.conditions.gain_conditions import (
+    gain_temporary_condition,
+    gain_permanent_condition,
+)
+from scripts.cat.constants import TEMPORARY_CONDITIONS, PERMANENT_CONDITIONS
 from scripts.cat.enums import CatRank
 from scripts.cat.factories.test_cat_factory import TestCatFactory
+from scripts.events_module.condition.condition_events import handle_temporary_conditions
 
 cat_factory = TestCatFactory()
 
@@ -98,18 +102,48 @@ class TestsMedCondition(unittest.TestCase):
 
 
 class TestTemporaryCondition(unittest.TestCase):
-    def load_resources(self):
-        resource_directory = "resources/dicts/conditions/"
+    def test_gain(self):
+        for c in TEMPORARY_CONDITIONS:
+            with self.subTest(f"Test gain {c}"):
+                cat1 = cat_factory.create_cat()
+                gain_temporary_condition(cat1, c, allow_side_effects=False)
 
-        with open(f"{resource_directory}temporary_conditions.json", "r") as read_file:
-            conditions = ujson.loads(read_file.read())
-        return conditions
+                self.assertTrue(
+                    c in cat1.temporary_conditions,
+                    msg=f"{c} was not in {cat1.temporary_conditions}",
+                )
+
 
 
 class TestPermanentCondition(unittest.TestCase):
-    def load_resources(self):
-        resource_directory = "resources/dicts/conditions/"
+    def test_gain(self):
+        for c in PERMANENT_CONDITIONS:
+            with self.subTest(f"Test gain {c}"):
+                congenital = PERMANENT_CONDITIONS[c]["can_be_congenital"]
+                acquired = PERMANENT_CONDITIONS[c]["can_be_acquired"]
 
-        with open(f"{resource_directory}permanent_conditions.json", "r") as read_file:
-            conditions = ujson.loads(read_file.read())
-        return conditions
+                if congenital:
+                    cat1 = cat_factory.create_cat()
+                    gain_permanent_condition(cat1, c, is_congenital=True)
+
+                    self.assertTrue(
+                        c in cat1.permanent_conditions,
+                        msg=f"{c} (congenital) was not in {cat1.permanent_conditions}",
+                    )
+                    self.assertTrue(
+                        cat1.get_condition(c).is_congenital,
+                        msg=f"{c} (congenital) was not marked as congenital.",
+                    )
+
+                if acquired:
+                    cat1 = cat_factory.create_cat()
+                    gain_permanent_condition(cat1, c, is_congenital=False)
+
+                    self.assertTrue(
+                        c in cat1.permanent_conditions,
+                        msg=f"{c} (acquired) was not in {cat1.permanent_conditions}",
+                    )
+                    self.assertFalse(
+                        cat1.get_condition(c).is_congenital,
+                        msg=f"{c} (acquired) was marked as congenital.",
+                    )

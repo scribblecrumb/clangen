@@ -34,7 +34,7 @@ from scripts.game_structure.localization import load_lang_resource
 logger = logging.getLogger(__name__)
 
 
-def handle_temporary_conditions(cat: Cat):
+def handle_temporary_conditions(cat: Cat, forced_state: ConditionState = None):
     """
     Checks on the temporary conditions of the cat: updating their state and applying any relevant changes to both the condition and the cat
     """
@@ -47,7 +47,10 @@ def handle_temporary_conditions(cat: Cat):
 
         condition_extra_info = TEMPORARY_CONDITIONS[condition.name]
 
-        state = update_temporary_condition_state(condition)
+        if forced_state:
+            state = forced_state
+        else:
+            state = update_temporary_condition_state(condition)
 
         if state == ConditionState.SKIPPED:
             continue
