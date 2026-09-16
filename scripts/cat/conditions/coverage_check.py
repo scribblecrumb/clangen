@@ -60,5 +60,3 @@ def get_amount_cat_for_one_medic(clan):
         # just hope nobody has clans with more than 1,000,000 cats in classic
         amount = 1000000
     return amount
-
-

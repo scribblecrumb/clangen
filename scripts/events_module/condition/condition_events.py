@@ -5,9 +5,15 @@ from typing import Optional
 import i18n
 
 from scripts.cat.cats import Cat
-from scripts.cat.conditions.gain_conditions import gain_temporary_condition, gain_permanent_condition
-from scripts.cat.conditions.condition_state import ConditionState, update_permanent_condition_state, \
-    update_temporary_condition_state
+from scripts.cat.conditions.gain_conditions import (
+    gain_temporary_condition,
+    gain_permanent_condition,
+)
+from scripts.cat.conditions.condition_state import (
+    ConditionState,
+    update_permanent_condition_state,
+    update_temporary_condition_state,
+)
 from scripts.cat.conditions.temporary_condition import TemporaryCondition
 from scripts.cat.constants import TEMPORARY_CONDITIONS, PERMANENT_CONDITIONS
 from scripts.cat.enums import CatRank, CatAge
@@ -16,7 +22,10 @@ from scripts.config import get_config
 from scripts.events_module.consequences import check_stolen_vitality
 from scripts.events_module.event_information import EventInformation
 from scripts.events_module.text_adjust import event_text_adjust, get_leader_life_notice
-from scripts.events_module.text_pool_event.event_retrieval import load_text_pool_events, get_valid_event
+from scripts.events_module.text_pool_event.event_retrieval import (
+    load_text_pool_events,
+    get_valid_event,
+)
 from scripts.events_module.text_pool_event.handle_consequences import execute_outcome
 from scripts.game_structure import game
 from scripts.game_structure.localization import load_lang_resource
@@ -124,9 +133,7 @@ def handle_temporary_conditions(cat: Cat):
         cat.temporary_conditions.remove(c)
 
     if event_list:
-        game.cur_events_list.extend(
-            event_list
-        )
+        game.cur_events_list.extend(event_list)
 
 
 def handle_permanent_conditions(cat: Cat):

@@ -8,7 +8,7 @@ TODO: Docs
 import logging
 import random
 
-from scripts.events_module.condition.condition_handling import (
+from scripts.events_module.condition.condition_events import (
     handle_temporary_conditions,
     handle_permanent_conditions,
 )
