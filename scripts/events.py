@@ -8,7 +8,7 @@ TODO: Docs
 import logging
 import random
 
-from scripts.cat.conditions.condition_handling import (
+from scripts.events_module.condition.condition_handling import (
     handle_temporary_conditions,
     handle_permanent_conditions,
 )
@@ -33,11 +33,11 @@ from scripts.cat.names import Name
 from scripts.cat.save_load import save_cats, add_cat_to_fade_id
 from scripts.clan_package.settings import get_clan_setting, set_clan_setting
 from scripts.clan_resources.freshkill import FRESHKILL_EVENT_ACTIVE
-from scripts.cat.conditions.conditions import (
+from scripts.cat.conditions.coverage_check import (
     medicine_cats_can_cover_clan,
     get_amount_cat_for_one_medic,
-    gain_temporary_condition,
 )
+from scripts.cat.conditions.gain_conditions import gain_temporary_condition
 from scripts.events_module.event_information import EventInformation
 from scripts.events_module.ceremony.perform_ceremony import (
     check_for_ceremony,

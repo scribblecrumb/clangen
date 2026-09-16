@@ -2,12 +2,12 @@ import logging
 import os
 import ujson
 
-import scripts.cat.conditions.conditions
+import scripts.cat.conditions.coverage_check
+import scripts.cat.conditions.gain_conditions
 from scripts.cat.cats import Cat
 from scripts.cat.save_load import load_faded_cat_ids
 from scripts.cat_relations.inheritance2 import inheritance_db
 from scripts.cat.save_load import get_faded_ids
-from ..cat.constants import PERMANENT_CONDITIONS, TEMPORARY_CONDITIONS
 from ..cat.enums import CatGroup, CatRank
 from scripts.game_structure.game.switches import (
     switch_get_value,
@@ -18,8 +18,6 @@ from ..cat.factories.load_cat_factory import LoadCatFactory
 from scripts.housekeeping.version import SAVE_VERSION_NUMBER
 from scripts.game_structure import constants
 from scripts.game_structure import game
-from ..cat.personality import Personality
-from ..cat.skills import CatSkills
 from ..cat_relations.cat_handle_funcs import (
     init_all_relationships,
     load_relationship_of_cat,
@@ -100,7 +98,7 @@ def json_load():
 
         # this is here to handle paralyzed cats in old saves
         if cat.pelt.paralyzed and "paralyzed" not in cat.permanent_conditions:
-            scripts.cat.conditions.conditions.gain_permanent_condition("paralyzed")
+            scripts.cat.conditions.gain_conditions.gain_permanent_condition("paralyzed")
         elif "paralyzed" in cat.permanent_conditions and not cat.pelt.paralyzed:
             cat.pelt.paralyzed = True
 

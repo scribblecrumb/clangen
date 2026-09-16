@@ -5,22 +5,19 @@ from typing import Optional
 import i18n
 
 from scripts.cat.cats import Cat
-from scripts.cat.conditions.conditions import (
-    update_temporary_condition_state,
-    ConditionState,
-    gain_temporary_condition,
-    gain_permanent_condition,
-    update_permanent_condition_state,
-)
+from scripts.cat.conditions.gain_conditions import gain_temporary_condition, gain_permanent_condition
+from scripts.cat.conditions.condition_state import ConditionState, update_permanent_condition_state, \
+    update_temporary_condition_state
 from scripts.cat.conditions.temporary_condition import TemporaryCondition
 from scripts.cat.constants import TEMPORARY_CONDITIONS, PERMANENT_CONDITIONS
 from scripts.cat.enums import CatRank, CatAge
-from scripts.clan_package.get_clan_cats import find_alive_cats_with_rank
 from scripts.clan_package.settings import get_clan_setting
 from scripts.config import get_config
 from scripts.events_module.consequences import check_stolen_vitality
 from scripts.events_module.event_information import EventInformation
 from scripts.events_module.text_adjust import event_text_adjust, get_leader_life_notice
+from scripts.events_module.text_pool_event.event_retrieval import load_text_pool_events, get_valid_event
+from scripts.events_module.text_pool_event.handle_consequences import execute_outcome
 from scripts.game_structure import game
 from scripts.game_structure.localization import load_lang_resource
 
@@ -43,13 +40,10 @@ def handle_temporary_conditions(cat: Cat):
 
         elif state == ConditionState.FATAL:
             try:
-                possible_string_list = load_lang_resource(
-                    "healed_and_death_strings/injury_death_strings.json"
-                )[condition.name]
-                event = choice(possible_string_list)
+                event = generate_condition_event(
+                    main_cat=cat, path=f"conditions/death_strings/{condition.name}"
+                )
 
-                # first string in the list is always appropriate for history text
-                history_text = possible_string_list[0]
             except KeyError:
                 logging.warning(
                     "%s does not have an condition death string, placeholder used.",
@@ -57,23 +51,24 @@ def handle_temporary_conditions(cat: Cat):
                 )
 
                 event = i18n.t("defaults.injury_death_event")
-                history_text = i18n.t("defaults.injury_death_history")
+                event = event_text_adjust(Cat, event, main_cat=cat)
 
-            event = event_text_adjust(Cat, event, main_cat=cat)
+                # add life loss message
+                if cat.status.is_leader:
+                    processed_text = event + " " + get_leader_life_notice(str(cat.name))
+                    if extra_text := check_stolen_vitality(cat, 1):
+                        processed_text += " " + extra_text
 
-            # add life loss message
-            if cat.status.is_leader:
-                event = event + " " + get_leader_life_notice(str(cat.name))
-                if extra_text := check_stolen_vitality(cat, 1):
-                    event += " " + extra_text
-
-            # add death to history
-            cat.history.add_death(condition=condition, death_text=history_text.strip())
+                event = EventInformation(
+                    event,
+                    ["health", "birth_death"],
+                    [cat.ID],
+                )
 
             # clear event list first to make sure any heal or risk events from other injuries are not shown
             event_list.clear()
             event_list.append(event)
-            game.herb_events_list.append(event)
+            game.herb_events_list.append(event.text)
             break
 
         elif state == ConditionState.HEALED:
@@ -83,11 +78,8 @@ def handle_temporary_conditions(cat: Cat):
 
             if not event:
                 try:
-                    event = _get_valid_string_from_list(
-                        load_lang_resource(
-                            "healed_and_death_strings/injury_healed_strings.json"
-                        )[condition.name],
-                        cat,
+                    event = generate_condition_event(
+                        main_cat=cat, path=f"conditions/healed_strings/{condition.name}"
                     )
                 except KeyError:
                     logger.warning(
@@ -96,14 +88,18 @@ def handle_temporary_conditions(cat: Cat):
                     )
 
                     # try to translate the string
-                    new_injury = i18n.t(f"conditions.temporary_conditions.{condition}")
-                    new_injury.replace("conditions.temporary_conditions.", "")
+                    con_name = i18n.t(f"conditions.temporary_conditions.{condition}")
+                    con_name.replace("conditions.temporary_conditions.", "")
+                    event = i18n.t("defaults.injury_healed_event", injury=con_name)
 
-                    event = i18n.t("defaults.injury_healed_event", injury=new_injury)
+                    event = event_text_adjust(Cat, event, main_cat=cat)
+                    event = EventInformation(
+                        event,
+                        ["health"],
+                        [cat.ID],
+                    )
 
-            event = event_text_adjust(Cat, event, main_cat=cat)
-
-            game.herb_events_list.append(event)
+            game.herb_events_list.append(event.text)
 
             cat.history.remove_possible_history(condition)
             conditions_to_remove.append(condition)
@@ -117,31 +113,25 @@ def handle_temporary_conditions(cat: Cat):
             continue
 
         elif state == ConditionState.CONTINUING:
-            conditions_to_remove = _check_risks_and_progressions(
+            conditions_to_remove, additional_events = _check_risks_and_progressions(
                 cat, condition, conditions_to_remove
             )
+
+            if additional_events:
+                event_list.extend(additional_events)
 
     for c in conditions_to_remove:
         cat.temporary_conditions.remove(c)
 
-    if len(event_list) > 0:
-        event_string = " ".join(event_list)
-    else:
-        event_string = None
-
-    if event_string:
-        types = ["health"]
-        if cat.dead:
-            types.append("birth_death")
-        game.cur_events_list.append(
-            EventInformation(event_string, types, cat_dict=cat_dict)
+    if event_list:
+        game.cur_events_list.extend(
+            event_list
         )
 
 
 def handle_permanent_conditions(cat: Cat):
-    event_list = []
+    event_list: list[EventInformation] = []
     conditions_to_remove = []
-    cat_dict = {"m_c": cat}
 
     for condition in cat.permanent_conditions.copy():
         if condition.omit_moonskip:
@@ -192,33 +182,29 @@ def handle_permanent_conditions(cat: Cat):
             pass
 
         elif state == ConditionState.CONTINUING:
-            conditions_to_remove = _check_risks_and_progressions(
+            conditions_to_remove, additional_events = _check_risks_and_progressions(
                 cat, condition, conditions_to_remove
             )
+
+            if additional_events:
+                event_list.extend(additional_events)
 
     for c in conditions_to_remove:
         cat.temporary_conditions.remove(c)
 
-    if len(event_list) > 0:
-        event_string = " ".join(event_list)
-    else:
-        event_string = None
-
-    if event_string:
-        types = ["health"]
-        if cat.dead:
-            types.append("birth_death")
-        game.cur_events_list.append(
-            EventInformation(event_string, types, cat_dict=cat_dict)
-        )
+    if event_list:
+        game.cur_events_list.extend(event_list)
 
     if not cat.dead:
         _determine_retirement(cat)
 
 
-def _check_risks_and_progressions(cat, condition, conditions_to_remove):
+def _check_risks_and_progressions(
+    cat, condition, conditions_to_remove
+) -> tuple[list, list]:
     current_temp_conditions = {c.name for c in cat.temporary_conditions}
     current_perm_conditions = {c.name for c in cat.permanent_conditions}
+    event_list = []
     # CHECK RISKS
     for risk, chance in condition.risks.items():
         if risk in cat.temporary_conditions:
@@ -240,8 +226,31 @@ def _check_risks_and_progressions(cat, condition, conditions_to_remove):
             else:
                 condition.risks[risk] = 0.05
 
-            # TODO: gather event strings
+            try:
+                event = generate_condition_event(
+                    main_cat=cat,
+                    path=f"conditions/risk_strings/{condition.name}/{risk}.json",
+                )
+            except KeyError:
+                # TODO: get a fallback
+                logger.warning(
+                    "%s couldn't be found in the healed strings dict! placeholder used.",
+                    condition,
+                )
 
+                # try to translate the string
+                con_name = i18n.t(f"conditions.temporary_conditions.{condition}")
+                con_name.replace("conditions.temporary_conditions.", "")
+                event = i18n.t("defaults.injury_healed_event", injury=con_name)
+
+                event = event_text_adjust(Cat, event, main_cat=cat)
+                event = EventInformation(
+                    event,
+                    ["health"],
+                    [cat.ID],
+                )
+
+            event_list.append(event)
             gain_temporary_condition(cat, risk)
 
             continue
@@ -266,8 +275,7 @@ def _check_risks_and_progressions(cat, condition, conditions_to_remove):
                 continue
 
         if chance and random() <= chance:
-            # TODO: gather event strings
-
+            scar_event = None
             if progression in TEMPORARY_CONDITIONS:
                 gain_temporary_condition(cat, progression)
             elif progression in PERMANENT_CONDITIONS:
@@ -278,46 +286,51 @@ def _check_risks_and_progressions(cat, condition, conditions_to_remove):
                         + PERMANENT_CONDITIONS[progression]["possible_scars"]
                     )
                     # if the condition is going from temp to perm, try to give a scar
-                    event = _attempt_scarring(
+                    scar_event = _attempt_scarring(
                         cat,
                         condition,
                         possible_scars=scar_pool,
                         guarantee_scar=requires_scar,
                     )
 
-                    if requires_scar and not event:
+                    if requires_scar and not scar_event:
                         # if the cat couldn't be scarred for some reason, but the condition required it
                         # then we're gonna continue before we can give the condition
                         continue
 
-                    event = event_text_adjust(Cat, event, main_cat=cat)
-
                 gain_permanent_condition(cat, progression)
 
+            try:
+                event = generate_condition_event(
+                    main_cat=cat,
+                    path=f"conditions/progression_strings/{condition.name}/{progression}.json",
+                )
+            except KeyError:
+                # TODO: get a fallback
+                logger.warning(
+                    "%s couldn't be found in the healed strings dict! placeholder used.",
+                    condition,
+                )
+
+                # try to translate the string
+                con_name = i18n.t(f"conditions.temporary_conditions.{condition}")
+                con_name.replace("conditions.temporary_conditions.", "")
+                event = i18n.t("defaults.injury_healed_event", injury=con_name)
+
+                event = event_text_adjust(Cat, event, main_cat=cat)
+                event = EventInformation(
+                    event,
+                    ["health"],
+                    [cat.ID],
+                )
+
+            if scar_event:
+                event.text = " ".join([scar_event, event.text])
+
+            event_list.append(event)
             conditions_to_remove.append(condition)
 
     return conditions_to_remove
-
-
-def _get_valid_string_from_list(event_list: list[str], cat: Cat) -> str:
-    med_cats = find_alive_cats_with_rank(
-        Cat, [CatRank.MEDICINE_CAT, CatRank.MEDICINE_APPRENTICE], working=True
-    )
-
-    allowed_events = []
-    for event in event_list:
-        if "r_c" in event:
-            if med_cats:
-                allowed_events.append(event)
-        else:
-            allowed_events.append(event)
-
-    return event_text_adjust(
-        Cat,
-        choice(allowed_events),
-        main_cat=cat,
-        random_cat=choice(med_cats) if med_cats else None,
-    )
 
 
 def _determine_retirement(cat):
@@ -357,7 +370,7 @@ def _determine_retirement(cat):
                 }
 
             chance = int(retire_chances.get(cat.age))
-            if not int(random.random() * chance):
+            if not int(random() * chance):
                 retire_involved = [cat.ID]
                 cat_dict = {"m_c": cat}
                 if cat.age == CatAge.ADOLESCENT:
@@ -474,8 +487,49 @@ def _attempt_scarring(
         "hardcoded.scar_event1",
         "hardcoded.scar_event2",
     ]
+    event = event_text_adjust(Cat, choice(scar_gain_strings), main_cat=cat)
 
     return i18n.t(
-        choice(scar_gain_strings),
-        injury=i18n.t(f"conditions.temporary_conditions.{condition.name}"),
+        event,
+        condition=i18n.t(f"conditions.temporary_conditions.{condition.name}"),
+    )
+
+
+def generate_condition_event(main_cat: Cat, path: str) -> EventInformation:
+    """
+    Actually generate and execute condition event
+    """
+    possible_events = load_text_pool_events(path)
+    involved_cats = {"m_c": main_cat}
+
+    chosen_event, involved_cats = get_valid_event(
+        primary_cat=main_cat,
+        involved_cats=involved_cats,
+        interactable_cats=Cat.all_cats_list,
+        possible_events=possible_events,
+        frequency_active=False,
+    )
+
+    # we won't use results and rel_results here
+    processed_text, results, rel_results = execute_outcome(
+        event=chosen_event,
+        event_involved_cats=involved_cats,
+    )
+
+    types = ["health"]
+    if main_cat.dead:
+        types.append("birth_death")
+
+        # add life loss message
+        if main_cat.status.is_leader:
+            processed_text = (
+                processed_text + " " + get_leader_life_notice(str(main_cat.name))
+            )
+            if extra_text := check_stolen_vitality(main_cat, 1):
+                processed_text += " " + extra_text
+
+    return EventInformation(
+        processed_text,
+        types,
+        [c.ID for c in involved_cats.values()],
     )

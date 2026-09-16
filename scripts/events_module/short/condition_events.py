@@ -5,11 +5,7 @@ from typing import Dict, List
 import i18n
 
 from scripts.cat.cats import Cat
-from scripts.cat.conditions.conditions import (
-    gain_temporary_condition,
-    gain_permanent_condition,
-)
-from scripts.cat.constants import TEMPORARY_CONDITIONS
+from scripts.cat.conditions.gain_conditions import gain_temporary_condition
 from scripts.cat.enums import CatRank
 from scripts.clan_package.settings import get_clan_setting
 from scripts.clan_resources.freshkill import (
