@@ -20,6 +20,7 @@ from scripts.cat.constants import TEMPORARY_CONDITIONS, PERMANENT_CONDITIONS
 from scripts.cat.enums import CatRank, CatAge
 from scripts.clan_package.settings import get_clan_setting
 from scripts.config import get_config
+from scripts.events_module.ceremony.generate_normal_ceremony import create_ceremony
 from scripts.events_module.consequences import check_stolen_vitality
 from scripts.events_module.event_information import EventInformation
 from scripts.events_module.text_adjust import event_text_adjust, get_leader_life_notice
@@ -457,78 +458,57 @@ def _condition_overlaps(current_conditions, new_condition):
     return False
 
 
-def _determine_retirement(cat):
+def _determine_retirement(cat: Cat):
     """
     Checks if the cat should retire due to a condition
     """
-    # TODO: need cleanup
-    if get_clan_setting("retirement") or cat.no_retire:
+    if get_clan_setting("retirement") or cat.no_retire or not cat.status.is_clancat:
         return
 
-    if cat.status.rank in (CatRank.APPRENTICE, CatRank.WARRIOR):
-        for condition in cat.permanent_condition:
-            if cat.permanent_condition[condition]["severity"] not in (
-                "major",
-                "severe",
-            ):
+    if cat.status.rank not in (
+        CatRank.NEWBORN,
+        CatRank.KITTEN,
+        CatRank.LEADER,
+        CatRank.ELDER,
+    ):
+        for condition in cat.permanent_conditions:
+            if condition.severity == "minor":
                 continue
 
-            if cat.permanent_condition[condition]["severity"] == "severe":
+            if cat.status.moons_as <= 1:
+                # no retiring on the first moon as a rank
+                continue
+
+            if condition.severity == "severe":
                 # Higher chances for "severe". These are meant to be nearly 100% without
                 # being 100%
                 retire_chances = {
                     CatAge.NEWBORN: 0,
                     CatAge.KITTEN: 0,
-                    CatAge.ADOLESCENT: 50,  # This is high so instances where a cat retires the same moon they become an apprentice is rare
-                    CatAge.YOUNG_ADULT: 10,
-                    CatAge.ADULT: 5,
-                    CatAge.SENIOR_ADULT: 5,
-                    CatAge.SENIOR: 5,
+                    CatAge.ADOLESCENT: 30,
+                    CatAge.YOUNG_ADULT: 20,
+                    CatAge.ADULT: 10,
+                    CatAge.SENIOR_ADULT: 6,
+                    CatAge.SENIOR: 3,
                 }
             else:
                 retire_chances = {
                     CatAge.NEWBORN: 0,
                     CatAge.KITTEN: 0,
-                    CatAge.ADOLESCENT: 100,
-                    CatAge.YOUNG_ADULT: 80,
-                    CatAge.ADULT: 70,
-                    CatAge.SENIOR_ADULT: 50,
+                    CatAge.ADOLESCENT: 80,
+                    CatAge.YOUNG_ADULT: 70,
+                    CatAge.ADULT: 60,
+                    CatAge.SENIOR_ADULT: 40,
                     CatAge.SENIOR: 10,
                 }
 
             chance = int(retire_chances.get(cat.age))
             if not int(random() * chance):
-                retire_involved = [cat.ID]
-                cat_dict = {"m_c": cat}
-                if cat.age == CatAge.ADOLESCENT:
-                    event = i18n.t(
-                        "hardcoded.condition_retire_adolescent", name=cat.name
-                    )
-                elif game.clan.leader is not None:
-                    if game.clan.leader.status.alive_in_player_clan and cat.moons < 120:
-                        retire_involved.append(game.clan.leader.ID)
-                        event = i18n.t("hardcoded.condition_retire_normal")
-                    else:
-                        event = i18n.t("hardcoded.condition_retire_no_leader")
-                else:
-                    event = i18n.t("hardcoded.condition_retire_no_leader")
-
-                if cat.age == CatAge.ADOLESCENT:
-                    event += i18n.t(
-                        "hardcoded.condition_retire_adolescent_ceremony",
-                        clan=game.clan.name,
-                        newname=cat.name.prefix + cat.name.suffix,
-                    )
-
+                old_name = str(cat.name)
                 cat.retire_cat()
-                # Don't add this to the condition event list: instead make it its own event, a ceremony.
-                game.cur_events_list.append(
-                    EventInformation(
-                        event_text_adjust(Cat, event, main_cat=cat),
-                        ["ceremony"],
-                        retire_involved,
-                        cat_dict=cat_dict,
-                    )
+
+                create_ceremony(
+                    main_cat=cat, old_name=old_name, involved_cats={"m_c": cat}
                 )
 
 

@@ -48,7 +48,7 @@ Internal code-name for the condition. This will not be seen in-game.
 ***
 
 #### severity: str
-Can be `minor`, `major`, or `severe`. `minor` conditions will not prevent the cat from working. For temporary conditions, the difference between `major` and `severe` is mostly arbitrary and doesn't have gameplay effects.
+Can be `minor`, `major`, or `severe`. `minor` conditions will not prevent the cat from working. For temporary conditions, the difference between `major` and `severe` is mostly arbitrary and doesn't have gameplay effects beyond a display change in the medicine cat den. `major` or `severe` conditions **will** prevent the cat from working.
 
 ***
 
@@ -205,7 +205,7 @@ Same as [temporary condition name](#name-str)
 ***
 
 #### severity: str
-Can be `minor`, `major`, or `severe`. `minor` conditions will not prevent the cat from working. `severe` conditions can cause the cat to retire from their rank early.
+Can be `minor`, `major`, or `severe`. `major` and `severe` conditions can cause the cat to retire to the `elder` rank early. This chance is higher for `severe` conditions.
 
 ***
 
