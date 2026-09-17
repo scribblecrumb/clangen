@@ -4702,7 +4702,7 @@
                             "patrol_cats"
                         ],
                         "condition": [
-                            "cracked pads"
+                            "cracked_pads"
                         ]
                     }
                 ]

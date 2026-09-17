@@ -3358,7 +3358,7 @@
                             "r_c0"
                         ],
                         "condition": [
-                            "small cut"
+                            "small_cut"
                         ]
                     }
                 ]

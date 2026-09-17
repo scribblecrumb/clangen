@@ -267,7 +267,7 @@
                             "r_c1"
                         ],
                         "condition": [
-                            "bite-wound"
+                            "bite_wound"
                         ],
                         "scar_history": "m_c got scarred training in the plains as an apprentice.",
                         "death_history": "m_c died from a bite-wound {PRONOUN/m_c/subject} got while training in the tall grass."
@@ -5717,7 +5717,7 @@
                             "patrol_cats"
                         ],
                         "condition": [
-                            "cracked pads"
+                            "cracked_pads"
                         ]
                     }
                 ]

@@ -4170,7 +4170,7 @@
                             "r_c0"
                         ],
                         "condition": [
-                            "claw-wound"
+                            "claw_wound"
                         ],
                         "scar_history": "m_c was scarred when a loner attacked {PRONOUN/m_c/object}.",
                         "death_history": "m_c died of injuries inflicted by a loner."
@@ -5814,7 +5814,7 @@
                             "p_l"
                         ],
                         "condition": [
-                            "claw-wound"
+                            "claw_wound"
                         ],
                         "scar_pool_override": [
                             "BRIDGE",
@@ -6857,7 +6857,7 @@
                             "n_c0"
                         ],
                         "condition": [
-                            "mangled leg"
+                            "mangled_leg"
                         ],
                         "scar_history": "m_c was scarred after fighting for the entertainment of other rogues.",
                         "death_history": "m_c died from {PRONOUN/m_c/poss} wounds after fighting for the entertainment of other rogues."
@@ -6867,7 +6867,7 @@
                             "n_c0"
                         ],
                         "condition": [
-                            "cat bite"
+                            "cat_bite"
                         ],
                         "scar_history": "m_c was scarred after fighting for the entertainment of other rogues.",
                         "death_history": "m_c died from {PRONOUN/m_c/poss} wounds after fighting for the entertainment of other rogues."
@@ -6877,7 +6877,7 @@
                             "n_c0"
                         ],
                         "condition": [
-                            "claw-wound"
+                            "claw_wound"
                         ],
                         "scar_history": "m_c was scarred after fighting for the entertainment of other rogues.",
                         "death_history": "m_c died from {PRONOUN/m_c/poss} wounds after fighting for the entertainment of other rogues."
@@ -6982,7 +6982,7 @@
                             "n_c0"
                         ],
                         "condition": [
-                            "cat bite"
+                            "cat_bite"
                         ],
                         "scar_history": "m_c was scarred after fighting for the entertainment of other rogues.",
                         "death_history": "m_c died from {PRONOUN/m_c/poss} wounds after fighting for the entertainment of other rogues."
@@ -6992,7 +6992,7 @@
                             "n_c0"
                         ],
                         "condition": [
-                            "claw-wound"
+                            "claw_wound"
                         ],
                         "scar_history": "m_c was scarred after fighting for the entertainment of other rogues.",
                         "death_history": "m_c died from {PRONOUN/m_c/poss} wounds after fighting for the entertainment of other rogues."
@@ -7578,7 +7578,7 @@
                             "s_c0"
                         ],
                         "condition": [
-                            "broken back"
+                            "broken_back"
                         ],
                         "scar_history": "m_c was scarred {PRONOUN/m_c/subject} {VERB/m_c/were/was} caught beneath falling debris in the abandoned Twoleg nest.",
                         "death_history": "m_c died from {PRONOUN/m_c/poss} wounds after {PRONOUN/m_c/subject} {VERB/m_c/were/was} caught beneath falling debris in the abandoned Twoleg nest."
@@ -8756,7 +8756,7 @@
                             "n_c0"
                         ],
                         "condition": [
-                            "mangled leg"
+                            "mangled_leg"
                         ],
                         "scar_history": "m_c was scarred after fighting for the entertainment of other rogues.",
                         "death_history": "m_c died from {PRONOUN/m_c/poss} wounds after fighting for the entertainment of other rogues."
@@ -8766,7 +8766,7 @@
                             "n_c0"
                         ],
                         "condition": [
-                            "cat bite"
+                            "cat_bite"
                         ],
                         "scar_history": "m_c was scarred after fighting for the entertainment of other rogues.",
                         "death_history": "m_c died from {PRONOUN/m_c/poss} wounds after fighting for the entertainment of other rogues."
@@ -8776,7 +8776,7 @@
                             "n_c0"
                         ],
                         "condition": [
-                            "claw-wound"
+                            "claw_wound"
                         ],
                         "scar_history": "m_c was scarred after fighting for the entertainment of other rogues.",
                         "death_history": "m_c died from {PRONOUN/m_c/poss} wounds after fighting for the entertainment of other rogues."
@@ -9823,7 +9823,7 @@
                             "p_l"
                         ],
                         "condition": [
-                            "torn ear"
+                            "torn_ear"
                         ],
                         "scar_history": "m_c was scarred after a dog nipped {PRONOUN/m_c/poss} ear.",
                         "death_history": "m_c died of an injury inflicted by a dog."
@@ -9892,10 +9892,10 @@
                             "p_l"
                         ],
                         "condition": [
-                            "claw-wound",
-                            "cat bite",
+                            "claw_wound",
+                            "cat_bite",
                             "torn pelt",
-                            "torn ear"
+                            "torn_ear"
                         ],
                         "scar_pool_override": [
                             "RIGHTEAR",
@@ -10026,7 +10026,7 @@
                             "p_l"
                         ],
                         "condition": [
-                            "claw-wound"
+                            "claw_wound"
                         ],
                         "scar_history": "m_c was scarred when a kittypet took {PRONOUN/m_c/object} by surprise, though {PRONOUN/m_c/subject} {VERB/m_c/tell/tells} everyone it was a bloodthirsty rogue.",
                         "death_history": "m_c died from injuries given by a particularly vicious kittypet."
@@ -11568,7 +11568,7 @@
                             "p_l"
                         ],
                         "condition": [
-                            "cat bite"
+                            "cat_bite"
                         ],
                         "scar_pool_override": [
                             "CATBITETWO"
@@ -13768,7 +13768,7 @@
                         ],
                         "condition": [
                             "torn pelt",
-                            "torn ear",
+                            "torn_ear",
                             "minor_injury"
                         ],
                         "scar_history": "m_c was scarred after being attacked by a startled loner.",
@@ -13807,7 +13807,7 @@
                         ],
                         "condition": [
                             "torn pelt",
-                            "torn ear",
+                            "torn_ear",
                             "minor_injury"
                         ],
                         "scar_history": "m_c was scarred after being attacked by a startled kittypet.",
@@ -14024,7 +14024,7 @@
                         "condition": [
                             "battle_injury",
                             "minor_injury",
-                            "torn ear"
+                            "torn_ear"
                         ],
                         "no_results": true,
                         "scar_history": "m_c was scarred after fighting with another cat.",
@@ -14038,7 +14038,7 @@
                             "sore",
                             "bruises",
                             "scrapes",
-                            "torn ear",
+                            "torn_ear",
                             "torn pelt"
                         ],
                         "scar_history": "m_c was scarred after fighting with another cat.",
@@ -14090,9 +14090,9 @@
                             "n_c0"
                         ],
                         "condition": [
-                            "claw-wound",
+                            "claw_wound",
                             "torn pelt",
-                            "torn ear",
+                            "torn_ear",
                             "minor_injury"
                         ],
                         "no_results": true,
@@ -14241,9 +14241,9 @@
                             "p_l"
                         ],
                         "condition": [
-                            "claw-wound",
+                            "claw_wound",
                             "torn pelt",
-                            "torn ear",
+                            "torn_ear",
                             "minor_injury"
                         ],
                         "scar_history": "m_c was scarred after losing a fight with a loner.",
@@ -14327,9 +14327,9 @@
                             "p_l"
                         ],
                         "condition": [
-                            "claw-wound",
+                            "claw_wound",
                             "torn pelt",
-                            "torn ear",
+                            "torn_ear",
                             "minor_injury"
                         ],
                         "scar_history": "m_c was scarred after losing a fight with a kittypet.",
@@ -14869,7 +14869,7 @@
                             "p_l"
                         ],
                         "condition": [
-                            "claw-wound"
+                            "claw_wound"
                         ],
                         "scar_pool_override": [
                             "SIDE"

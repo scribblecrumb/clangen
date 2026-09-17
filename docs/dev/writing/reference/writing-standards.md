@@ -101,7 +101,7 @@ When writing events related to permanent conditions, we need to be very mindful 
 >
 >INSTEAD: Allow the disability to affect them, and focus on their personal achievements rather than comparing them to other cats. 
 >
->EXCEPTIONS: "Raspy lungs", "joint pain", "allergies", "persistent headaches", "constantly dizzy", "recurring shock" - you can reword these into being happy their disability isn't as harsh this moon. These disabilities all come in "waves", where you can have a few days where you aren't as affected, and a few days where you're strongly affected. 
+>EXCEPTIONS: "Raspy lungs", "joint_pain", "allergies", "persistent_headaches", "constantly_dizzy", "recurring_shock" - you can reword these into being happy their disability isn't as harsh this moon. These disabilities all come in "waves", where you can have a few days where you aren't as affected, and a few days where you're strongly affected. 
 
 - The idea that a disability is only negative
 >EG: Any thoughts that give the idea that they'd prefer to be dead, excessive sadness about being disabled, etc.

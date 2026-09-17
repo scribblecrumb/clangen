@@ -6771,7 +6771,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "one bad eye"
+                        "one_bad_eye"
                     ]
                 }
             },
@@ -6794,7 +6794,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "one bad eye"
+                        "one_bad_eye"
                     ]
                 }
             },
@@ -6824,7 +6824,7 @@
                 ],
                 "health": {
                     "condition": [
-                        "one bad eye"
+                        "one_bad_eye"
                     ]
                 }
             },
@@ -6850,7 +6850,7 @@
                 ],
                 "health": {
                     "condition": [
-                        "one bad eye"
+                        "one_bad_eye"
                     ]
                 }
             },
@@ -6873,7 +6873,7 @@
                 ],
                 "health": {
                     "condition": [
-                        "one bad eye"
+                        "one_bad_eye"
                     ]
                 }
             },
@@ -6901,7 +6901,7 @@
                 ],
                 "health": {
                     "condition": [
-                        "one bad eye"
+                        "one_bad_eye"
                     ]
                 }
             },
@@ -6922,7 +6922,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "partial hearing loss"
+                        "partial_hearing_loss"
                     ]
                 }
             }
@@ -6939,7 +6939,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "partial hearing loss"
+                        "partial_hearing_loss"
                     ]
                 }
             },
@@ -6961,7 +6961,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "partial hearing loss"
+                        "partial_hearing_loss"
                     ],
                     "must_be_congenital": true
                 }
@@ -6985,7 +6985,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "partial hearing loss"
+                        "partial_hearing_loss"
                     ]
                 }
             }
@@ -7003,7 +7003,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "partial hearing loss"
+                        "partial_hearing_loss"
                     ]
                 }
             },
@@ -7031,7 +7031,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "partial hearing loss"
+                        "partial_hearing_loss"
                     ]
                 }
             },
@@ -7054,7 +7054,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "partial hearing loss"
+                        "partial_hearing_loss"
                     ]
                 }
             },
@@ -7079,7 +7079,7 @@
                 ],
                 "health": {
                     "condition": [
-                        "partial hearing loss",
+                        "partial_hearing_loss",
                         "deaf"
                     ],
                     "must_be_congenital": true
@@ -7378,7 +7378,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "wasting disease"
+                        "wasting_disease"
                     ]
                 }
             },
@@ -7403,7 +7403,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "wasting disease"
+                        "wasting_disease"
                     ]
                 }
             }
@@ -7424,7 +7424,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "wasting disease"
+                        "wasting_disease"
                     ]
                 }
             }
@@ -7448,7 +7448,7 @@
                 ],
                 "health": {
                     "condition": [
-                        "wasting disease"
+                        "wasting_disease"
                     ]
                 }
             }
@@ -7465,8 +7465,8 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "lost a leg",
-                        "born without a leg"
+                        "lost_a_leg",
+                        "born_without_a_leg"
                     ]
                 }
             },
@@ -7493,7 +7493,7 @@
                 ],
                 "health": {
                     "condition": [
-                        "lost a leg"
+                        "lost_a_leg"
                     ]
                 }
             },
@@ -7517,8 +7517,8 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "lost their tail",
-                        "born without a tail"
+                        "lost_their_tail",
+                        "born_without_a_tail"
                     ]
                 }
             },
@@ -7540,7 +7540,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "lost their tail"
+                        "lost_their_tail"
                     ]
                 }
             },
@@ -7563,8 +7563,8 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "lost their tail",
-                        "born without a tail"
+                        "lost_their_tail",
+                        "born_without_a_tail"
                     ]
                 }
             },
@@ -7593,7 +7593,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "constantly dizzy"
+                        "constantly_dizzy"
                     ]
                 }
             },
@@ -7962,7 +7962,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "lasting grief"
+                        "lasting_grief"
                     ]
                 }
             }
@@ -7978,7 +7978,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "lasting grief"
+                        "lasting_grief"
                     ]
                 }
             },
@@ -8006,7 +8006,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "recurring shock"
+                        "recurring_shock"
                     ]
                 }
             },
@@ -8049,7 +8049,7 @@
                 "health": {
                     "condition": [
                         "shock",
-                        "lingering shock"
+                        "lingering_shock"
                     ]
                 }
             }
@@ -8071,7 +8071,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "blood loss"
+                        "blood_loss"
                     ]
                 }
             }
@@ -8091,8 +8091,8 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "broken bone",
-                        "broken jaw"
+                        "broken_bone",
+                        "broken_jaw"
                     ]
                 }
             }
@@ -8110,8 +8110,8 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "mangled tail",
-                        "mangled leg"
+                        "mangled_tail",
+                        "mangled_leg"
                     ]
                 }
             }
@@ -8128,7 +8128,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "phantom pain"
+                        "phantom_pain"
                     ]
                 }
             }
@@ -8147,7 +8147,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "shivering",
+                        "dangerously_cold",
                         "frostbite"
                     ]
                 }
@@ -8167,7 +8167,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "recovering from birth"
+                        "recovering_from_birth"
                     ]
                 }
             }
@@ -8186,7 +8186,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "water in their lungs"
+                        "water_in_their_lungs"
                     ]
                 }
             }
@@ -8205,7 +8205,7 @@
                 "health": {
                     "condition": [
                         "burn",
-                        "severe burn"
+                        "severe_burn"
                     ]
                 }
             }
@@ -8255,7 +8255,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "head damage"
+                        "head_damage"
                     ]
                 }
             }
@@ -8274,7 +8274,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "damaged eyes"
+                        "damaged_eyes"
                     ]
                 }
             }
@@ -8294,7 +8294,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "broken back"
+                        "broken_back"
                     ]
                 }
             }
@@ -8338,7 +8338,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "bee sting"
+                        "bee_sting"
                     ]
                 }
             }
@@ -8361,7 +8361,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "severe headache"
+                        "severe_headache"
                     ]
                 }
             }
@@ -8851,12 +8851,12 @@
                 "health": {
                     "condition": [
                         "bruises",
-                        "cracked pads",
+                        "cracked_pads",
                         "sore",
                         "scrapes",
-                        "small cut",
-                        "tick bites",
-                        "torn ear"
+                        "small_cut",
+                        "tick_bites",
+                        "torn_ear"
                     ]
                 }
             }
@@ -8875,15 +8875,15 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "claw-wound",
-                        "bite-wound",
-                        "cat bite",
-                        "beak bite",
-                        "snake bite",
-                        "rat bite",
-                        "dislocated joint",
+                        "claw_wound",
+                        "bite_wound",
+                        "cat_bite",
+                        "beak_bite",
+                        "snake_bite",
+                        "rat_bite",
+                        "dislocated_joint",
                         "sprain",
-                        "quilled by a porcupine",
+                        "quilled_by_a_porcupine",
                         "torn pelt"
                     ]
                 }
@@ -8912,14 +8912,14 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "broken jaw",
-                        "broken back",
-                        "broken bone",
-                        "mangled leg",
-                        "mangled tail",
-                        "head damage",
-                        "severe burn",
-                        "severe headache"
+                        "broken_jaw",
+                        "broken_back",
+                        "broken_bone",
+                        "mangled_leg",
+                        "mangled_tail",
+                        "head_damage",
+                        "severe_burn",
+                        "severe_headache"
                     ]
                 }
             },
@@ -8944,7 +8944,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "seizure prone"
+                        "seizure_prone"
                     ]
                 }
             },
@@ -8966,7 +8966,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "seizure prone"
+                        "seizure_prone"
                     ]
                 }
             },

@@ -1093,7 +1093,7 @@ class ProfileScreen(Screens):
                 break
 
         if the_cat.temporary_conditions:
-            if "recovering from birth" in the_cat.temporary_conditions:
+            if "recovering_from_birth" in the_cat.temporary_conditions:
                 output += i18n.t(
                     "utility.exclamation",
                     text=i18n.t("conditions.injuries.recovering from birth"),
@@ -1933,7 +1933,7 @@ class ProfileScreen(Screens):
             moons_with = game.clan.age - self.the_cat.injuries[name]["moon_start"]
             insert = "general.had_injury_for"
 
-            if name == "recovering from birth":
+            if name == "recovering_from_birth":
                 insert = "general.recovering_from_birth_for"
             elif name == "pregnant":
                 insert = "general.pregnant_for"

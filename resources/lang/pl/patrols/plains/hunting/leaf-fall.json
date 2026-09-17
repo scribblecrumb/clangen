@@ -619,7 +619,7 @@
                             "patrol_cats"
                         ],
                         "condition": [
-                            "claw-wound",
+                            "claw_wound",
                             "scrapes"
                         ],
                         "non_lethal": true,

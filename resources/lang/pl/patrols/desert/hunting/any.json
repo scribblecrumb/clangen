@@ -2517,7 +2517,7 @@
                             "r_c1"
                         ],
                         "condition": [
-                            "bite-wound",
+                            "bite_wound",
                             "poisoned"
                         ],
                         "scar_history": "m_c was permanently marked by the bite of a gila monster as an apprentice \u2014 but {PRONOUN/m_c/subject} survived.",
@@ -5025,7 +5025,7 @@
                             "r_c0"
                         ],
                         "condition": [
-                            "dislocated joint"
+                            "dislocated_joint"
                         ]
                     }
                 ]
@@ -5196,7 +5196,7 @@
                             "r_c0"
                         ],
                         "condition": [
-                            "severe headache"
+                            "severe_headache"
                         ]
                     }
                 ]
@@ -5852,7 +5852,7 @@
                             "r_c0"
                         ],
                         "condition": [
-                            "dislocated joint"
+                            "dislocated_joint"
                         ]
                     }
                 ]

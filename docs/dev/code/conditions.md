@@ -86,7 +86,7 @@ These are written with the key as the condition name and the value as the percen
 ```json
 "side_effect": {
     "torn_pelt": 0.2,
-    "torn ear": 0.2,
+    "torn_ear": 0.2,
     "blood_loss": 0.4
 }
 ```

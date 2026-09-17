@@ -1739,7 +1739,7 @@
                         ],
                         "condition": [
                             "grief stricken",
-                            "lasting grief"
+                            "lasting_grief"
                         ],
                         "death_history": "m_c was killed by {PRONOUN/m_c/poss} mate's Clanmates."
                     }
@@ -3618,7 +3618,7 @@
                             "r_c0"
                         ],
                         "condition": [
-                            "cat bite"
+                            "cat_bite"
                         ],
                         "scar_pool_override": [
                             "LEGBITE"
@@ -3962,7 +3962,7 @@
                             "r_c0"
                         ],
                         "condition": [
-                            "bite-wound",
+                            "bite_wound",
                             "torn pelt"
                         ],
                         "scar_history": "m_c followed the scent of a trespassing cat and was scarred by a dog.",
@@ -4149,8 +4149,8 @@
                             "r_c0"
                         ],
                         "condition": [
-                            "bite-wound",
-                            "mangled tail"
+                            "bite_wound",
+                            "mangled_tail"
                         ],
                         "scar_history": "m_c followed the scent of a trespassing cat and was scarred by a dog.",
                         "death_history": "m_c died of injuries inflicted by a dog."
@@ -8003,7 +8003,7 @@
                             "r_c0"
                         ],
                         "condition": [
-                            "bite-wound",
+                            "bite_wound",
                             "torn pelt"
                         ],
                         "scar_history": "m_c carries a scar, and lingering resentment, from when a Clanmate failed to watch {PRONOUN/m_c/poss} back during a border altercation.",
@@ -8363,7 +8363,7 @@
                             "minor_injury",
                             "small_bite_injury",
                             "torn pelt",
-                            "torn ear"
+                            "torn_ear"
                         ],
                         "scar_history": "m_c carries the scars o_c_n gave them, a permanent reminder of the Clan's hostilities.",
                         "death_history": "m_c died of injuries inflicted by an enemy warrior."

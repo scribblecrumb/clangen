@@ -814,12 +814,12 @@
                 "health": {
                     "condition": [
                         "bruises",
-                        "cracked pads",
+                        "cracked_pads",
                         "sore",
                         "scrapes",
-                        "small cut",
-                        "tick bites",
-                        "torn ear"
+                        "small_cut",
+                        "tick_bites",
+                        "torn_ear"
                     ]
                 }
             }
@@ -836,15 +836,15 @@
             "r_c": {
                 "health": {
                     "condition": [
-                        "claw-wound",
-                        "bite-wound",
-                        "cat bite",
-                        "beak bite",
-                        "snake bite",
-                        "rat bite",
-                        "dislocated joint",
+                        "claw_wound",
+                        "bite_wound",
+                        "cat_bite",
+                        "beak_bite",
+                        "snake_bite",
+                        "rat_bite",
+                        "dislocated_joint",
                         "sprain",
-                        "quilled by a porcupine",
+                        "quilled_by_a_porcupine",
                         "torn pelt"
                     ]
                 }
@@ -865,14 +865,14 @@
             "r_c": {
                 "health": {
                     "condition": [
-                        "broken jaw",
-                        "broken back",
-                        "broken bone",
-                        "mangled leg",
-                        "mangled tail",
-                        "head damage",
-                        "severe burn",
-                        "severe headache"
+                        "broken_jaw",
+                        "broken_back",
+                        "broken_bone",
+                        "mangled_leg",
+                        "mangled_tail",
+                        "head_damage",
+                        "severe_burn",
+                        "severe_headache"
                     ]
                 }
             }
@@ -997,7 +997,7 @@
             "r_c": {
                 "health": {
                     "condition": [
-                        "recovering from birth"
+                        "recovering_from_birth"
                     ]
                 }
             }

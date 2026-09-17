@@ -497,7 +497,7 @@
                             "r_c0"
                         ],
                         "condition": [
-                            "claw-wound"
+                            "claw_wound"
                         ],
                         "scar_history": "m_c was scarred by a badger.",
                         "death_history": "m_c died from wounds inflicted by a badger."
@@ -3720,7 +3720,7 @@
                             "s_c0"
                         ],
                         "condition": [
-                            "cat bite"
+                            "cat_bite"
                         ],
                         "scar_pool_override": [
                             "BACK",

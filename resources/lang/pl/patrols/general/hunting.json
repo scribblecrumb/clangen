@@ -2250,7 +2250,7 @@
                             "p_l"
                         ],
                         "condition": [
-                            "torn ear",
+                            "torn_ear",
                             "scrapes"
                         ],
                         "scar_history": "m_c got a bit torn up on a solo hunt as an apprentice.",
@@ -2359,7 +2359,7 @@
                             "p_l"
                         ],
                         "condition": [
-                            "torn ear",
+                            "torn_ear",
                             "scrapes"
                         ],
                         "scar_history": "m_c got a bit torn up on a solo hunt as an apprentice.",
@@ -2468,7 +2468,7 @@
                             "p_l"
                         ],
                         "condition": [
-                            "torn ear",
+                            "torn_ear",
                             "scrapes"
                         ],
                         "scar_history": "m_c got a bit torn up on a solo hunt as an apprentice.",
@@ -2580,7 +2580,7 @@
                             "p_l"
                         ],
                         "condition": [
-                            "torn ear",
+                            "torn_ear",
                             "scrapes"
                         ],
                         "scar_history": "m_c got a bit torn up on a solo hunt as an apprentice.",
@@ -2689,7 +2689,7 @@
                             "p_l"
                         ],
                         "condition": [
-                            "torn ear",
+                            "torn_ear",
                             "scrapes"
                         ],
                         "scar_history": "m_c got a bit torn up on a solo hunt as an apprentice.",
@@ -4826,7 +4826,7 @@
                             "r_c1"
                         ],
                         "condition": [
-                            "torn ear"
+                            "torn_ear"
                         ],
                         "scar_history": "m_c got a bit torn up on a solo hunt as an apprentice.",
                         "death_history": "m_c died after a small injury progressed to something worse."
@@ -5056,7 +5056,7 @@
                             "r_c1"
                         ],
                         "condition": [
-                            "torn ear"
+                            "torn_ear"
                         ],
                         "scar_history": "m_c got a bit torn up on a solo hunt as an apprentice.",
                         "death_history": "m_c died after a small injury progressed to something worse."
@@ -5285,7 +5285,7 @@
                             "r_c1"
                         ],
                         "condition": [
-                            "torn ear"
+                            "torn_ear"
                         ],
                         "scar_history": "m_c got a bit torn up on a solo hunt as an apprentice.",
                         "death_history": "m_c died after a small injury progressed to something worse."
@@ -5489,7 +5489,7 @@
                             "r_c1"
                         ],
                         "condition": [
-                            "torn ear"
+                            "torn_ear"
                         ],
                         "scar_history": "m_c got a bit torn up on a solo hunt as an apprentice.",
                         "death_history": "m_c died after a small injury progressed to something worse."
@@ -5693,7 +5693,7 @@
                             "r_c1"
                         ],
                         "condition": [
-                            "torn ear"
+                            "torn_ear"
                         ],
                         "scar_history": "m_c got a bit torn up on a solo hunt as an apprentice.",
                         "death_history": "m_c died after a small injury progressed to something worse."
@@ -8326,7 +8326,7 @@
                             "r_c0"
                         ],
                         "condition": [
-                            "claw-wound"
+                            "claw_wound"
                         ],
                         "scar_history": "m_c was scarred after an unfortunate encounter with a wolverine.",
                         "death_history": "m_c died of a claw-wound inflicted by a wolverine."
@@ -10049,7 +10049,7 @@
                             "some_patrol"
                         ],
                         "condition": [
-                            "shivering"
+                            "dangerously_cold"
                         ]
                     }
                 ]

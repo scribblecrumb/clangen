@@ -251,7 +251,7 @@
                             "p_l"
                         ],
                         "condition": [
-                            "torn ear"
+                            "torn_ear"
                         ],
                         "scar_history": "m_c was scarred by a sharp piece of Twoleg garbage.",
                         "death_history": "m_c died after being cut by a piece of Twoleg garbage."
@@ -1659,7 +1659,7 @@
                             "r_c0"
                         ],
                         "condition": [
-                            "snake bite",
+                            "snake_bite",
                             "poisoned"
                         ],
                         "scar_history": "This cat was scarred by a rattlesnake while hunting.",
@@ -1700,9 +1700,9 @@
                             "r_c0"
                         ],
                         "condition": [
-                            "snake bite",
+                            "snake_bite",
                             "poisoned",
-                            "damaged eyes"
+                            "damaged_eyes"
                         ],
                         "scar_pool_override": [
                             "LEFTBLIND",

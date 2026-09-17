@@ -499,11 +499,11 @@ def event_for_cat(
 
     # checking injuries
     if injuries:
-        if "mangled tail" in injuries and (
+        if "mangled_tail" in injuries and (
             "NOTAIL" in cat.pelt.scars or "HALFTAIL" in cat.pelt.scars
         ):
             return False
-        if "torn ear" in injuries and "NOEAR" in cat.pelt.scars:
+        if "torn_ear" in injuries and "NOEAR" in cat.pelt.scars:
             return False
 
     # checking relationships
@@ -1155,11 +1155,11 @@ def cat_for_event(
     # find cats that can get the injuries that will be given
     if injuries:
         for cat in allowed_cats.copy():
-            if "mangled tail" in injuries and (
+            if "mangled_tail" in injuries and (
                 "NOTAIL" in cat.pelt.scars or "HALFTAIL" in cat.pelt.scars
             ):
                 allowed_cats.remove(cat)
-            if "torn ear" in injuries and "NOEAR" in cat.pelt.scars:
+            if "torn_ear" in injuries and "NOEAR" in cat.pelt.scars:
                 allowed_cats.remove(cat)
 
         # if the list is emptied, return

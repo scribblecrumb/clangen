@@ -1178,8 +1178,8 @@
                         ],
                         "condition": [
                             "running nose",
-                            "water in their lungs",
-                            "shivering",
+                            "water_in_their_lungs",
+                            "dangerously_cold",
                             "minor_injury",
                             "blunt_force_injury"
                         ],
@@ -1269,8 +1269,8 @@
                         ],
                         "condition": [
                             "running nose",
-                            "water in their lungs",
-                            "shivering",
+                            "water_in_their_lungs",
+                            "dangerously_cold",
                             "minor_injury",
                             "blunt_force_injury"
                         ],
@@ -1333,7 +1333,7 @@
                             "r_c0"
                         ],
                         "condition": [
-                            "persistent headaches"
+                            "persistent_headaches"
                         ]
                     }
                 ]
@@ -1381,7 +1381,7 @@
                             "r_c0"
                         ],
                         "condition": [
-                            "seizure prone"
+                            "seizure_prone"
                         ]
                     }
                 ]
@@ -1880,7 +1880,7 @@
                             "s_c0"
                         ],
                         "condition": [
-                            "mangled leg"
+                            "mangled_leg"
                         ],
                         "scar_history": "m_c bears a mangled leg after thinking {PRONOUN/m_c/subject} could take on a wolf by {PRONOUN/m_c/self}",
                         "death_history": "m_c died from {PRONOUN/m_c/poss} injuries after trying to take on a wolf alone."
@@ -1955,7 +1955,7 @@
                             "p_l"
                         ],
                         "condition": [
-                            "mangled tail"
+                            "mangled_tail"
                         ],
                         "scar_pool_override": [
                             "HALFTAIL",

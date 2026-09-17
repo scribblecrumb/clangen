@@ -660,7 +660,7 @@
                             "r_c0"
                         ],
                         "condition": [
-                            "snake bite",
+                            "snake_bite",
                             "poisoned"
                         ],
                         "scar_history": "m_c was scarred by a rattlesnake.",

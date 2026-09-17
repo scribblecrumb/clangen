@@ -271,7 +271,7 @@
         "immune_system_effect": 0.0,
         "side_effect": {
             "torn_pelt": 0.2,
-            "torn ear": 0.2,
+            "torn_ear": 0.2,
             "blood_loss": 0.2
         },
         "progression": {},

@@ -209,9 +209,9 @@ def get_kits(
         ):
             add_congenital_condition(kit)
             for condition in kit.permanent_condition:
-                if kit.permanent_condition[condition] == "born without a leg":
+                if kit.permanent_condition[condition] == "born_without_a_leg":
                     cat.pelt.scars = (*cat.pelt.scars, "NOPAW")
-                elif kit.permanent_condition[condition] == "born without a tail":
+                elif kit.permanent_condition[condition] == "born_without_a_tail":
                     cat.pelt.scars = (*cat.pelt.scars, "NOTAIL")
             Condition_Events.handle_already_disabled(kit)
 

@@ -1071,8 +1071,8 @@
     },
     "Injury": {
       "enum": [
-        "claw-wound",
-        "bite-wound",
+        "claw_wound",
+        "bite_wound",
         "cat bite",
         "beak bite",
         "snake bite",
