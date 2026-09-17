@@ -515,6 +515,11 @@ class Cat:
         else:
             self.dead = True
             game.just_died.append(self.ID)
+            self.permanent_conditions = [
+                condition
+                for condition in self.permanent_conditions
+                if not condition.removed_on_death
+            ]
 
         self.assign_thought(CatThought.ON_DEATH)
 

@@ -7,6 +7,7 @@ class PermanentCondition:
     name: str
     severity: str
     is_congenital: bool
+    removed_on_death: bool
     moons_until_discovery: int
     moon_gained: int
     mortality: float

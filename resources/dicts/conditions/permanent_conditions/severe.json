@@ -3,6 +3,7 @@
         "severity": "severe",
         "can_be_congenital": true,
         "can_be_acquired": true,
+        "remove_on_death": false,
         "moons_until_discovery": 0,
         "mortality": {},
         "immune_system_effect": 0.0,

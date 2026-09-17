@@ -179,6 +179,7 @@ A list of possible scars that this condition can apply once healed.
         "can_be_congenital": false,
         "can_be_acquired": false,
         "requires_scar": false,
+        "remove_on_death": true,
         "moons_until_discovery": 0,
         "mortality": {},
         "immune_system_effect": 0,
@@ -219,7 +220,12 @@ Marks if this condition can be given later in life
 ***
 
 #### requires_scar: bool
-Marks if this condition can only be applied if the cat has a pre-requisite scar. Scars needed *must* be listed in [possible scars](#possible_scars-liststr-1).
+Marks if this condition can only be applied if the cat has a pre-requisite scar. Scars needed *must* be listed in [possible scars](#possible_scars-liststr-1). Defaults to False.
+
+***
+
+#### remove_on_death: bool
+Marks if this condition will be removed from the cat upon death. Defaults to True.
 
 ***
 

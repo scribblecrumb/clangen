@@ -143,6 +143,7 @@ def gain_permanent_condition(
         name=name,
         severity=condition["severity"],
         is_congenital=is_congenital,
+        removed_on_death=condition.get("removed_on_death", True),
         moons_until_discovery=set_moons_until
         if set_moons_until is not None
         else condition["moons_until_discovery"],
