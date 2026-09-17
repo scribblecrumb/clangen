@@ -112,7 +112,10 @@
         "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {
-            "whitecough": 0.1
+            "whitecough": {
+                "chance": 0.1,
+                "when": "CONTINUING"
+            }
         },
         "risks": {
             "sore_throat": 0.05
@@ -215,10 +218,12 @@
         "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {
-            "strange_lump": 0.013
+            "strange_lump": {
+                "chance": 0.05,
+                "when": "HEALED"
+            }
         },
-        "risks": {
-        },
+        "risks": {},
         "treatment_strength": {
             "1": [
                 "marigold",
@@ -301,8 +306,14 @@
             "bruises": 0.2
         },
         "progression": {
-            "crooked_jaw": 0.2,
-            "damaged_throat": 0.2
+            "crooked_jaw": {
+                "chance": 0.2,
+                "when": "HEALED"
+            },
+            "damaged_throat": {
+                "chance": 0.2,
+                "when": "HEALED"
+            }
         },
         "risks": {
             "an_infected_wound": 0.2
@@ -325,7 +336,10 @@
             ]
         },
         "possible_scars": [
-            "SNOUT", "CHEEK", "BRIDGE", "BEAKCHEEK"
+            "SNOUT",
+            "CHEEK",
+            "BRIDGE",
+            "BEAKCHEEK"
         ]
     },
     "broken_bone": {
@@ -350,8 +364,14 @@
             "bruises": 0.2
         },
         "progression": {
-            "weak_leg": 0.2,
-            "twisted_leg": 0.2
+            "weak_leg": {
+                "chance": 0.2,
+                "when": "HEALED"
+            },
+            "twisted_leg": {
+                "chance": 0.2,
+                "when": "HEALED"
+            }
         },
         "risks": {
             "an_infected_wound": 0.2
@@ -374,7 +394,9 @@
             ]
         },
         "possible_scars": [
-            "MANLEG", "TOETRAP", "FOUR"
+            "MANLEG",
+            "TOETRAP",
+            "FOUR"
         ]
     },
     "damaged_eyes": {
@@ -393,9 +415,18 @@
         "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {
-            "blind": 0.2,
-            "one_bad_eye": 0.2,
-            "failing_eyesight": 0.2
+            "blind": {
+                "chance": 0.2,
+                "when": "HEALED"
+            },
+            "one_bad_eye": {
+                "chance": 0.2,
+                "when": "HEALED"
+            },
+            "failing_eyesight": {
+                "chance": 0.2,
+                "when": "HEALED"
+            }
         },
         "risks": {
             "an_infected_wound": 0.25
@@ -418,7 +449,10 @@
             ]
         },
         "possible_scars": [
-            "THREE", "RIGHTBLIND", "LEFTBLIND", "BOTHBLIND"
+            "THREE",
+            "RIGHTBLIND",
+            "LEFTBLIND",
+            "BOTHBLIND"
         ]
     },
     "mangled_leg": {
@@ -444,9 +478,18 @@
             "bruises": 0.2
         },
         "progression": {
-            "lost_a_leg": 0.2,
-            "weak_leg": 0.2,
-            "twisted_leg": 0.2
+            "lost_a_leg": {
+                "chance": 0.2,
+                "when": "HEALED"
+            },
+            "weak_leg": {
+                "chance": 0.2,
+                "when": "HEALED"
+            },
+            "twisted_leg": {
+                "chance": 0.2,
+                "when": "HEALED"
+            }
         },
         "risks": {
             "an_infected_wound": 0.2
@@ -470,7 +513,9 @@
             ]
         },
         "possible_scars": [
-            "TOETRAP", "MANLEG", "FOUR"
+            "TOETRAP",
+            "MANLEG",
+            "FOUR"
         ]
     },
     "mangled_tail": {
@@ -492,7 +537,10 @@
             "blood_loss": 0.2
         },
         "progression": {
-            "lost_their_tail": 0.2
+            "lost_their_tail": {
+                "chance": 0.2,
+                "when": "HEALED"
+            }
         },
         "risks": {
             "an_infected_wound": 0.2
@@ -516,7 +564,9 @@
             ]
         },
         "possible_scars": [
-            "TAILSCAR", "TAILBASE", "MANTAIL"
+            "TAILSCAR",
+            "TAILBASE",
+            "MANTAIL"
         ]
     },
     "severe_burn": {
@@ -535,8 +585,14 @@
         "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {
-            "lost_their_tail": 0.2,
-            "lost_a_leg": 0.2
+            "lost_their_tail": {
+                "chance": 0.2,
+                "when": "HEALED"
+            },
+            "lost_a_leg": {
+                "chance": 0.2,
+                "when": "HEALED"
+            }
         },
         "risks": {
             "an_infected_wound": 0.067
@@ -560,7 +616,11 @@
             ]
         },
         "possible_scars": [
-            "BRIGHTHEART", "BURNPAWS", "BURNTAIL", "BURNBELLY", "BURNRUMP"
+            "BRIGHTHEART",
+            "BURNPAWS",
+            "BURNTAIL",
+            "BURNBELLY",
+            "BURNRUMP"
         ]
     },
     "broken_back": {
@@ -579,7 +639,10 @@
         "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {
-            "paralyzed": 0.2
+            "paralyzed": {
+                "chance": 0.2,
+                "when": "HEALED"
+            }
         },
         "risks": {
             "an_infected_wound": 0.1
@@ -599,7 +662,9 @@
             ]
         },
         "possible_scars": [
-            "TWO", "TAILBASE", "BACK"
+            "TWO",
+            "TAILBASE",
+            "BACK"
         ]
     }
 }

@@ -5,14 +5,14 @@ from typing import Optional
 import i18n
 
 from scripts.cat.cats import Cat
-from scripts.cat.conditions.gain_conditions import (
-    gain_temporary_condition,
-    gain_permanent_condition,
-)
 from scripts.cat.conditions.condition_state import (
     ConditionState,
     update_permanent_condition_state,
     update_temporary_condition_state,
+)
+from scripts.cat.conditions.gain_conditions import (
+    gain_temporary_condition,
+    gain_permanent_condition,
 )
 from scripts.cat.conditions.permanent_condition import PermanentCondition
 from scripts.cat.conditions.temporary_condition import TemporaryCondition
@@ -29,7 +29,6 @@ from scripts.events_module.text_pool_event.event_retrieval import (
 )
 from scripts.events_module.text_pool_event.handle_consequences import execute_outcome
 from scripts.game_structure import game
-from scripts.game_structure.localization import load_lang_resource
 
 logger = logging.getLogger(__name__)
 
@@ -44,6 +43,7 @@ def handle_temporary_conditions(cat: Cat, forced_state: ConditionState = None):
     """
     conditions_to_remove = []
     event_list = []
+    progression_events = []
 
     for condition in cat.temporary_conditions.copy():
         if condition.omit_moonskip:
@@ -55,6 +55,17 @@ def handle_temporary_conditions(cat: Cat, forced_state: ConditionState = None):
             state = forced_state
         else:
             state = update_temporary_condition_state(condition)
+
+        # PROGRESSION - this can happen during various states, so we check it first
+        for progression, info in condition.progression.items():
+            if info["when"] == state:
+                chance = info["chance"]
+                progression_events, conditions_to_remove = _check_progression(
+                    cat, condition, progression, chance, conditions_to_remove
+                )
+                if progression_events:
+                    # if there are events, then we progressed and should move on!
+                    break
 
         if state == ConditionState.SKIPPED:
             continue
@@ -115,12 +126,22 @@ def handle_temporary_conditions(cat: Cat, forced_state: ConditionState = None):
             continue
 
         elif state == ConditionState.CONTINUING:
-            additional_events, conditions_to_remove = _check_risks_and_progressions(
+            if condition in conditions_to_remove:
+                # we don't want to give a risk if the condition was removed
+                continue
+
+            additional_events, conditions_to_remove = _check_risks(
                 cat, condition, conditions_to_remove
             )
 
             if additional_events:
                 event_list.extend(additional_events)
+
+        # add progression events to the end of the event_list
+        # we want them at the end for continuity purposes,
+        # i.e. cat heals from mangled leg -> discovers the leg is weakened
+        if progression_events:
+            event_list.extend(progression_events)
 
     for c in conditions_to_remove:
         cat.remove_condition(c.name)
@@ -135,6 +156,7 @@ def handle_permanent_conditions(cat: Cat, forced_state: ConditionState = None):
     """
     event_list: list[EventInformation] = []
     conditions_to_remove = []
+    progression_events = []
 
     for condition in cat.permanent_conditions.copy():
         if condition.omit_moonskip:
@@ -144,6 +166,17 @@ def handle_permanent_conditions(cat: Cat, forced_state: ConditionState = None):
             state = forced_state
         else:
             state = update_permanent_condition_state(condition)
+
+        # PROGRESSION - this can happen during various states, so we check it first
+        for progression, info in condition.progression.items():
+            if info["when"] == state:
+                chance = info["chance"]
+                progression_events, conditions_to_remove = _check_progression(
+                    cat, condition, progression, chance, conditions_to_remove
+                )
+                if progression_events:
+                    # if there are events, then we progressed and should move on!
+                    break
 
         if state == ConditionState.SKIPPED:
             continue
@@ -161,12 +194,22 @@ def handle_permanent_conditions(cat: Cat, forced_state: ConditionState = None):
             )
 
         elif state == ConditionState.CONTINUING:
-            additional_events, conditions_to_remove = _check_risks_and_progressions(
+            if condition in conditions_to_remove:
+                # we don't want to give a risk if the condition was removed
+                continue
+
+            additional_events, conditions_to_remove = _check_risks(
                 cat, condition, conditions_to_remove
             )
 
             if additional_events:
                 event_list.extend(additional_events)
+
+        # add progression events to the end of the event_list
+        # we want them at the end for continuity purposes,
+        # i.e. cat heals from mangled leg -> discovers the leg is weakened
+        if progression_events:
+            event_list.extend(progression_events)
 
     for c in conditions_to_remove:
         cat.temporary_conditions.remove(c)
@@ -212,13 +255,13 @@ def _apply_fatality(cat, condition, event_list) -> list:
     return event_list
 
 
-def _check_risks_and_progressions(
+def _check_risks(
     cat: Cat,
     condition: TemporaryCondition | PermanentCondition,
     conditions_to_remove: list[TemporaryCondition | PermanentCondition],
 ) -> tuple[list[EventInformation], list[TemporaryCondition | PermanentCondition]]:
     """
-    Checks if the condition should apply a risk or progress into a new condition
+    Checks if the condition should apply a risk
     :param cat: The cat that the condition belongs to
     :param condition: The condition to check
     :param conditions_to_remove: The current list of conditions being removed. This will be modified within this function and returned.
@@ -290,77 +333,102 @@ def _check_risks_and_progressions(
 
             return event_list, conditions_to_remove
 
-    # CHECK PROGRESSIONS
-    for progression, chance in condition.progression.items():
-        if progression in cat.temporary_conditions + cat.permanent_conditions:
-            # don't double up
-            continue
+    return event_list, conditions_to_remove
 
-        if force_progression and progression != force_progression:
-            continue
 
-        # don't give them a condition that they already have a progression of
-        if _condition_overlaps(current_conditions, progression):
-            continue
+def _check_progression(
+    cat: Cat,
+    condition: TemporaryCondition | PermanentCondition,
+    progression: str,
+    chance: float,
+    conditions_to_remove: list,
+):
+    """
+    Checks if the condition should progress into the given progression
+    :param cat: The cat that the condition belongs to
+    :param condition: The condition to check
+    :param progression: The name of the condition that the cat may progress to
+    :param chance: The chance that the cat may progress
+    :param conditions_to_remove: The current list of conditions being removed. This will be modified within this function and returned.
+    :return: A tuple of two lists: A list of new events created, and a list of conditions to remove
+    """
+    event_list = []
 
-        if (chance and random() <= chance) or force_progression:
-            scar_event = None
-            if progression in TEMPORARY_CONDITIONS:
-                gain_temporary_condition(cat, progression)
-            elif progression in PERMANENT_CONDITIONS:
-                if condition.name in TEMPORARY_CONDITIONS:
-                    requires_scar = PERMANENT_CONDITIONS[progression].get(
-                        "requires_scar", False
-                    )
-                    scar_pool = TEMPORARY_CONDITIONS[condition.name].get(
-                        "possible_scars", []
-                    ) + PERMANENT_CONDITIONS[progression].get("possible_scars", [])
-                    # if the condition is going from temp to perm, try to give a scar
-                    scar_event = _attempt_scarring(
-                        cat,
-                        condition,
-                        possible_scars=scar_pool,
-                        guarantee_scar=requires_scar,
-                    )
+    if progression in cat.temporary_conditions + cat.permanent_conditions:
+        # don't double up
+        return event_list, conditions_to_remove
 
-                    if requires_scar and not scar_event:
-                        # if the cat couldn't be scarred for some reason, but the condition required it
-                        # then we're gonna continue before we can give the condition
-                        continue
+    if force_progression and progression != force_progression:
+        return event_list, conditions_to_remove
 
-                gain_permanent_condition(cat, progression)
+    current_conditions = {
+        c.name
+        for c in cat.temporary_conditions + cat.permanent_conditions
+        if c != condition
+    }
 
-            try:
-                event = generate_condition_event(
-                    main_cat=cat,
-                    path=f"conditions/progression_strings/{condition.name}/{progression}.json",
+    # don't give them a condition that they already have a progression of
+    if _condition_overlaps(current_conditions, progression):
+        return event_list, conditions_to_remove
+
+    if (chance and random() <= chance) or force_progression:
+        scar_event = None
+        if progression in TEMPORARY_CONDITIONS:
+            gain_temporary_condition(cat, progression)
+        elif progression in PERMANENT_CONDITIONS:
+            if condition.name in TEMPORARY_CONDITIONS:
+                requires_scar = PERMANENT_CONDITIONS[progression].get(
+                    "requires_scar", False
                 )
-            except KeyError:
-                # TODO: get a fallback
-                logger.warning(
-                    "%s couldn't be found in the healed strings dict! placeholder used.",
-                    condition.name,
-                )
-
-                # try to translate the string
-                con_name = i18n.t(f"conditions.temporary_conditions.{condition.name}")
-                con_name.replace("conditions.temporary_conditions.", "")
-                event = i18n.t("defaults.injury_healed_event", injury=con_name)
-
-                event = event_text_adjust(Cat, event, main_cat=cat)
-                event = EventInformation(
-                    event,
-                    ["health"],
-                    [cat.ID],
+                scar_pool = TEMPORARY_CONDITIONS[condition.name].get(
+                    "possible_scars", []
+                ) + PERMANENT_CONDITIONS[progression].get("possible_scars", [])
+                # if the condition is going from temp to perm, try to give a scar
+                scar_event = _attempt_scarring(
+                    cat,
+                    condition,
+                    possible_scars=scar_pool,
+                    guarantee_scar=requires_scar,
                 )
 
-            if scar_event:
-                event.text = " ".join([scar_event, event.text])
+                if requires_scar and not scar_event:
+                    # if the cat couldn't be scarred for some reason, but the condition required it
+                    # then we're gonna continue before we can give the condition
+                    return event_list, conditions_to_remove
 
-            event_list.append(event)
-            conditions_to_remove.append(condition)
+            gain_permanent_condition(cat, progression)
 
-            return event_list, conditions_to_remove
+        try:
+            event = generate_condition_event(
+                main_cat=cat,
+                path=f"conditions/progression_strings/{condition.name}/{progression}.json",
+            )
+        except KeyError:
+            # TODO: get a fallback
+            logger.warning(
+                "%s couldn't be found in the healed strings dict! placeholder used.",
+                condition.name,
+            )
+
+            # try to translate the string
+            con_name = i18n.t(f"conditions.temporary_conditions.{condition.name}")
+            con_name.replace("conditions.temporary_conditions.", "")
+            event = i18n.t("defaults.injury_healed_event", injury=con_name)
+
+            event = event_text_adjust(Cat, event, main_cat=cat)
+            event = EventInformation(
+                event,
+                ["health"],
+                [cat.ID],
+            )
+
+        if scar_event:
+            event.text = " ".join([scar_event, event.text])
+
+        event_list.append(event)
+        conditions_to_remove.append(condition)
+
+        return event_list, conditions_to_remove
 
     return event_list, conditions_to_remove
 

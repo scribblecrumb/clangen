@@ -49,7 +49,10 @@
         "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {
-            "a_festering_wound": 0.1
+            "a_festering_wound": {
+                "chance": 0.1,
+                "when": "CONTINUING"
+            }
         },
         "risks": {},
         "treatment_strength": {
@@ -77,11 +80,14 @@
             "senior adult": 0.02,
             "senior": 0.1
         },
-        "infectiousness": 0.10,
+        "infectiousness": 0.1,
         "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {
-            "greencough": 0.056
+            "greencough": {
+                "chance": 0.056,
+                "when": "CONTINUING"
+            }
         },
         "risks": {
             "sore_throat": 0.05
@@ -119,7 +125,10 @@
         "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {
-            "redcough": 0.013
+            "redcough": {
+                "chance": 0.013,
+                "when": "CONTINUING"
+            }
         },
         "risks": {
             "sore_throat": 0.05
@@ -145,7 +154,10 @@
         "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {
-            "heat_stroke": 0.2
+            "heat_stroke": {
+                "chance": 0.2,
+                "when": "CONTINUING"
+            }
         },
         "risks": {},
         "treatment_strength": {
@@ -187,8 +199,14 @@
         "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {
-            "lasting_grief": 0.01,
-            "selective_mutism": 0.007
+            "lasting_grief": {
+                "chance": 0.01,
+                "when": "CONTINUING"
+            },
+            "selective_mutism": {
+                "chance": 0.007,
+                "when": "CONTINUING"
+            }
         },
         "risks": {
             "constant_nightmares": 0.067
@@ -334,7 +352,10 @@
             ]
         },
         "possible_scars": [
-            "LEGBITE", "NECKBITE", "TAILSCAR", "BRIGHTHEART"
+            "LEGBITE",
+            "NECKBITE",
+            "TAILSCAR",
+            "BRIGHTHEART"
         ]
     },
     "cat_bite": {
@@ -377,7 +398,8 @@
             ]
         },
         "possible_scars": [
-            "CATBITE", "CATBITETWO"
+            "CATBITE",
+            "CATBITETWO"
         ]
     },
     "beak_bite": {
@@ -460,7 +482,8 @@
             ]
         },
         "possible_scars": [
-            "SNAKE", "SNAKETWO"
+            "SNAKE",
+            "SNAKETWO"
         ]
     },
     "rat_bite": {
@@ -504,12 +527,13 @@
             ]
         },
         "possible_scars": [
-            "RATBITE", "TOE"
+            "RATBITE",
+            "TOE"
         ]
     },
     "dislocated_joint": {
         "severity": "major",
-        "duration": 2,
+        "duration": 1,
         "mortality": {},
         "infectiousness": 0.0,
         "immune_system_effect": 0.0,
@@ -519,7 +543,10 @@
             "joint_pain": 0.2
         },
         "progression": {
-            "constant_joint_pain": 0.2
+            "constant_joint_pain": {
+                "chance": 0.2,
+                "when": "HEALED"
+            }
         },
         "risks": {},
         "treatment_strength": {
@@ -594,8 +621,14 @@
         "immune_system_effect": 0.17,
         "side_effect": {},
         "progression": {
-            "lost_a_leg": 0.2,
-            "lost_their_tail": 0.2
+            "lost_a_leg": {
+                "chance": 0.2,
+                "when": "CONTINUING"
+            },
+            "lost_their_tail": {
+                "chance": 0.2,
+                "when": "CONTINUING"
+            }
         },
         "risks": {
             "running_nose": 0.25
@@ -670,7 +703,10 @@
         "immune_system_effect": 0.2,
         "side_effect": {},
         "progression": {
-            "raspy_lungs": 0.2
+            "raspy_lungs": {
+                "chance": 0.2,
+                "when": "HEALED"
+            }
         },
         "risks": {
             "running_nose": 0.1,
@@ -745,7 +781,10 @@
         "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {
-            "lingering_shock": 0.067
+            "lingering_shock": {
+                "chance": 0.067,
+                "when": "HEALED"
+            }
         },
         "risks": {},
         "treatment_strength": {
@@ -762,15 +801,24 @@
     },
     "lingering_shock": {
         "severity": "major",
-        "duration": 12,
+        "duration": 6,
         "mortality": {},
         "infectiousness": 0.0,
         "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {
-            "recurring_shock": 0.2,
-            "absent": 0.2,
-            "selective_mutism": 0.2
+            "recurring_shock": {
+                "chance": 0.2,
+                "when": "CONTINUING"
+            },
+            "absent": {
+                "chance": 0.2,
+                "when": "CONTINUING"
+            },
+            "selective_mutism": {
+                "chance": 0.2,
+                "when": "CONTINUING"
+            }
         },
         "risks": {},
         "treatment_strength": {
@@ -820,7 +868,7 @@
     },
     "head_damage": {
         "severity": "major",
-        "duration": 5,
+        "duration": 4,
         "mortality": {
             "newborn": 0.05,
             "kitten": 0.07,
@@ -834,13 +882,34 @@
         "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {
-            "failing_eyesight": 0.2,
-            "one_bad_eye": 0.2,
-            "blind": 0.2,
-            "constantly_dizzy": 0.2,
-            "partial_hearing_loss": 0.2,
-            "persistent_headaches": 0.2,
-            "absent": 0.2
+            "failing_eyesight": {
+                "chance": 0.2,
+                "when": "HEALED"
+            },
+            "one_bad_eye": {
+                "chance": 0.2,
+                "when": "HEALED"
+            },
+            "blind": {
+                "chance": 0.2,
+                "when": "HEALED"
+            },
+            "constantly_dizzy": {
+                "chance": 0.2,
+                "when": "HEALED"
+            },
+            "partial_hearing_loss": {
+                "chance": 0.2,
+                "when": "HEALED"
+            },
+            "persistent_headaches": {
+                "chance": 0.2,
+                "when": "HEALED"
+            },
+            "absent": {
+                "chance": 0.2,
+                "when": "HEALED"
+            }
         },
         "risks": {
             "headache": 0.05,
@@ -877,7 +946,10 @@
             "shock": 0.2
         },
         "progression": {
-            "redcough": 0.1
+            "redcough": {
+                "chance": 0.1,
+                "when": "CONTINUING"
+            }
         },
         "risks": {},
         "treatment_strength": {
@@ -919,7 +991,12 @@
         "infectiousness": 0.0,
         "immune_system_effect": 0.0,
         "side_effect": {},
-        "progression": {},
+        "progression": {
+            "recovering_from_birth": {
+                "chance": 2.0,
+                "when": "HEALED"
+            }
+        },
         "risks": {},
         "treatment_strength": {
             "1": [],
@@ -998,7 +1075,9 @@
             ]
         },
         "possible_scars": [
-            "QUILLCHUNK", "QUILLSCRATCH", "QUILLSIDE"
+            "QUILLCHUNK",
+            "QUILLSCRATCH",
+            "QUILLSIDE"
         ]
     },
     "venom_sickness": {
@@ -1008,10 +1087,10 @@
             "newborn": 0.5,
             "kitten": 0.5,
             "adolescent": 0.15,
-            "young adult": 0.20,
-            "adult": 0.20,
+            "young adult": 0.2,
+            "adult": 0.2,
             "senior adult": 0.15,
-            "senior": 0.10
+            "senior": 0.1
         },
         "infectiousness": 0.0,
         "immune_system_effect": 0.2,
@@ -1019,8 +1098,14 @@
             "shock": 0.1
         },
         "progression": {
-            "failing_eyesight": 0.2,
-            "constantly_dizzy": 0.2
+            "failing_eyesight": {
+                "chance": 0.2,
+                "when": "HEALED"
+            },
+            "constantly_dizzy": {
+                "chance": 0.2,
+                "when": "HEALED"
+            }
         },
         "risks": {
             "an_infected_wound": 0.2,

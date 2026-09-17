@@ -3,7 +3,7 @@
         "severity": "minor",
         "duration": 4,
         "mortality": {},
-        "infectiousness": 010,
+        "infectiousness": 10,
         "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {},
@@ -20,13 +20,16 @@
     },
     "running_nose": {
         "severity": "minor",
-        "duration": 3,
+        "duration": 2,
         "mortality": {},
         "infectiousness": 0.0,
         "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {
-            "whitecough": 0.067
+            "whitecough": {
+                "chance": 0.3,
+                "when": "CONTINUING"
+            }
         },
         "risks": {
             "sore_throat": 0.05
@@ -307,7 +310,10 @@
         "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {
-            "partial_hearing_loss": 0.2
+            "partial_hearing_loss": {
+                "chance": 0.2,
+                "when": "HEALED"
+            }
         },
         "risks": {
             "an_infected_wound": 0.04
@@ -327,7 +333,10 @@
             ]
         },
         "possible_scars": [
-            "LEFTEAR", "RIGHTEAR", "NOLEFTEAR", "NORIGHTEAR"
+            "LEFTEAR",
+            "RIGHTEAR",
+            "NOLEFTEAR",
+            "NORIGHTEAR"
         ]
     },
     "bee_sting": {
@@ -388,7 +397,10 @@
         "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {
-            "damaged_throat": 0.2
+            "damaged_throat": {
+                "chance": 0.2,
+                "when": "HEALED"
+            }
         },
         "risks": {},
         "treatment_strength": {

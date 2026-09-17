@@ -184,21 +184,17 @@ class TestTemporaryCondition(unittest.TestCase):
 
                 condition_events.force_risk = ""
 
-            with self.subTest(
-                f"Test state change (CONTINUING: progression gain) for {c}"
-            ):
+            with self.subTest(f"Test progression gain for {c}"):
                 if not TEMPORARY_CONDITIONS[c]["progression"]:
                     continue
 
-                for p in TEMPORARY_CONDITIONS[c]["progression"]:
+                for p, info in TEMPORARY_CONDITIONS[c]["progression"].items():
                     cat1 = cat_factory.create_cat()
                     gain_temporary_condition(cat1, c, allow_side_effects=False)
 
                     condition_events.force_progression = p
 
-                    handle_temporary_conditions(
-                        cat1, forced_state=ConditionState.CONTINUING
-                    )
+                    handle_temporary_conditions(cat1, forced_state=info["when"])
                     self.assertTrue(
                         p in cat1.temporary_conditions + cat1.permanent_conditions,
                         msg=f"{p} was not in cat's conditions: {cat1.temporary_conditions + cat1.permanent_conditions}",
@@ -296,21 +292,17 @@ class TestPermanentCondition(unittest.TestCase):
 
                 condition_events.force_risk = ""
 
-            with self.subTest(
-                f"Test state change (CONTINUING: progression gain) for {c}"
-            ):
+            with self.subTest(f"Test progression for {c}"):
                 if not PERMANENT_CONDITIONS[c]["progression"]:
                     continue
 
-                for p in PERMANENT_CONDITIONS[c]["progression"]:
+                for p, info in PERMANENT_CONDITIONS[c]["progression"].items():
                     cat1 = cat_factory.create_cat()
                     gain_permanent_condition(cat1, c)
 
                     condition_events.force_progression = p
 
-                    handle_permanent_conditions(
-                        cat1, forced_state=ConditionState.CONTINUING
-                    )
+                    handle_permanent_conditions(cat1, forced_state=info["when"])
                     self.assertTrue(
                         p in cat1.temporary_conditions + cat1.permanent_conditions,
                         msg=f"{p} was not in cat's conditions: {cat1.temporary_conditions + cat1.permanent_conditions}",

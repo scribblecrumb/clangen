@@ -1029,23 +1029,25 @@ def one_moon_cat(cat):
         handle_temporary_conditions(cat)
         if cat.dead:
             return
-    # GIVE CONDITIONS
-    else:
-        if random.getrandbits(1):
-            triggered_death = Condition_Events.handle_injuries(cat)
-            if not triggered_death:
-                Condition_Events.handle_illnesses(cat)
-        else:
-            triggered_death = Condition_Events.handle_illnesses(cat)
-            if not triggered_death:
-                Condition_Events.handle_injuries(cat)
-        if cat.dead:
-            return
-        handle_outbreaks(cat)
 
     # newborns don't do much
     if cat.status.rank == CatRank.NEWBORN:
         return
+
+    # GIVE CONDITIONS
+    else:
+        if random.getrandbits(1):
+            triggered_death = handle_injuries_or_general_death(cat)
+            if not triggered_death:
+                handle_illnesses_or_illness_deaths(cat)
+        else:
+            triggered_death = handle_illnesses_or_illness_deaths(cat)
+            if not triggered_death:
+                handle_injuries_or_general_death(cat)
+        if cat.dead:
+            return
+
+        handle_outbreaks(cat)
 
     handle_apprentice_EX(cat)  # This must be before perform_ceremonies!
     # this HAS TO be before the cat.is_disabled() so that disabled kits can choose a med cat or mediator position
@@ -1077,20 +1079,6 @@ def one_moon_cat(cat):
     gain_accessories(cat)
 
     # switches between the two death handles
-    if random.getrandbits(1):
-        triggered_death = handle_injuries_or_general_death(cat)
-        if not triggered_death:
-            handle_illnesses_or_illness_deaths(cat)
-        else:
-            switch_set_value(Switch.skip_conditions, [])
-            return
-    else:
-        triggered_death = handle_illnesses_or_illness_deaths(cat)
-        if not triggered_death:
-            handle_injuries_or_general_death(cat)
-        else:
-            switch_set_value(Switch.skip_conditions, [])
-            return
 
     handle_murder(cat)
 

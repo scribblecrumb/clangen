@@ -201,7 +201,10 @@
             "3": []
         },
         "possible_scars": [
-            "THREE", "BRIGHTHEART", "LEFTBLIND", "RIGHTBLIND"
+            "THREE",
+            "BRIGHTHEART",
+            "LEFTBLIND",
+            "RIGHTBLIND"
         ]
     },
     "failing_eyesight": {
@@ -222,7 +225,10 @@
             "3": []
         },
         "possible_scars": [
-            "THREE", "LEFTBLIND", "RIGHTBLIND", "BOTHBLIND"
+            "THREE",
+            "LEFTBLIND",
+            "RIGHTBLIND",
+            "BOTHBLIND"
         ]
     },
     "deaf": {

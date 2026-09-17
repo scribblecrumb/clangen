@@ -26,7 +26,11 @@
             ]
         },
         "possible_scars": [
-            "FOUR", "MANLEG", "LEGBITE", "TOETRAP", "HINDLEG"
+            "FOUR",
+            "MANLEG",
+            "LEGBITE",
+            "TOETRAP",
+            "HINDLEG"
         ]
     },
     "lost_their_tail": {
@@ -54,7 +58,8 @@
             ]
         },
         "possible_scars": [
-            "NOTAIL", "HALFTAIL"
+            "NOTAIL",
+            "HALFTAIL"
         ]
     },
     "born_without_a_tail": {
@@ -73,7 +78,8 @@
             "3": []
         },
         "possible_scars": [
-            "NOTAIL", "HALFTAIL"
+            "NOTAIL",
+            "HALFTAIL"
         ]
     },
     "raspy_lungs": {
@@ -118,17 +124,23 @@
         "mortality": {},
         "immune_system_effect": 0.0,
         "progression": {
-            "deaf": 0.013
+            "deaf": {
+                "chance": 0.013,
+                "when": "CONTINUING"
+            }
         },
-        "risks": {
-        },
+        "risks": {},
         "treatment_strength": {
             "1": [],
             "2": [],
             "3": []
         },
         "possible_scars": [
-            "LEFTEAR", "RIGHTEAR", "NOLEFTEAR", "NORIGHTEAR", "NOEAR"
+            "LEFTEAR",
+            "RIGHTEAR",
+            "NOLEFTEAR",
+            "NORIGHTEAR",
+            "NOEAR"
         ]
     },
     "constant_joint_pain": {

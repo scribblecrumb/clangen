@@ -23,7 +23,10 @@ New conditions must have their required information format added to either `reso
             "condition": 0.0
         },
         "progression": {
-            "condition": 0.0
+            "paralyzed": {
+                "chance": 0.2,
+                "when": "HEALED"
+            }
         },
         "risks": {
             "condition": 0.0
@@ -96,15 +99,28 @@ A dictionary of potential progressions. A progression is a new condition that th
 > For example:
 > `whitecough` has a `progression` for `greencough`. When a cat has `whitecough`, there's a chance that it may become `greencough`. The cat will no longer have the `whitecough` condition, they will only have `greencough`.
 
-These are written with the key as the condition name and the value as the percentage chance to occur, like so:
+These are written with the key as the condition name and the value as the percentage chance as well as the `State` required, like so:
 
 ```json
 "progression": {
-    "recurring_shock": 0.2,
-    "absent": 0.2,
-    "selective_mutism": 0.2
+    "paralyzed": {
+        "chance": 0.2,
+        "when": "HEALED"
+    }
+    "weak_leg": {
+        "chance": 0.4,
+        "when": "CONTINUING"
+    }
 },
 ```
+**State Requirements**
+The `when` parameter is used to dictate which `State` the condition must be in for the progression to occur. Conditions can be in 5 states: `SKIPPED`, `FATAL`, `HEALED`, `REVEALED`, and `CONTINUING`.
+
+- `SKIPPED` should never be used for this parameter, as it marks the condition as *nothing* should occur this moon. 
+- `FATAL` means the condition will kill the cat this moon. Generally, there is no reason for progression to occur upon the cat dying.
+- `HEALED` means the condition will heal this moon. This is commonly used for progressions that should be the *result* of a condition. For example: a mangled leg heals, but is permanently weakened.
+- `REVEALED` is used when a congenital condition is *discovered* and becomes visible to the player. Generally, there is no reason for progression to occur here.
+- `CONTINUING` is used when a cat simply continues to have the condition for this moon; no death, healing, or revealing. The majority of progressions happen in this state. This is also when risks have a chance to be gained.
 
 ***
 
