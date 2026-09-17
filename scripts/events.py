@@ -50,7 +50,7 @@ from scripts.events_module.outsider import outsider_events
 from scripts.events_module.patrol.patrol import Patrol
 from scripts.events_module.relationship import relation_events
 from scripts.events_module.pregnancy import pregnancy_events
-from scripts.events_module.short.condition_events import Condition_Events
+from scripts.events_module.short.temporary_condition_event import Condition_Events
 from scripts.events_module.short.short_event_generation import create_short_event
 from scripts.events_module.thoughts.generate_thoughts import get_new_thought
 from scripts.events_module.transition.generate_transition_event import (

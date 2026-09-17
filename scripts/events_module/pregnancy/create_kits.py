@@ -26,7 +26,7 @@ from scripts.events_module.pregnancy.check_family_size import (
     biggest_family_is_big,
     get_biggest_family,
 )
-from scripts.events_module.short.condition_events import Condition_Events
+from scripts.events_module.short.temporary_condition_event import Condition_Events
 from scripts.events_module.text_adjust import event_text_adjust, adjust_list_text
 from scripts.game_structure import game
 

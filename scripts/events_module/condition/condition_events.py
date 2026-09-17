@@ -83,28 +83,11 @@ def handle_temporary_conditions(cat: Cat, forced_state: ConditionState = None):
             )
 
             if not event:
-                try:
-                    event = generate_condition_event(
-                        main_cat=cat,
-                        path=f"conditions/healed_strings/{condition.name}.json",
-                    )
-                except KeyError:
-                    logger.warning(
-                        "%s couldn't be found in the healed strings dict! placeholder used.",
-                        condition,
-                    )
+                event = generate_condition_event(
+                    main_cat=cat,
+                    path=f"conditions/healed_strings/{condition.name}.json",
+                )
 
-                    # try to translate the string
-                    con_name = i18n.t(f"conditions.temporary_conditions.{condition}")
-                    con_name.replace("conditions.temporary_conditions.", "")
-                    event = i18n.t("defaults.injury_healed_event", injury=con_name)
-
-                    event = event_text_adjust(Cat, event, main_cat=cat)
-                    event = EventInformation(
-                        event,
-                        ["health"],
-                        [cat.ID],
-                    )
             else:
                 # if nothing else happened, make the scar event into EventInformation
                 event = EventInformation(
@@ -223,31 +206,9 @@ def handle_permanent_conditions(cat: Cat, forced_state: ConditionState = None):
 
 
 def _apply_fatality(cat, condition, event_list) -> list:
-    try:
-        event = generate_condition_event(
-            main_cat=cat, path=f"conditions/death_strings/{condition.name}.json"
-        )
-
-    except KeyError:
-        logging.warning(
-            "%s does not have an condition death string, placeholder used.",
-            condition.name,
-        )
-
-        event = i18n.t("defaults.injury_death_event")
-        event = event_text_adjust(Cat, event, main_cat=cat)
-
-        # add life loss message
-        if cat.status.is_leader:
-            processed_text = event + " " + get_leader_life_notice(str(cat.name))
-            if extra_text := check_stolen_vitality(cat, 1):
-                processed_text += " " + extra_text
-
-        event = EventInformation(
-            event,
-            ["health", "birth_death"],
-            [cat.ID],
-        )
+    event = generate_condition_event(
+        main_cat=cat, path=f"conditions/death_strings/{condition.name}.json"
+    )
     # clear event list first to make sure any heal or risk events from other injuries are not shown
     event_list.clear()
     event_list.append(event)
@@ -302,29 +263,10 @@ def _check_risks(
             else:
                 condition.risks[risk] = 0.05
 
-            try:
-                event = generate_condition_event(
-                    main_cat=cat,
-                    path=f"conditions/risk_strings/{condition.name}/{risk}.json",
-                )
-            except KeyError:
-                # TODO: get a fallback
-                logger.warning(
-                    "%s couldn't be found in the healed strings dict! placeholder used.",
-                    condition.name,
-                )
-
-                # try to translate the string
-                con_name = i18n.t(f"conditions.temporary_conditions.{condition.name}")
-                con_name.replace("conditions.temporary_conditions.", "")
-                event = i18n.t("defaults.injury_healed_event", injury=con_name)
-
-                event = event_text_adjust(Cat, event, main_cat=cat)
-                event = EventInformation(
-                    event,
-                    ["health"],
-                    [cat.ID],
-                )
+            event = generate_condition_event(
+                main_cat=cat,
+                path=f"conditions/risk_strings/{condition.name}/{risk}.json",
+            )
 
             event_list.append(event)
             if risk in TEMPORARY_CONDITIONS:
@@ -399,29 +341,10 @@ def _check_progression(
 
             gain_permanent_condition(cat, progression)
 
-        try:
-            event = generate_condition_event(
-                main_cat=cat,
-                path=f"conditions/progression_strings/{condition.name}/{progression}.json",
-            )
-        except KeyError:
-            # TODO: get a fallback
-            logger.warning(
-                "%s couldn't be found in the healed strings dict! placeholder used.",
-                condition.name,
-            )
-
-            # try to translate the string
-            con_name = i18n.t(f"conditions.temporary_conditions.{condition.name}")
-            con_name.replace("conditions.temporary_conditions.", "")
-            event = i18n.t("defaults.injury_healed_event", injury=con_name)
-
-            event = event_text_adjust(Cat, event, main_cat=cat)
-            event = EventInformation(
-                event,
-                ["health"],
-                [cat.ID],
-            )
+        event = generate_condition_event(
+            main_cat=cat,
+            path=f"conditions/progression_strings/{condition.name}/{progression}.json",
+        )
 
         if scar_event:
             event.text = " ".join([scar_event, event.text])
