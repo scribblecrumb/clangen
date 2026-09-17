@@ -1,0 +1,26 @@
+[
+    {
+        "event_id": "running_nose0",
+        "strings": [
+            "It's minor compared to the frostbite, but r_c remembers to bring along herbs for m_c's running nose when {PRONOUN/r_c/subject} {VERB/r_c/go/goes} to check up on {PRONOUN/m_c/object}."
+        ],
+        "involved_cats": {
+            "m_c": {},
+            "r_c": {
+                "status": [
+                    "medicine cat"
+                ]
+            }
+        }
+    },
+    {
+        "event_id": "running_nose1",
+        "strings": [
+            "As if frostbite wasn't a big enough worry, m_c has also developed a running nose.",
+            "m_c was out in the cold far too long. While the frostbite is the biggest concern, a running nose isn't a good sign either."
+        ],
+        "involved_cats": {
+            "m_c": {}
+        }
+    }
+]
