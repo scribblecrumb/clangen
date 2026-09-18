@@ -8,11 +8,11 @@ TODO: Docs
 import logging
 import random
 
-from scripts.events_module.condition.condition_events import (
+from scripts.events_module.condition.handle_existing_conditions import (
     handle_temporary_conditions,
     handle_permanent_conditions,
-    generate_condition_event,
 )
+from scripts.events_module.condition.generate_conditions import generate_condition_event
 from scripts.cat.microservices.add_to_clan import add_dependents_to_clan, add_to_clan
 from scripts.cat_relations.cat_handle_funcs import create_relationships_new_cat
 from scripts.config import get_config
@@ -51,7 +51,7 @@ from scripts.events_module.outsider import outsider_events
 from scripts.events_module.patrol.patrol import Patrol
 from scripts.events_module.relationship import relation_events
 from scripts.events_module.pregnancy import pregnancy_events
-from scripts.events_module.short.temporary_condition_event import Condition_Events
+from scripts.events_module.condition.handle_new_conditions import Condition_Events
 from scripts.events_module.short.short_event_generation import create_short_event
 from scripts.events_module.thoughts.generate_thoughts import get_new_thought
 from scripts.events_module.transition.generate_transition_event import (
@@ -1451,7 +1451,7 @@ def handle_injuries_or_general_death(cat):
         )
         return
     elif constants.CONFIG["event_generation"]["debug_type_override"] == "injury":
-        Condition_Events.handle_injuries(cat)
+        Condition_Events.attempt_give_injuries(cat)
         return
 
     use_war_modifier = (
@@ -1524,7 +1524,7 @@ def handle_injuries_or_general_death(cat):
         )
         return True
     else:
-        triggered_death = Condition_Events.handle_injuries(cat)
+        triggered_death = Condition_Events.attempt_give_injuries(cat)
 
         return triggered_death
 
@@ -1687,7 +1687,9 @@ def handle_illnesses_or_illness_deaths(cat):
     #                           decide if cat dies                                 #
     # ---------------------------------------------------------------------------- #
     # if triggered_death is True then the cat will die
-    triggered_death = Condition_Events.handle_illnesses(cat, game.clan.current_season)
+    triggered_death = Condition_Events.attempt_give_illness(
+        cat, game.clan.current_season
+    )
 
     return triggered_death
 

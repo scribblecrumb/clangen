@@ -19,16 +19,17 @@ from scripts.cat.conditions.temporary_condition import TemporaryCondition
 from scripts.cat.constants import TEMPORARY_CONDITIONS, PERMANENT_CONDITIONS
 from scripts.cat.enums import CatRank, CatAge
 from scripts.clan_package.settings import get_clan_setting
+from scripts.clan_resources.freshkill import (
+    FRESHKILL_ACTIVE,
+    MAL_PERCENTAGE,
+    STARV_PERCENTAGE,
+)
 from scripts.config import get_config
 from scripts.events_module.ceremony.generate_normal_ceremony import create_ceremony
-from scripts.events_module.consequences import check_stolen_vitality
+from scripts.events_module.condition.generate_conditions import generate_condition_event
+from scripts.events_module.condition.handle_new_conditions import logger
 from scripts.events_module.event_information import EventInformation
-from scripts.events_module.text_adjust import event_text_adjust, get_leader_life_notice
-from scripts.events_module.text_pool_event.event_retrieval import (
-    load_text_pool_events,
-    get_valid_event,
-)
-from scripts.events_module.text_pool_event.handle_consequences import execute_outcome
+from scripts.events_module.text_adjust import event_text_adjust
 from scripts.game_structure import game
 
 logger = logging.getLogger(__name__)
@@ -36,6 +37,101 @@ logger = logging.getLogger(__name__)
 # these are only for use by tests!!!!!
 force_progression = ""
 force_risk = ""
+
+
+def handle_nutrition(cat: Cat, nutrition_info: dict) -> None:
+    """
+    Handles gaining conditions or death for cats with low nutrient.
+    This function should only be called if the game is in 'expanded' or 'cruel_season' mode.
+
+    Starvation and malnutrtion must be handled separately from other illnesses due to their distinct death triggers.
+
+        Parameters
+        ----------
+        cat : Cat
+            the cat which has to be checked and updated
+        nutrition_info : dict
+            dictionary of all nutrition information (can be found in the freshkill pile)
+    """
+    if not FRESHKILL_ACTIVE:
+        return
+
+    if cat.ID not in nutrition_info.keys():
+        logger.error(
+            "Could not find cat with ID %s (%s) in the nutrition information.",
+            cat.ID,
+            str(cat.name),
+        )
+        return
+
+    # get all events for a certain rank of a cat
+    cat_nutrition = nutrition_info[cat.ID]
+
+    event = None
+    illness = None
+    heal = False
+
+    # handle death first, if percentage is 0 or lower, the cat will die
+    if cat_nutrition.percentage <= 0:
+        event = generate_condition_event(
+            path="conditions/death_strings/starving", involved_cats={"m_c": cat}
+        )
+        # if the cat is the leader and isn't full dead
+        # make them malnourished and refill nutrition slightly
+        if cat.status.is_leader and game.clan.leader_lives > 0:
+            mal_score = nutrition_info[cat.ID].max_score / 100 * (MAL_PERCENTAGE + 1)
+            nutrition_info[cat.ID].current_score = round(mal_score, 2)
+            gain_temporary_condition(cat, "malnourished")
+
+        game.cur_events_list.append(event)
+        return
+
+    # heal cat if percentage is high enough and cat is ill
+    if (
+        cat_nutrition.percentage > MAL_PERCENTAGE
+        and "malnourished" in cat.temporary_conditions
+    ):
+        heal = True
+
+    # heal cat if percentage is high enough and cat is ill
+    elif (
+        cat_nutrition.percentage > STARV_PERCENTAGE
+        and "starving" in cat.temporary_conditions
+    ):
+        if cat_nutrition.percentage < MAL_PERCENTAGE:
+            if "malnourished" not in cat.temporary_conditions:
+                gain_temporary_condition(cat, "malnourished")
+            illness = "starving"
+            heal = True
+        else:
+            illness = "starving"
+            heal = True
+
+    elif MAL_PERCENTAGE >= cat_nutrition.percentage > STARV_PERCENTAGE:
+        # because of the smaller 'nutrition buffer', kitten and elder should get the starving condition.
+        if cat.status.rank in (CatRank.KITTEN, CatRank.ELDER):
+            illness = "starving"
+        else:
+            illness = "malnourished"
+
+    elif cat_nutrition.percentage <= STARV_PERCENTAGE:
+        illness = "starving"
+
+    # handle the gaining/healing illness
+    if heal:
+        event = generate_condition_event(
+            path=f"conditions/healed_strings/{illness}", involved_cats={"m_c": cat}
+        )
+        cat.remove_condition(illness)
+    elif not heal and illness:
+        event = generate_condition_event(
+            path=f"conditions/gain_temporary_condition_strings/{illness}",
+            involved_cats={"m_c": cat},
+        )
+        gain_temporary_condition(cat, illness)
+
+    if event:
+        game.cur_events_list.append(event)
 
 
 def handle_temporary_conditions(cat: Cat, forced_state: ConditionState = None):
@@ -531,53 +627,4 @@ def _attempt_scarring(
     return i18n.t(
         event,
         condition=i18n.t(f"conditions.temporary_conditions.{condition.name}"),
-    )
-
-
-def generate_condition_event(path: str, involved_cats: dict) -> EventInformation:
-    """
-    Generates and executes condition event
-    :param involved_cats: Cats involved in the event. Key is string designation and value is cat object (or list of cat objects)
-    :param path: The path to the required condition events
-    """
-    possible_events = load_text_pool_events(path)
-
-    chosen_event, involved_cats = get_valid_event(
-        primary_cat=involved_cats.get("m_c", None),
-        involved_cats=involved_cats,
-        interactable_cats=Cat.all_cats_list,
-        possible_events=possible_events,
-        frequency_active=False,
-    )
-
-    # we won't use results and rel_results here
-    processed_text, results, rel_results = execute_outcome(
-        event=chosen_event,
-        event_involved_cats=involved_cats,
-    )
-
-    types = ["health"]
-    main_cat: Cat | None = involved_cats.get("m_c", None)
-    if main_cat and main_cat.dead:
-        types.append("birth_death")
-
-        # add life loss message
-        if main_cat.status.is_leader:
-            processed_text = (
-                processed_text + " " + get_leader_life_notice(str(main_cat.name))
-            )
-            if extra_text := check_stolen_vitality(main_cat, 1):
-                processed_text += " " + extra_text
-
-    involved_cats = []
-    for c in involved_cats:
-        if isinstance(c, list):
-            involved_cats.extend(c)
-        else:
-            involved_cats.append(c)
-
-    return EventInformation(
-        processed_text,
-        types,
-        involved_cats,
     )

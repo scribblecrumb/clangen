@@ -9,8 +9,8 @@ from scripts.cat.conditions.gain_conditions import (
 from scripts.cat.constants import TEMPORARY_CONDITIONS, PERMANENT_CONDITIONS
 from scripts.cat.enums import CatRank
 from scripts.cat.factories.test_cat_factory import TestCatFactory
-from scripts.events_module.condition import condition_events
-from scripts.events_module.condition.condition_events import (
+from scripts.events_module.condition import handle_existing_conditions
+from scripts.events_module.condition.handle_existing_conditions import (
     handle_temporary_conditions,
     handle_permanent_conditions,
 )
