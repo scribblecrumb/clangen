@@ -5,33 +5,33 @@ import pygame
 import pygame_gui
 
 from scripts.cat.cats import Cat
+from scripts.cat.conditions.coverage_check import (
+    amount_of_clan_covered_total,
+)
+from scripts.cat.enums import CatRank
+from scripts.clan_package.get_clan_cats import find_alive_cats_with_rank
 from scripts.clan_resources.herb.herb_supply import MESSAGES
-from scripts.game_structure import game
-from ..ui.elements.modified_image import UIModifiedImage
-from ..ui.elements.text_box_tweaked import UITextBoxTweaked
-from ..ui.elements.sprite_button import UISpriteButton
-from ..ui.elements.image_button import UIImageButton
-from ..ui.elements.surface_image_button import UISurfaceImageButton
-from ..ui.theme import get_text_box_theme
-from ..events_module.text_adjust import (
+from scripts.events_module.text_adjust import (
     event_text_adjust,
     shorten_text_to_fit,
     process_text,
 )
-from ..ui.scale import ui_scale, ui_scale_offset
-from ..clan_package.get_clan_cats import find_alive_cats_with_rank
-from .Screens import Screens
-from .enums import GameScreen
-from ..cat.enums import CatRank
-from scripts.cat.conditions.coverage_check import (
-    get_amount_cat_for_one_medic,
-    amount_of_clan_covered_total,
-)
-from ..game_structure.game.switches import switch_set_value, Switch
-from ..game_structure.screen_settings import MANAGER
-from ..ui.generate_box import BoxStyles, get_box
-from ..ui.generate_button import get_button_dict, ButtonStyles
-from ..ui.icon import Icon
+from scripts.game_structure import game
+from scripts.game_structure.game import Switch
+from scripts.game_structure.game.switches import switch_set_value
+from scripts.game_structure.screen_settings import MANAGER
+from scripts.screens.Screens import Screens
+from scripts.screens.enums import GameScreen
+from scripts.ui.elements.image_button import UIImageButton
+from scripts.ui.elements.modified_image import UIModifiedImage
+from scripts.ui.elements.sprite_button import UISpriteButton
+from scripts.ui.elements.surface_image_button import UISurfaceImageButton
+from scripts.ui.elements.text_box_tweaked import UITextBoxTweaked
+from scripts.ui.generate_box import BoxStyles, get_box
+from scripts.ui.generate_button import get_button_dict, ButtonStyles
+from scripts.ui.icon import Icon
+from scripts.ui.scale import ui_scale, ui_scale_offset
+from scripts.ui.theme import get_text_box_theme
 
 
 class MedDenScreen(Screens):
@@ -322,7 +322,6 @@ class MedDenScreen(Screens):
         if self.meds:
             med_messages = []
 
-            amount_per_med = get_amount_cat_for_one_medic(game.clan)
             number = amount_of_clan_covered_total(Cat.all_cats.values())
 
             meds_cover = i18n.t(
@@ -514,8 +513,8 @@ class MedDenScreen(Screens):
             if cat.temporary_conditions:
                 condition_list.extend(
                     [
-                        i18n.t(f"conditions.injuries.{condition.name}")
-                        for condition in cat.tempoary_conditions
+                        i18n.t(f"conditions.temporary_conditions.{condition.name}")
+                        for condition in cat.temporary_conditions
                     ]
                 )
             if cat.permanent_conditions:
@@ -526,7 +525,7 @@ class MedDenScreen(Screens):
                                 i18n.t(
                                     f"conditions.permanent_conditions.{permcond.name}"
                                 )
-                                for permcond in list(cat.permanent_condition.keys())
+                                for permcond in list(cat.permanent_conditions.keys())
                             ]
                         )
             conditions = ",<br>".join(condition_list)

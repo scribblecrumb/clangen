@@ -26,7 +26,6 @@ from scripts.events_module.pregnancy.check_family_size import (
     biggest_family_is_big,
     get_biggest_family,
 )
-from scripts.events_module.short.temporary_condition_event import Condition_Events
 from scripts.events_module.text_adjust import event_text_adjust, adjust_list_text
 from scripts.game_structure import game
 
@@ -57,7 +56,7 @@ def get_kits(
     blood_parent = None
 
     ##### SELECT BACKSTORY #####
-    if cat and "pregnant" in cat.injuries:
+    if cat and "pregnant" in cat.temporary_conditions:
         backstory = choice(["halfclan1", "outsider_roots1"])
     elif cat:
         backstory = choice(["halfclan2", "outsider_roots2"])
@@ -208,12 +207,6 @@ def get_kits(
             random() * get_config("cat_generation.base_permanent_condition")
         ):
             add_congenital_condition(kit)
-            for condition in kit.permanent_condition:
-                if kit.permanent_condition[condition] == "born_without_a_leg":
-                    cat.pelt.scars = (*cat.pelt.scars, "NOPAW")
-                elif kit.permanent_condition[condition] == "born_without_a_tail":
-                    cat.pelt.scars = (*cat.pelt.scars, "NOTAIL")
-            Condition_Events.handle_already_disabled(kit)
 
         # create and update relationships
         relationships_to_update = []

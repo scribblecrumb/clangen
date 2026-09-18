@@ -230,6 +230,7 @@ class Condition_Events:
                 ]
                 if not int(random.random() * stopping_chance):
                     return triggered
+
             season_dict = get_config(
                 f"condition_related.seasonal_chances.{season.casefold()}"
             )
@@ -253,14 +254,14 @@ class Condition_Events:
                 )
             except KeyError:
                 # try to translate the illness
-                chosen_illness = i18n.t(f"conditions.illnesses.{chosen_illness}")
+                chosen_illness = i18n.t(f"conditions.temporary_conditions.{chosen_illness}")
 
                 event_string = i18n.t(
                     "defaults.illness_get_event",
                     illness=chosen_illness,
                 )
                 # just in case we couldn't translate it
-                event_string.replace("conditions.illnesses.", "")
+                event_string.replace("conditions.temporary_conditions.", "")
 
             # make em sick
             gain_temporary_condition(cat, chosen_illness)
