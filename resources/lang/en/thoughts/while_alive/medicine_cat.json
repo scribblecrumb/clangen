@@ -889,7 +889,7 @@
             "r_c": {
                 "health": {
                     "condition": [
-                        "running nose",
+                        "running_nose",
                         "whitecough",
                         "stomachache"
                     ]

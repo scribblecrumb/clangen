@@ -135,7 +135,7 @@ EVENT_ALLOWED_CONDITIONS = [
     "fleas",
     "seizure",
     "diarrhea",
-    "running nose",
+    "running_nose",
     "kittencough",
     "whitecough",
     "greencough",

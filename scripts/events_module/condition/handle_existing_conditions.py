@@ -74,7 +74,7 @@ def handle_nutrition(cat: Cat, nutrition_info: dict) -> None:
     # handle death first, if percentage is 0 or lower, the cat will die
     if cat_nutrition.percentage <= 0:
         event = generate_condition_event(
-            path="conditions/death_strings/starving", involved_cats={"m_c": cat}
+            path="conditions/death_strings/starving.json", involved_cats={"m_c": cat}
         )
         # if the cat is the leader and isn't full dead
         # make them malnourished and refill nutrition slightly
@@ -92,6 +92,7 @@ def handle_nutrition(cat: Cat, nutrition_info: dict) -> None:
         and "malnourished" in cat.temporary_conditions
     ):
         heal = True
+        illness = "malnourished"
 
     # heal cat if percentage is high enough and cat is ill
     elif (
@@ -120,12 +121,12 @@ def handle_nutrition(cat: Cat, nutrition_info: dict) -> None:
     # handle the gaining/healing illness
     if heal:
         event = generate_condition_event(
-            path=f"conditions/healed_strings/{illness}", involved_cats={"m_c": cat}
+            path=f"conditions/healed_strings/{illness}.json", involved_cats={"m_c": cat}
         )
         cat.remove_condition(illness)
     elif not heal and illness:
         event = generate_condition_event(
-            path=f"conditions/gain_temporary_condition_strings/{illness}",
+            path=f"conditions/gain_temporary_condition_strings/{illness}.json",
             involved_cats={"m_c": cat},
         )
         gain_temporary_condition(cat, illness)

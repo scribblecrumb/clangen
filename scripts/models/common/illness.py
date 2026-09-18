@@ -10,7 +10,7 @@ class Illness(Enum):
     an_infected_wound = "an infected wound"
     carrionplace_disease = "carrionplace disease"
     redcough = "redcough"
-    running_nose = "running nose"
+    running_nose = "running_nose"
     whitecough = "whitecough"
     yellowcough = "yellowcough"
     a_festering_wound = "a festering wound"

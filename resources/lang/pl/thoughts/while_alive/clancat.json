@@ -7694,7 +7694,7 @@
             "r_c": {
                 "health": {
                     "condition": [
-                        "running nose"
+                        "running_nose"
                     ]
                 }
             }
@@ -8682,7 +8682,7 @@
             "m_c": {
                 "health": {
                     "condition": [
-                        "running nose"
+                        "running_nose"
                     ]
                 }
             }

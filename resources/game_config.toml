@@ -890,15 +890,15 @@ dev_tools = false
       bruises = 15
       sprain = 12
       "small_cut" = 10
-      "torn pelt" = 10
+      "torn_pelt" = 10
       "torn_ear" = 10
-      claw-wound = 5
-      bite-wound = 5
+      claw_wound = 5
+      bite_wound = 5
       "cat_bite" = 3
 
     # list of illnesses which can occur and to which distribution
     [focus.hoarding.illnesses]
-      "running nose" = 5
+      "running_nose" = 5
       whitecough = 1
 
   [focus.rest_and_recover]

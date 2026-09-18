@@ -11,6 +11,7 @@ import pygame_gui
 import ujson
 
 from scripts.cat.cats import Cat, BACKSTORIES
+from scripts.cat.conditions.permanent_condition import PermanentCondition
 from scripts.cat.enums import CatGroup, CatThought, CatRank, CatAge
 from scripts.cat.pelts import Pelt
 from scripts.cat.pronouns import get_new_pronouns
@@ -1795,10 +1796,14 @@ class ProfileScreen(Screens):
         # gather a list of all the conditions and info needed.
         all_conditions = [
             [i, self.get_condition_details(i)]
-            for i in self.the_cat.permanent_condition
+            for i in self.the_cat.permanent_conditions
             + self.the_cat.temporary_conditions
             if i not in ("an_infected_wound", "a_festering_wound")
-            and not (i.is_congenital and i.moons_until_discovery >= 0)
+            and not (
+                isinstance(i, PermanentCondition)
+                and i.is_congenital
+                and i.moons_until_discovery >= 0
+            )
         ]
         # forgive me. Since I don't know how else to do this,
         # we just kind of brute-force it
@@ -1807,9 +1812,9 @@ class ProfileScreen(Screens):
                 "conditions.temporary_conditions.",
                 "conditions.permanent_conditions.",
             ]:
-                temp = i18n.t(i + cond[0])
-                if temp != i + cond[0]:
-                    cond[0] = temp
+                temp = i18n.t(i + cond[0].name)
+                if temp != i + cond[0].name:
+                    cond[0].name = temp
                     break
 
         all_condition_info = self.get_list_chunks(all_conditions, 4)
@@ -1852,7 +1857,7 @@ class ProfileScreen(Screens):
             )
 
             self.condition_data[f"name_{con}"] = UITextBoxTweaked(
-                con[0],
+                con[0].name,
                 ui_scale(pygame.Rect((0, 0), (120, -1))),
                 line_spacing=0.90,
                 object_id="#text_box_30_horizcenter",
@@ -1883,25 +1888,20 @@ class ProfileScreen(Screens):
     def get_condition_details(self, name):
         """returns the relevant condition details as one string with line breaks"""
         text_list = []
-        cat_name = self.the_cat.name
 
         # collect details for perm conditions
-        if name in self.the_cat.permanent_condition:
+        if name in self.the_cat.permanent_conditions:
             condition = self.the_cat.get_condition(name)
             # display if the cat was born with it
             if condition.is_congenital:
                 text_list.append(i18n.t("general.born_with"))
             else:
                 # moons with the condition if not born with condition
-                moons_with = game.clan.age - condition.moons_until_discovery
-                text_list.append(
-                    i18n.t("general.had_perm_condition_for", count=moons_with)
-                )
+                moons_with = game.clan.age - condition.moon_gained
+                text_list.append(i18n.t("general.had_condition_for", count=moons_with))
 
             # is permanent
-            text_list.append(
-                i18n.t("conditions.permanent_conditions.permanent condition")
-            )
+            text_list.append(i18n.t(f"conditions.permanent_conditions.{name}"))
 
             # infected or festering
             if condition.current_complication:
@@ -1925,7 +1925,7 @@ class ProfileScreen(Screens):
             # moons with condition
             condition = self.the_cat.get_condition(name)
             moons_with = game.clan.age - condition.moon_gained
-            insert = "general.had_perm_condition_for"
+            insert = "general.had_condition_for"
 
             if name == "recovering_from_birth":
                 insert = "general.recovering_from_birth_for"

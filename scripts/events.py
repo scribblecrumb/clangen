@@ -11,6 +11,7 @@ import random
 from scripts.events_module.condition.handle_existing_conditions import (
     handle_temporary_conditions,
     handle_permanent_conditions,
+    handle_nutrition,
 )
 from scripts.events_module.condition.generate_conditions import generate_condition_event
 from scripts.cat.microservices.add_to_clan import add_dependents_to_clan, add_to_clan
@@ -39,6 +40,10 @@ from scripts.cat.conditions.coverage_check import (
     get_amount_cat_for_one_medic,
 )
 from scripts.cat.conditions.gain_conditions import gain_temporary_condition
+from scripts.events_module.condition.handle_new_conditions import (
+    attempt_give_injuries,
+    attempt_give_illness,
+)
 from scripts.events_module.event_information import EventInformation
 from scripts.events_module.ceremony.perform_ceremony import (
     check_for_ceremony,
@@ -51,7 +56,6 @@ from scripts.events_module.outsider import outsider_events
 from scripts.events_module.patrol.patrol import Patrol
 from scripts.events_module.relationship import relation_events
 from scripts.events_module.pregnancy import pregnancy_events
-from scripts.events_module.condition.handle_new_conditions import Condition_Events
 from scripts.events_module.short.short_event_generation import create_short_event
 from scripts.events_module.thoughts.generate_thoughts import get_new_thought
 from scripts.events_module.transition.generate_transition_event import (
@@ -296,7 +300,6 @@ def one_moon():
     )
 
     if game.clan.game_mode in ("expanded", "cruel_season"):
-        amount_per_med = get_amount_cat_for_one_medic(game.clan)
         med_fulfilled = medicine_cats_can_cover_clan(Cat.all_cats.values())
 
         if not med_fulfilled:
@@ -1023,7 +1026,7 @@ def one_moon_cat(cat):
     # handle nutrition amount
     # (CARE: the cats have to be fed before this happens - should be handled in "one_moon" function)
     if game.clan.game_mode in ("expanded", "cruel_season") and game.clan.freshkill_pile:
-        Condition_Events.handle_nutrient(cat, game.clan.freshkill_pile.nutrition_info)
+        handle_nutrition(cat, game.clan.freshkill_pile.nutrition_info)
 
         if cat.dead:
             return
@@ -1449,10 +1452,11 @@ def handle_injuries_or_general_death(cat):
             event_type="birth_death",
             main_cat=cat,
         )
-        return
+        return True
+
     elif constants.CONFIG["event_generation"]["debug_type_override"] == "injury":
-        Condition_Events.attempt_give_injuries(cat)
-        return
+        attempt_give_injuries(cat)
+        return False
 
     use_war_modifier = (
         game.clan.war["at_war"]
@@ -1524,7 +1528,7 @@ def handle_injuries_or_general_death(cat):
         )
         return True
     else:
-        triggered_death = Condition_Events.attempt_give_injuries(cat)
+        triggered_death = attempt_give_injuries(cat)
 
         return triggered_death
 
@@ -1687,9 +1691,7 @@ def handle_illnesses_or_illness_deaths(cat):
     #                           decide if cat dies                                 #
     # ---------------------------------------------------------------------------- #
     # if triggered_death is True then the cat will die
-    triggered_death = Condition_Events.attempt_give_illness(
-        cat, game.clan.current_season
-    )
+    triggered_death = attempt_give_illness(cat, game.clan.current_season)
 
     return triggered_death
 

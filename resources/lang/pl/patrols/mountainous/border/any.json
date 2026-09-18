@@ -1177,7 +1177,7 @@
                             "patrol_cats"
                         ],
                         "condition": [
-                            "running nose",
+                            "running_nose",
                             "water_in_their_lungs",
                             "dangerously_cold",
                             "minor_injury",
@@ -1268,7 +1268,7 @@
                             "patrol_cats"
                         ],
                         "condition": [
-                            "running nose",
+                            "running_nose",
                             "water_in_their_lungs",
                             "dangerously_cold",
                             "minor_injury",

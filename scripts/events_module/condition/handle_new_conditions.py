@@ -68,7 +68,7 @@ def attempt_give_illness(cat, season=None):
 
         # create event text
         event = generate_condition_event(
-            f"conditions/gain_temporary_condition_strings/{chosen_illness}",
+            f"conditions/gain_temporary_condition_strings/{chosen_illness}.json",
             {"m_c": cat},
         )
 

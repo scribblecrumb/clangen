@@ -1620,7 +1620,7 @@
                             "p_l"
                         ],
                         "condition": [
-                            "running nose"
+                            "running_nose"
                         ],
                         "death_history": "m_c died after a running nose progressed to something worse."
                     }
@@ -1735,7 +1735,7 @@
                             "p_l"
                         ],
                         "condition": [
-                            "running nose"
+                            "running_nose"
                         ],
                         "death_history": "m_c died after a running nose progressed to something worse."
                     }
@@ -1906,7 +1906,7 @@
                             "p_l"
                         ],
                         "condition": [
-                            "running nose"
+                            "running_nose"
                         ],
                         "death_history": "m_c died after a running nose progressed to something worse."
                     }
@@ -2025,7 +2025,7 @@
                             "p_l"
                         ],
                         "condition": [
-                            "running nose"
+                            "running_nose"
                         ],
                         "death_history": "m_c died after a running nose progressed to something worse."
                     }
@@ -2144,7 +2144,7 @@
                             "p_l"
                         ],
                         "condition": [
-                            "running nose"
+                            "running_nose"
                         ],
                         "death_history": "m_c died after a running nose progressed to something worse."
                     }

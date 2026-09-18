@@ -21,7 +21,10 @@ class TemporaryCondition(BaseCondition):
     def apply_herb_effect(
         self, effect: HerbEffect, strength: int, amount_modifier: float
     ):
-        super().apply_herb_effect(effect, strength, amount_modifier)
+        # have to use a funky "old style" super since this is a slotted dataclass
+        super(TemporaryCondition, self).apply_herb_effect(
+            effect, strength, amount_modifier
+        )
 
         if effect == HerbEffect.DURATION:
             amount = get_config("clan_resources.herbs.base_duration_effect")

@@ -3,6 +3,7 @@ from typing import Optional
 
 import i18n
 
+from scripts.cat.conditions.permanent_condition import PermanentCondition
 from scripts.cat.skills import SkillPath
 from scripts.clan_resources.herb.herb import Herb, HERBS
 from scripts.clan_resources.herb.herb_effects import HerbEffect
@@ -686,12 +687,12 @@ class HerbSupply:
                         break
 
                 if will_not_treat:
-                    self.__apply_lack_of_herb(treatment_cat, name, chosen_effect)
+                    self._apply_lack_of_herb(treatment_cat, name, chosen_effect)
                     return
 
             if game.clan.game_mode == "classic":
                 # classic always applies basic treatment, regardless of herb supply
-                self.__apply_herb_effect(
+                self._apply_herb_effect(
                     treatment_cat,
                     name,
                     "cobwebs",
@@ -714,18 +715,18 @@ class HerbSupply:
                     1, total_herb_amount if total_herb_amount < 3 else 3
                 )
                 strength = 1
-                for level, herb_list in source_dict[name]["herbs"].items():
+                for level, herb_list in source_dict[name]["treatment_strength"].items():
                     if herb_used in herb_list:
                         strength = int(level)
 
                 self.remove_herb(herb_used, amount_used)
 
-                self.__apply_herb_effect(
+                self._apply_herb_effect(
                     treatment_cat, name, herb_used, chosen_effect, amount_used, strength
                 )
 
             elif random() > 0.30:  # 70% chance that lack of treatment is detrimental
-                self.__apply_lack_of_herb(treatment_cat, name, chosen_effect)
+                self._apply_lack_of_herb(treatment_cat, name, chosen_effect)
 
     def _gather_herbs(self, med_cat):
         """
@@ -762,12 +763,12 @@ class HerbSupply:
 
         return needed_num
 
-    def __apply_herb_effect(
+    def _apply_herb_effect(
         self,
         treated_cat,
         condition: str,
         herb_used: str,
-        effect: str,
+        effect: HerbEffect,
         amount_used: int,
         strength: int,
     ):
@@ -777,7 +778,11 @@ class HerbSupply:
 
         # grab the correct condition dict so that we can modify it
         con_info = treated_cat.get_condition(condition)
-        if con_info.is_congenital and con_info.moons_until_discovery >= 0:
+        if (
+            isinstance(con_info, PermanentCondition)
+            and con_info.is_congenital
+            and con_info.moons_until_discovery >= 0
+        ):
             return
 
         # apply effect
@@ -818,7 +823,7 @@ class HerbSupply:
         self.log.append(message)
 
     @staticmethod
-    def __apply_lack_of_herb(treatment_cat, condition: str, effect):
+    def _apply_lack_of_herb(treatment_cat, condition: str, effect):
         """
         if the condition is a perm condition or redcough, give some consequence for not treated it
         """

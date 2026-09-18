@@ -153,20 +153,20 @@ You can override the default minimums by including `(min:#)` after the status or
     | `fleas`                | :fontawesome-solid-check:     |
     | `seizure`              | :fontawesome-solid-check:     |
     | `diarrhea`             | :fontawesome-solid-check:     |
-    | `running nose`         | :fontawesome-solid-check:     |
+    | `running_nose`         | :fontawesome-solid-check:     |
     | `kittencough`          | :fontawesome-solid-check:     |
     | `whitecough`           | :fontawesome-solid-check:     |
     | `greencough`           | :fontawesome-solid-check:     |
     | `yellowcough`          | :fontawesome-solid-check:     |
     | `redcough`             | :fontawesome-solid-check:     |
-    | `an infected wound`    | :x:                    |
-    | `a festering wound`    | :x:                    |
-    | `carrionplace disease` | :fontawesome-solid-check:     |
-    | `heat stroke`          | :fontawesome-solid-check:     |
-    | `heat exhaustion`      | :fontawesome-solid-check:     |
+    | `an_infected_wound`    | :x:                    |
+    | `a_festering_wound`    | :x:                    |
+    | `carrionplace_disease` | :fontawesome-solid-check:     |
+    | `heat_stroke`          | :fontawesome-solid-check:     |
+    | `heat_exhaustion`      | :fontawesome-solid-check:     |
     | `stomachache`          | :fontawesome-solid-check:     |
-    | `constant nightmares`  | :fontawesome-solid-check:     |
-    | `grief stricken`       | :x:                    |
+    | `constant_nightmares`  | :fontawesome-solid-check:     |
+    | `grief_stricken`       | :x:                    |
     | `malnourished`         | :x:                    |
     | `starving`             | :x:                    |
 
@@ -176,27 +176,27 @@ You can override the default minimums by including `(min:#)` after the status or
         Generally we want to avoid giving a permanent condition to a cat. Instead, you should give them a condition that can lead to permanence (e.g. give 'broken back' instead of 'paralyzed')
     > | crooked jaw          |
     |----------------------|
-    | lost a leg           |
-    | born without a leg   |
-    | weak leg             |
-    | twisted leg          |
-    | lost their tail      |
-    | born without a tail  |
+    | lost_a_leg           |
+    | born_without_a_leg   |
+    | weak_leg             |
+    | twisted_leg          |
+    | lost_their_tail      |
+    | born_without_a_tail  |
     | paralyzed            |
-    | raspy lungs          |
-    | wasting disease      |
+    | raspy_lungs          |
+    | wasting_disease      |
     | blind                |
-    | one bad eye          |
-    | failing eyesight     |
-    | partial hearing loss |
+    | one_bad_eye          |
+    | failing_eyesight     |
+    | partial_hearing_loss |
     | deaf                 |
-    | constant joint pain  |
-    | seizure prone        |
+    | constant_joint_pain  |
+    | seizure_prone        |
     | allergies            |
-    | constantly dizzy     |
-    | recurring shock      |
-    | lasting grief        |
-    | persistent headaches |
+    | constantly_dizzy     |
+    | recurring_shock      |
+    | lasting_grief        |
+    | persistent_headaches |
     
 
 === "Scars"
