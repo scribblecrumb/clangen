@@ -1896,9 +1896,7 @@ class ProfileScreen(Screens):
                 text_list.append(i18n.t("general.born_with"))
             else:
                 # moons with the condition if not born with condition
-                moons_with = (
-                    game.clan.age - condition.moons_until_discovery
-                )
+                moons_with = game.clan.age - condition.moons_until_discovery
                 text_list.append(
                     i18n.t("general.had_perm_condition_for", count=moons_with)
                 )

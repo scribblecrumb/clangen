@@ -254,7 +254,9 @@ class Condition_Events:
                 )
             except KeyError:
                 # try to translate the illness
-                chosen_illness = i18n.t(f"conditions.temporary_conditions.{chosen_illness}")
+                chosen_illness = i18n.t(
+                    f"conditions.temporary_conditions.{chosen_illness}"
+                )
 
                 event_string = i18n.t(
                     "defaults.illness_get_event",
