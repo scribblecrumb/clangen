@@ -102,7 +102,7 @@ def grief(dead_cat: "Cat", body: bool):
             text = event_text_adjust(cat, text=text, main_cat=dead_cat, random_cat=cat)
 
             gain_temporary_condition(
-                cat, "grief stricken", omit_moonskip=True, severity="major"
+                cat, "grief_stricken", omit_moonskip=True, severity="major"
             )
 
         # If major grief fails, but there are still very_high or high values,

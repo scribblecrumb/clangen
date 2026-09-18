@@ -401,7 +401,7 @@ def _is_suitable_medcat_app(cat) -> bool:
         chance = chance / 4
         logger.info("beneficial secondary skill, chance updated to %d", round(chance))
 
-    if cat.is_disabled():
+    if cat.permanent_conditions:
         chance = chance / 2
 
     if num_med_apps == 0:

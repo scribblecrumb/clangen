@@ -1082,12 +1082,9 @@ class ProfileScreen(Screens):
                     output += " (" + str(int(nutr.percentage)) + ")"
                 output += "\n"
 
-        if the_cat.is_disabled():
-            for condition in the_cat.permanent_condition:
-                if (
-                    the_cat.permanent_condition[condition]["born_with"] is True
-                    and the_cat.permanent_condition[condition]["moons_until"] != -2
-                ):
+        if the_cat.permanent_conditions:
+            for condition in the_cat.permanent_conditions:
+                if condition.is_congenital and condition.moons_until_discovery <= 0:
                     continue
                 output += i18n.t("general.has_permanent_condition")
 
@@ -1110,7 +1107,7 @@ class ProfileScreen(Screens):
                 )
             else:
                 output += i18n.t("utility.exclamation", text=i18n.t("general.injured"))
-            if "grief stricken" in the_cat.temporary_conditions:
+            if "grief_stricken" in the_cat.temporary_conditions:
                 output += i18n.t("utility.exclamation", text=i18n.t("general.grieving"))
             elif "fleas" in the_cat.temporary_conditions:
                 output += i18n.t("utility.exclamation", text=i18n.t("general.fleas"))
