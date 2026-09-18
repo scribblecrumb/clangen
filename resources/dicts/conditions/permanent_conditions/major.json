@@ -24,9 +24,9 @@
         "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
-            "an_infected_wound": 0.014,
-            "phantom_pain": 0.05,
-            "sore": 0.05
+            "an_infected_wound": 0.05,
+            "phantom_pain": 0.1,
+            "sore": 0.15
         },
         "treatment_strength": {
             "1": [
@@ -56,8 +56,8 @@
         "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
-            "sore": 0.05,
-            "joint_pain": 0.025
+            "sore": 0.15,
+            "joint_pain": 0.15
         },
         "treatment_strength": {
             "1": [
@@ -85,8 +85,8 @@
         "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
-            "sore": 0.05,
-            "joint_pain": 0.025
+            "sore": 0.20,
+            "joint_pain": 0.25
         },
         "treatment_strength": {
             "1": [
@@ -111,14 +111,13 @@
         "severity": "major",
         "can_be_congenital": true,
         "can_be_acquired": true,
-        "moons_until_discovery": 1,
+        "moons_until_discovery": 2,
         "mortality": {},
         "immune_system_effect": 0.25,
         "progression": {},
         "risks": {
-            "running_nose": 0.1,
-            "yellowcough": 0.02,
-            "redcough": 0.017
+            "running_nose": 0.25,
+            "redcough": 0.05
         },
         "treatment_strength": {
             "1": [
@@ -145,9 +144,9 @@
         "immune_system_effect": 0.1,
         "progression": {},
         "risks": {
-            "seizure": 0.033,
-            "paralyzed": 0.017,
-            "redcough": 0.02
+            "seizure": 0.05,
+            "paralyzed": 0.05,
+            "redcough": 0.10
         },
         "treatment_strength": {
             "1": [
@@ -193,10 +192,13 @@
         "moons_until_discovery": 2,
         "mortality": {},
         "immune_system_effect": 0.0,
-        "progression": {},
-        "risks": {
-            "failing_eyesight": 0.013
+        "progression": {
+            "failing_eyesight": {
+                "chance": 0.05,
+                "when": "CONTINUING"
+            }
         },
+        "risks": {},
         "treatment_strength": {
             "1": [],
             "2": [],
@@ -217,10 +219,13 @@
         "moons_until_discovery": 3,
         "mortality": {},
         "immune_system_effect": 0.0,
-        "progression": {},
-        "risks": {
-            "blind": 0.02
+        "progression": {
+            "blind": {
+                "chance": 0.05,
+                "when": "CONTINUING"
+            }
         },
+        "risks": {},
         "treatment_strength": {
             "1": [],
             "2": [],
@@ -262,7 +267,7 @@
         "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
-            "seizure": 0.1
+            "seizure": 0.2
         },
         "treatment_strength": {
             "1": [
@@ -286,7 +291,7 @@
         "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
-            "headache": 0.05
+            "headache": 0.1
         },
         "treatment_strength": {
             "1": [],
@@ -303,8 +308,8 @@
         "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
-            "constant_nightmares": 0.05,
-            "selective_mutism": 0.004
+            "constant_nightmares": 0.3,
+            "selective_mutism": 0.02
         },
         "treatment_strength": {
             "1": [
@@ -327,8 +332,8 @@
         "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
-            "severe_headache": 0.05,
-            "headache": 0.05
+            "severe_headache": 0.1,
+            "headache": 0.3
         },
         "treatment_strength": {
             "1": [

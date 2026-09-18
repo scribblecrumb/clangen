@@ -9,8 +9,8 @@
         "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
-            "sore": 0.05,
-            "joint_pain": 0.025
+            "sore": 0.1,
+            "joint_pain": 0.05
         },
         "treatment_strength": {
             "1": [
@@ -43,7 +43,7 @@
         "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
-            "an_infected_wound": 0.014,
+            "an_infected_wound": 0.05,
             "phantom_pain": 0.1
         },
         "treatment_strength": {
@@ -88,20 +88,12 @@
         "can_be_congenital": true,
         "can_be_acquired": true,
         "moons_until_discovery": 3,
-        "mortality": {
-            "newborn": 0.05,
-            "kitten": 0.05,
-            "adolescent": 0.02,
-            "young adult": 0.01,
-            "adult": 0.01,
-            "senior adult": 0.02,
-            "senior": 0.03
-        },
+        "mortality": {},
         "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
-            "whitecough": 0.05,
-            "breathless_fit": 0.1
+            "whitecough": 0.1,
+            "breathless_fit": 0.4
         },
         "treatment_strength": {
             "1": [
@@ -126,7 +118,7 @@
         "immune_system_effect": 0.0,
         "progression": {
             "deaf": {
-                "chance": 0.013,
+                "chance": 0.05,
                 "when": "CONTINUING"
             }
         },
@@ -153,7 +145,7 @@
         "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
-            "joint_pain": 0.1
+            "joint_pain": 0.4
         },
         "treatment_strength": {
             "1": [
@@ -178,7 +170,7 @@
         "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
-            "running_nose": 0.05
+            "running_nose": 0.1
         },
         "treatment_strength": {
             "1": [
@@ -197,7 +189,7 @@
         "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
-            "grief_stricken": 0.02,
+            "grief_stricken": 0.2,
             "absent": 0.02
         },
         "treatment_strength": {
@@ -241,7 +233,7 @@
         "immune_system_effect": 0.0,
         "progression": {},
         "risks": {
-            "sore_throat": 0.033
+            "sore_throat": 0.4
         },
         "treatment_strength": {
             "1": [
