@@ -909,10 +909,10 @@
             "r_c": {
                 "health": {
                     "condition": [
-                        "heat stroke",
-                        "a festering wound",
-                        "carrionplace disease",
-                        "an infected wound",
+                        "heat_stroke",
+                        "a_festering_wound",
+                        "carrionplace_disease",
+                        "an_infected_wound",
                         "redcough",
                         "kittencough",
                         "poisoned"

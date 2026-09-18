@@ -211,7 +211,7 @@ class HerbSupply:
         cats_to_treat = [
             kitty
             for kitty in clan_cats
-            if kitty.is_ill() or kitty.is_injured() or kitty.is_disabled()
+            if kitty.temporary_conditions or kitty.permanent_conditions
         ]
         for kitty in cats_to_treat:
             # if there are no working med cats, then only allow med cats to be treated. the idea being that a med cat

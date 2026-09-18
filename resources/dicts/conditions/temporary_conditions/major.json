@@ -457,7 +457,7 @@
         "infectiousness": 0.0,
         "immune_system_effect": 0.0,
         "side_effect": {
-            "poisoned": 0.2
+            "venom_sickness": 0.8
         },
         "progression": {},
         "risks": {

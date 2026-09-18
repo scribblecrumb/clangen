@@ -11,6 +11,7 @@ import random
 from scripts.events_module.condition.condition_events import (
     handle_temporary_conditions,
     handle_permanent_conditions,
+    generate_condition_event,
 )
 from scripts.cat.microservices.add_to_clan import add_dependents_to_clan, add_to_clan
 from scripts.cat_relations.cat_handle_funcs import create_relationships_new_cat
@@ -139,6 +140,9 @@ def one_moon():
     # Adding in any potential lead den events that have been saved
     if get_clan_setting("lead_den_interaction"):
         handle_lead_den_event()
+
+    # try to cause a condition outbreak
+    attempt_outbreak()
 
     # checking if a lost cat returns on their own
     rejoin_upperbound = constants.CONFIG["lost_cat"]["rejoin_chance"]
@@ -1047,8 +1051,6 @@ def one_moon_cat(cat):
         if cat.dead:
             return
 
-        handle_outbreaks(cat)
-
     handle_apprentice_EX(cat)  # This must be before perform_ceremonies!
     # this HAS TO be before the cat.is_disabled() so that disabled kits can choose a med cat or mediator position
     check_for_ceremony(cat)
@@ -1686,143 +1688,117 @@ def handle_illnesses_or_illness_deaths(cat):
     # ---------------------------------------------------------------------------- #
     # if triggered_death is True then the cat will die
     triggered_death = Condition_Events.handle_illnesses(cat, game.clan.current_season)
-    if not triggered_death:
-        handle_outbreaks(cat)
 
     return triggered_death
 
 
-def handle_outbreaks(cat):
-    """Try to infect some cats."""
-    # check if the cat is ill,
-    # or if Clan has sufficient med cats
-    if not cat.is_ill():
-        return
-
-    # check how many kitties are already ill
-    already_sick = list(
-        filter(
-            lambda kitty: (kitty.status.alive_in_player_clan and kitty.is_ill()),
-            Cat.all_cats.values(),
-        )
+def attempt_outbreak():
+    """
+    Attempts to spread infectious conditions to other cats in the Clan
+    """
+    clan_cats = list(
+        filter(lambda _cat: _cat.status.alive_in_player_clan, Cat.all_cats.values())
     )
-    already_sick_count = len(already_sick)
 
-    # round up the living kitties
-    healthy_cats = list(
-        filter(
-            lambda kitty: kitty.status.alive_in_player_clan and not kitty.is_ill(),
-            Cat.all_cats.values(),
-        )
-    )
-    healthy_count = len(healthy_cats)
+    healthy_cats = list(filter(lambda _cat: not _cat.temporary_conditions, clan_cats))
 
     # if large amount of the population is already sick, stop spreading
-    if already_sick_count >= healthy_count * get_config(
+    if (len(clan_cats) - len(healthy_cats)) >= len(healthy_cats) * get_config(
         "condition_related.illness_percentage_max"
     ):
         return
 
+    # find who can infect
+    infectious_cats = list(
+        filter(
+            lambda _cat: any(
+                [condition.infectiousness for condition in _cat.temporary_conditions]
+            ),
+            clan_cats,
+        )
+    )
+
+    # find who can prevent infection
     meds = find_alive_cats_with_rank(
         Cat,
         [CatRank.MEDICINE_CAT, CatRank.MEDICINE_APPRENTICE],
         working=True,
         sort=True,
     )
+    infection_prevention = len(meds) * get_config(
+        "condition_related.med_infection_reduction"
+    )
 
-    for condition in cat.temporary_conditions:
-        # check if illness can infect other cats
-        if condition["infectiousness"] == 0:
-            continue
-        chance = condition["infectiousness"]
-        chance += len(meds) * get_config("condition_related.med_infection_reduction")
-        if not int(random.random() * chance):  # 1/chance to infect
-            # fleas are the only condition allowed to spread outside of cold seasons
-            if (
-                game.clan.current_season
-                not in get_config("condition_related.illness_outbreak_season")
-                and condition != "fleas"
-            ):
-                continue
-
-            if get_clan_setting("rest_and_recover"):
-                stopping_chance = constants.CONFIG["focus"]["rest_and_recover"][
-                    "outbreak_prevention"
-                ]
-                if not int(random.random() * stopping_chance):
-                    continue
-
-            if condition == "kittencough":
-                # adjust alive cats list to only include kittens
-                healthy_cats = list(
-                    filter(
-                        lambda kitty: (
-                            kitty.status.rank.is_baby()
-                            and kitty.status.alive_in_player_clan
-                            and not kitty.is_ill()
-                        ),
-                        Cat.all_cats.values(),
-                    )
-                )
-                healthy_count = len(healthy_cats)
-
-            max_infected = int(healthy_count / 2)  # 1/2 of alive cats
-            # If there are less than two cat to infect,
-            # you are allowed to infect all the cats
-            if max_infected < 2:
-                max_infected = healthy_count
-            # If, event with all the cats, there is less
-            # than two cats to infect, cancel outbreak.
-            if max_infected < 2:
-                return
-
-            weights = []
-            population = []
-            for n in range(2, max_infected + 1):
-                population.append(n)
-                weight = 1 / (0.75 * n)  # Lower chance for more infected cats
-                weights.append(weight)
-            infected_count = random.choices(population, weights=weights)[
-                0
-            ]  # the infected..
-
-            infected_names = []
-            involved_cats = []
-            infected_cats = random.sample(healthy_cats, infected_count)
-            for sick_meowmeow in infected_cats:
-                infected_names.append(str(sick_meowmeow.name))
-                involved_cats.append(sick_meowmeow.ID)
-                gain_temporary_condition(
-                    sick_meowmeow, condition, omit_moonskip=True
-                )  # SPREAD THE GERMS >:)
-
-            # TODO: hardcoded text events, not good, need to consider how to convert
-            #  should this be handled in condition_events.py?
-            if condition == "kittencough":
-                event = i18n.t(
-                    "hardcoded.kittencough_spread",
-                    kits=adjust_list_text(infected_names),
-                    count=len(infected_names),
-                )
-            elif condition == "fleas":
-                event = i18n.t(
-                    "hardcoded.flea_spread",
-                    cats=adjust_list_text(infected_names),
-                    count=len(infected_names),
+    # gather possible infections
+    possible_infections: dict[str, float] = {}
+    for _cat in infectious_cats:
+        infectious_conditions = [
+            condition
+            for condition in _cat.temporary_conditions
+            if condition.infectiousness
+        ]
+        for condition in infectious_conditions:
+            if condition in possible_infections:
+                possible_infections[condition.name] = min(
+                    0.9,
+                    (possible_infections[condition] + condition.infectiousness)
+                    - infection_prevention,
                 )
             else:
-                event = i18n.t(
-                    "hardcoded.illness_spread",
-                    illness=str(condition).capitalize(),
-                    cats=adjust_list_text(infected_names),
-                    count=len(infected_names),
+                possible_infections[condition.name] = (
+                    condition.infectiousness - infection_prevention
                 )
 
-            game.cur_events_list.append(
-                EventInformation(event, ["health"], involved_cats)
-            )
-            # game.health_events_list.append(event)
+    # the cats who are allowed to get sick
+    vulnerable_cats = list(filter(lambda _cat: _cat not in infectious_cats, clan_cats))
+
+    # shuffle the cats to ensure we aren't attempting to infect them in the same order each time
+    random.shuffle(vulnerable_cats)
+
+    # figure out how many cats we can infect at maximum
+    max_infected_allowed = int(len(healthy_cats) / 2)
+
+    if max_infected_allowed < 2:
+        # not enough to infect, so we'll cancel our attempt
+        return
+
+    # key is condition, value is list of cats infected with it
+    created_infections = {}
+    # now find who will get what infection
+    for condition, infectiousness in possible_infections.items():
+        created_infections[condition] = []
+        for _cat in vulnerable_cats:
+            # collect immune system debuffs
+            immune_system_effect = 0.0
+            for _con in _cat.temporary_conditions + _cat.permanent_conditions:
+                immune_system_effect += _con.immune_system_effect
+
+            # now see if they get infected
+            if random.random() <= min(0.9, infectiousness + immune_system_effect):
+                created_infections[condition].append(_cat)
+                max_infected_allowed -= 1
+
+        if max_infected_allowed <= 0:
             break
+
+    for condition, cats in created_infections.items():
+        if len(cats) < 2:
+            # don't infect just one cat
+            continue
+        infected_names = []
+        involved_cats = []
+        for _c in cats:
+            infected_names.append(str(_c.name))
+            involved_cats.append(_c.ID)
+            gain_temporary_condition(
+                _c, condition, omit_moonskip=True
+            )  # SPREAD THE GERMS >:)
+
+        event = generate_condition_event(
+            path=f"outbreak_strings/{condition}.json", involved_cats={"multi_cat": cats}
+        )
+
+        game.cur_events_list.append(event)
 
 
 def check_leader():

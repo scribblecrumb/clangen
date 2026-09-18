@@ -219,7 +219,7 @@ class Condition_Events:
         random_number = int(random.random() * get_config(path))
         if (
             not cat.dead
-            and not cat.is_ill()
+            and not cat.temporary_conditions
             and random_number <= 10
             and not event_string
         ):

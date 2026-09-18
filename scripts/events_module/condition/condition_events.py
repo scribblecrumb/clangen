@@ -84,8 +84,8 @@ def handle_temporary_conditions(cat: Cat, forced_state: ConditionState = None):
 
             if not event:
                 event = generate_condition_event(
-                    main_cat=cat,
                     path=f"conditions/healed_strings/{condition.name}.json",
+                    involved_cats={"m_c": cat},
                 )
 
             else:
@@ -172,8 +172,8 @@ def handle_permanent_conditions(cat: Cat, forced_state: ConditionState = None):
         elif state == ConditionState.REVEALED:
             event_list.append(
                 generate_condition_event(
-                    main_cat=cat,
                     path=f"conditions/reveal_condition_strings/{condition.name}.json",
+                    involved_cats={"m_c": cat},
                 )
             )
 
@@ -207,7 +207,8 @@ def handle_permanent_conditions(cat: Cat, forced_state: ConditionState = None):
 
 def _apply_fatality(cat, condition, event_list) -> list:
     event = generate_condition_event(
-        main_cat=cat, path=f"conditions/death_strings/{condition.name}.json"
+        path=f"conditions/death_strings/{condition.name}.json",
+        involved_cats={"m_c": cat},
     )
     # clear event list first to make sure any heal or risk events from other injuries are not shown
     event_list.clear()
@@ -264,8 +265,8 @@ def _check_risks(
                 condition.risks[risk] = 0.05
 
             event = generate_condition_event(
-                main_cat=cat,
                 path=f"conditions/risk_strings/{condition.name}/{risk}.json",
+                involved_cats={"m_c": cat},
             )
 
             event_list.append(event)
@@ -342,8 +343,8 @@ def _check_progression(
             gain_permanent_condition(cat, progression)
 
         event = generate_condition_event(
-            main_cat=cat,
             path=f"conditions/progression_strings/{condition.name}/{progression}.json",
+            involved_cats={"m_c": cat},
         )
 
         if scar_event:
@@ -533,17 +534,16 @@ def _attempt_scarring(
     )
 
 
-def generate_condition_event(main_cat: Cat, path: str) -> EventInformation:
+def generate_condition_event(path: str, involved_cats: dict) -> EventInformation:
     """
     Generates and executes condition event
-    :param main_cat: The cat connected to the condition
+    :param involved_cats: Cats involved in the event. Key is string designation and value is cat object (or list of cat objects)
     :param path: The path to the required condition events
     """
     possible_events = load_text_pool_events(path)
-    involved_cats = {"m_c": main_cat}
 
     chosen_event, involved_cats = get_valid_event(
-        primary_cat=main_cat,
+        primary_cat=involved_cats.get("m_c", None),
         involved_cats=involved_cats,
         interactable_cats=Cat.all_cats_list,
         possible_events=possible_events,
@@ -557,7 +557,8 @@ def generate_condition_event(main_cat: Cat, path: str) -> EventInformation:
     )
 
     types = ["health"]
-    if main_cat.dead:
+    main_cat: Cat | None = involved_cats.get("m_c", None)
+    if main_cat and main_cat.dead:
         types.append("birth_death")
 
         # add life loss message
@@ -568,8 +569,15 @@ def generate_condition_event(main_cat: Cat, path: str) -> EventInformation:
             if extra_text := check_stolen_vitality(main_cat, 1):
                 processed_text += " " + extra_text
 
+    involved_cats = []
+    for c in involved_cats:
+        if isinstance(c, list):
+            involved_cats.extend(c)
+        else:
+            involved_cats.append(c)
+
     return EventInformation(
         processed_text,
         types,
-        [c.ID for c in involved_cats.values()],
+        involved_cats,
     )

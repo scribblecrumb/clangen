@@ -3,7 +3,7 @@
         "severity": "minor",
         "duration": 4,
         "mortality": {},
-        "infectiousness": 10,
+        "infectiousness": 0.2,
         "immune_system_effect": 0.0,
         "side_effect": {},
         "progression": {},
