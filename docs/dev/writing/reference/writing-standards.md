@@ -100,7 +100,7 @@ Disabled cats are not inherently worth less than their abled counterparts and sh
 >Disabled cats should be allowed to engage with Clan life in all the same ways that abled cats can.
 
 Cats are allowed to engage with the complexity of their individual disabilities, both the negatives and the positives. 
->A cat who becomes paralyzed is allowed to wish that they could still walk on four paws, while also celebrating their accomplishments. A cat who is blind in one eye is allowed to struggle with their blindness, while still serving the Clan as a warrior or leader.
+>A cat who becomes paralyzed is allowed to wish that they could still walk on four paws, while also celebrating their accomplishments. A cat who is blind in one eye is allowed to struggle with their blindness, while still serving the Clan as a warrior or leader. Likewise, a disabled cat deciding to take a place in the elder den is a valid choice for a cat to make, and should not be treated as the end of their "usefulness" or "ability".
 
 Some conditions can be more visible than others, but remember that the visibility of a condition does not determine its importance or impact. Invisible disabilities are just as impactful to a cat's life as more visible ones. 
 >Constantly dizzy and persistent headaches aren't conditions you can tell a cat has just from looking at them, but they still have profound effects on a cat's life. They still impact their level of activity and their capability with certain tasks.
