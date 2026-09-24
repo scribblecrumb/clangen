@@ -112,7 +112,29 @@ While the mainly-RNG controlled nature of ClanGen means nuance isn't particularl
 - While blindness absolutely affects a cat's ability, keep in mind that cats actually rely far more on their other senses! Whiskers, especially, help even seeing cats to navigate the surrounding space. When writing blind cats, consider having them follow a "guiding" Clanmate's scent/presence through complex obstacles or investigate their surroundings before making a move (such as feeling for a safe ledge before jumping up to it.) Have them rely on smell and hearing to understand what's happening around them.
 - The cats within this universe do not have the ability to create wheelchairs or prothesis for their paralyzed or mobility-impaired Clanmates. However, remember that cats are incredibly adaptible creatures. Real-life 3-legged, paralyzed, and weak-legged cats can still be incredibly agile and fast. There are ways in which they may struggle, but they aren't relegated to just wandering around camp.
 - Remember that while these cats aren't so technologically advanced as to create complex tools like a wheelchair, they are still intelligent beings who can be creative in how they support their disabled Clanmates; and disabled cats are likewise intelligent beings who can be creative in how they support themselves.
+- Some conditions can be more visible than others, but remember that the visibility of a condition does not determine its importance or impact. Invisible disabilities are just as impactful to a cat's life as more visible ones. 
 
+### How do we handle terminal conditions?
 
+Death, especially from terminal conditions, can be a difficult topic to handle. Our goal when communicating this aspect of disability is to use simple, direct language. 
+
+It's alright for cats to muse about a death they know is coming, for their loved ones to understand the potential consequences of a condition, and also alright for cats to react negatively about the oncoming loss. Writers should not look to sugarcoat death.
+
+### What are the "real world" counterparts of ClanGen conditions?
+
+Some of our conditions are named in a less scientific manner than their real-world counterparts, or are meant to be more "umbrella" terms for conditions that wouldn't be particularly diagnosable to cats living in a forest.
+
+| Condition Name       | Counterpart                                                                                                                                                                                                                                                                    |
+|----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Raspy Lungs          | While this is also a consequence of temporary conditions like "water in lungs", the congenital versions of this condition are typically used to portray asthma                                                                                                                 |
+| Wasting Disease      | This is a catch-all condition, used to portray detrimental conditions that wouldn't have a clear cause without better medical technology. For example: diabetes, internal malformations, parasites                                                                             |
+| Strange Lump         | Cancerous tumors                                                                                                                                                                                                                                                               |
+| Absent               | Cognitive decline or psychological disconnect. This is based mainly off conditions like dementia or traumatic brain injuries, but can also be given as a result of conditions like lasting grief for the idea that a cat has emotionally/mentally disconnected from the world. |
+| Seizure Prone        | Epilepsy                                                                                                                                                                                                                                                                       |
+| Constantly Dizzy     | Chronic loss of balance                                                                                                                                                                                                                                                        |
+| Recurring Shock      | Post Traumatic Stress                                                                                                                                                                                                                                                          |
+| Lasting Grief        | Depression                                                                                                                                                                                                                                                                     |
+| Persistent Headaches | Chronic migraines                                                                                                                                                                                                                                                              |
+| Redcough             | A catch-all condition, used to portray internal damage that could lead towards a cat coughing up blood. While not a permanent condition, it is typically considered terminal and is rarely recovered from.                                                                     |
 
 
