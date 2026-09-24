@@ -124,7 +124,7 @@ It's alright for cats to muse about a death they know is coming, for their loved
 
 ### What are the "real world" counterparts of ClanGen conditions?
 
-Some of our conditions are named in a less scientific manner than their real-world counterparts, or are meant to be more "umbrella" terms for conditions that wouldn't be particularly diagnosable to cats living in a forest.
+Some of our conditions are named in a less scientific manner than their real-world counterparts, or are meant to be more "umbrella" terms for conditions that wouldn't be particularly diagnosable to cats living in the wild.
 
 | Condition Name       | Counterpart                                                                                                                                                                                                                                                                    |
 |----------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
