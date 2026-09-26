@@ -90,26 +90,40 @@ Event and flavor text should always use Americanized spelling.
 Disabled cats should not be sidelined in favor of how their disability affects those around them:
 >For example, the "sad circumstances" of the "poor" parents of a disabled kitten. The kitten is the cat who is disabled and should not be ignored or regarded as a burden for their disability in favor of pitying their parental figures.
 
+***
+
 Disability should not be portrayed as the ultimate tragedy of a cat's life. Their life does not end when they become disabled.
 >While ClanGen allows disabled cats to "retire" early, the cats aren't required to do so. Retiring also doesn't mean an "end" to their life within the Clan. They can still receive events and interactions. 
+
+***
 
 Avoid inspiration sensationalism. Inspiration sensationalism slants stories and images of disabled people in a way that allows a nondisabled audience to feel warm and fuzzy, but regards the disabled person as nothing more than an object that produces these positive feelings. 
 >Remember that there is a difference between "joy" and "inspiration". Disabled cats can feel joyful and fulfilled in their life without that joy being used solely as inspiration for those around them.
 
+***
+
 Disabled cats are not inherently worth less than their abled counterparts and should not be treated as such. Disabled cats have just as much power, autonomy, and dignity as abled cats.
 >Disabled cats should be allowed to engage with Clan life in all the same ways that abled cats can.
+
+***
 
 Cats are allowed to engage with the complexity of their individual disabilities, both the negatives and the positives. 
 >A cat who becomes paralyzed is allowed to wish that they could still walk on four paws, while also celebrating their accomplishments. A cat who is blind in one eye is allowed to struggle with their blindness, while still serving the Clan as a warrior or leader. Likewise, a disabled cat deciding to take a place in the elder den is a valid choice for a cat to make, and should not be treated as the end of their "usefulness" or "ability".
 
-> `CatA is frustrated their pain has left them in the nest all day.`
-> `CatA is excited to learn how to fight on 3-legs, even though it might be a little harder.`
-> `CatB comforts CatA, insisting that they will never be a burden, despite their bad days.`
+> * `CatA is frustrated their pain has left them in the nest all day.`
+> 
+> * `CatA is excited to learn how to fight on three legs, even though it might be a little harder.`
+> 
+> * `CatB comforts CatA, insisting that they will never be a burden, despite their bad days.`
+
+***
 
 Some conditions can be more visible than others, but remember that the visibility of a condition does not determine its importance or impact. Invisible disabilities are just as impactful to a cat's life as more visible ones. 
 >Constantly dizzy and persistent headaches aren't conditions you can tell a cat has just from looking at them, but they still have profound effects on a cat's life. They still impact their level of activity and their capability with certain tasks.
 
-When possible, seek advice from fellow developers with the disability you plan to write for. It's always best for those with a first-hand perspective to dictate how their experiences be portrayed.
+***
+
+When possible, seek advice from fellow developers with the disability you plan to write for or reference outside resources written by those with that disability. It's always best for those with a first-hand perspective to dictate how their experiences be portrayed.
 
 While the mainly-RNG controlled nature of ClanGen means nuance isn't particularly easy to add into individual events, writers are encouraged to allow nuance by creating a wide variety of events that portray the myriad aspects of disability.
 
