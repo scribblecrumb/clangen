@@ -38,28 +38,33 @@ def get_poi_from_constraints(
 
     if name:
         possible_poi = set(name).intersection(get_poi_names_set())
-    if tags:
-        tagged_poi = []
-        for tag in tags:
-            tagged_poi.extend(_poi_by_tags.get(tag, []))
+        return choice(list(possible_poi)) if possible_poi else None
 
-        if not tagged_poi:
-            return None
-
-        if possible_poi:
-            possible_poi.intersection(set(tagged_poi))
-        else:
-            possible_poi.update(set(tagged_poi))
     if category:
         possible_by_category = get_pois_by_category(category)
 
         if not possible_by_category:
             return None
 
+        possible_poi.update(possible_by_category)
+
+    if tags:
+        allowed_poi = []
+        for tag in tags:
+            if "-" == tag[0]:
+                new_tag = tag.replace("-", "")
+                excluded = _poi_by_tags.get(new_tag, [])
+                allowed_poi.extend(list(get_poi_names_set().difference(excluded)))
+            else:
+                allowed_poi.extend(_poi_by_tags.get(tag, []))
+
+        if not allowed_poi:
+            return None
+
         if possible_poi:
-            possible_poi.intersection(possible_by_category)
+            possible_poi.intersection(allowed_poi)
         else:
-            possible_poi.update(possible_by_category)
+            possible_poi.update(set(allowed_poi))
 
     return choice(list(possible_poi)) if possible_poi else None
 
@@ -78,27 +83,6 @@ def get_poi_tags_set():
     :return:
     """
     return _poi_tags
-
-
-def get_poi_categories_set():
-    return set(_poi_by_category.keys())
-
-
-def get_random_poi_by_tag(tag):
-    """
-    Return a random POI name that fits the requested tag/s.
-    :param tag:
-    :return: string name of POI that fits.
-    """
-    return choice(_poi_by_tags.get(tag, ["MISSING_POI"]))
-
-
-def get_random_poi_by_category(category: Literal["gathering", "moonplace", "terrain"]):
-    try:
-        return choice(get_pois_by_category(category))
-    except (KeyError, IndexError):
-        # sometimes there are no possible pois during tests
-        return f"MISSING_POI (requested category: {category})"
 
 
 def add_poi(name, elements):

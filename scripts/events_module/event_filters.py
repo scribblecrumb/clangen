@@ -4,29 +4,27 @@ from random import choice, randint
 from typing import List, Optional, Dict, Union, Literal
 
 from scripts.cat.constants import BACKSTORIES
+from scripts.cat.enums import CatRank, CatAge, CatCompatibility, CatGroup, CatStanding
 from scripts.cat.pelts import Pelt
 from scripts.cat.personality import Personality
 from scripts.cat_relations.enums import RelType, rel_type_tiers, RelTier
-from scripts.cat.enums import CatRank, CatAge, CatCompatibility, CatGroup, CatStanding
+from scripts.cat_relations.relationship import Relationship, create_one_relationship
+from scripts.clan_package.get_clan_cats import (
+    find_alive_cats_with_rank,
+    get_possible_mates,
+)
 from scripts.clan_package.settings import get_clan_setting
 from scripts.clan_resources.point_of_interest import (
     get_poi_names_set,
-    get_poi_tags_set,
-    get_poi_categories_set,
     get_poi_from_constraints,
 )
-from scripts.cat_relations.relationship import Relationship, create_one_relationship
 from scripts.config import get_config
 from scripts.events_module.parameter_dicts import (
     InvolvedCatDict,
     RelationshipConstraintDict,
 )
-from scripts.special_dates import get_special_date, contains_special_date_tag
-from scripts.clan_package.get_clan_cats import (
-    find_alive_cats_with_rank,
-    get_possible_mates,
-)
 from scripts.game_structure import game
+from scripts.special_dates import get_special_date, contains_special_date_tag
 
 ALL_BACKSTORIES_LIST = set(
     [story for s in BACKSTORIES["backstory_categories"].values() for story in s]

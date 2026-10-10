@@ -376,11 +376,18 @@ class TestPointsOfInterest(unittest.TestCase):
             "empty tags": {"name": ["test_name"], "tags": []},
             "None category": {"name": ["test_name"], "category": None},
             "category and tag": {"tags": ["prey"], "category": "gathering"},
+            "excluded exact": {"tags": ["-prey:ground"]},
+            "match category and excluded tag": {
+                "tags": ["-covered"],
+                "category": "gathering",
+            },
         }
 
         for title, event_poi in combinations.items():
             with self.subTest(title=title):
-                self.assertTrue(event_for_poi(event_poi))
+                self.assertTrue(
+                    event_for_poi(event_poi), msg=f'failed to assert "{title}" as True'
+                )
 
         # expected False combinations
         bad_combinations = {
@@ -396,11 +403,19 @@ class TestPointsOfInterest(unittest.TestCase):
                 "tags": ["prey:bird"],
                 "category": "gathering",
             },
+            "excluded tag present": {"tags": ["-prey:fish"]},
+            "valid category but excluded tag present": {
+                "tags": ["-prey:fish"],
+                "category": "gathering",
+            },
+            "excluded generic tag present": {"tags": ["-prey"]},
         }
 
         for title, event_poi in bad_combinations.items():
             with self.subTest(title=title):
-                self.assertFalse(event_for_poi(event_poi))
+                self.assertFalse(
+                    event_for_poi(event_poi), msg=f'failed to assert "{title}" as False'
+                )
 
 
 class TestInterpersonalRelationshipConstraints(unittest.TestCase):
